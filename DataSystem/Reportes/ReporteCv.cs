@@ -42,6 +42,7 @@ namespace DataSystem.Reportes
             cbxSucursales.DataSource = _lstSucursales;
             cbxSucursales.DisplayMember = "Nombre";
             cbxSucursales.ValueMember = "Id";
+
         }
 
         private void LeerXml()
