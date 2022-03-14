@@ -29,11 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbxSucursales = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -42,8 +38,21 @@
             this.dgvRegistrosDiario = new System.Windows.Forms.DataGridView();
             this.btnArchivo = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.txtVersion = new System.Windows.Forms.TextBox();
+            this.txtRfcContrib = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtRfcRepresentante = new System.Windows.Forms.TextBox();
+            this.txtModPermiso = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtCaracter = new System.Windows.Forms.TextBox();
+            this.txtRfcProveedor = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtPeriodo = new System.Windows.Forms.TextBox();
+            this.txtNoPermiso = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -53,24 +62,28 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.cbxSucursales);
+            this.groupBox1.Controls.Add(this.txtPeriodo);
+            this.groupBox1.Controls.Add(this.txtNoPermiso);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.txtModPermiso);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.txtCaracter);
+            this.groupBox1.Controls.Add(this.txtRfcProveedor);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtRfcRepresentante);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtRfcContrib);
+            this.groupBox1.Controls.Add(this.txtVersion);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1054, 107);
+            this.groupBox1.Size = new System.Drawing.Size(1152, 126);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Datos";
-            // 
-            // cbxSucursales
-            // 
-            this.cbxSucursales.FormattingEnabled = true;
-            this.cbxSucursales.Location = new System.Drawing.Point(131, 62);
-            this.cbxSucursales.Name = "cbxSucursales";
-            this.cbxSucursales.Size = new System.Drawing.Size(225, 21);
-            this.cbxSucursales.TabIndex = 3;
+            this.groupBox1.Text = "Encabezado";
             // 
             // label2
             // 
@@ -79,41 +92,8 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 23);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Sucursal:";
+            this.label2.Text = "RFC Contrib.:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Location = new System.Drawing.Point(131, 30);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(225, 25);
-            this.panel1.TabIndex = 1;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.Location = new System.Drawing.Point(146, 3);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(76, 20);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Mensual";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(3, 3);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(46, 20);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Dia";
-            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -122,7 +102,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 23);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Tipo;";
+            this.label1.Text = "Versión;";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // groupBox2
@@ -132,9 +112,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.toolStrip1);
             this.groupBox2.Controls.Add(this.dgvRegistrosDiario);
-            this.groupBox2.Location = new System.Drawing.Point(12, 126);
+            this.groupBox2.Location = new System.Drawing.Point(12, 145);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1054, 359);
+            this.groupBox2.Size = new System.Drawing.Size(1152, 340);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Registros Diario";
@@ -145,9 +125,9 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tsTotalRegistros});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 331);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 312);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1048, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1146, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -175,7 +155,7 @@
             this.dgvRegistrosDiario.Location = new System.Drawing.Point(7, 20);
             this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
             this.dgvRegistrosDiario.ReadOnly = true;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(1041, 308);
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(1139, 289);
             this.dgvRegistrosDiario.TabIndex = 0;
             // 
             // btnArchivo
@@ -192,18 +172,142 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(928, 491);
+            this.button1.Location = new System.Drawing.Point(1026, 491);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(135, 35);
             this.button1.TabIndex = 3;
             this.button1.Text = "Exportar Excel";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // txtVersion
+            // 
+            this.txtVersion.Location = new System.Drawing.Point(131, 30);
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.ReadOnly = true;
+            this.txtVersion.Size = new System.Drawing.Size(225, 20);
+            this.txtVersion.TabIndex = 3;
+            // 
+            // txtRfcContrib
+            // 
+            this.txtRfcContrib.Location = new System.Drawing.Point(131, 60);
+            this.txtRfcContrib.Name = "txtRfcContrib";
+            this.txtRfcContrib.ReadOnly = true;
+            this.txtRfcContrib.Size = new System.Drawing.Size(225, 20);
+            this.txtRfcContrib.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 90);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 23);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "RFC Repre.:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtRfcRepresentante
+            // 
+            this.txtRfcRepresentante.Location = new System.Drawing.Point(131, 90);
+            this.txtRfcRepresentante.Name = "txtRfcRepresentante";
+            this.txtRfcRepresentante.ReadOnly = true;
+            this.txtRfcRepresentante.Size = new System.Drawing.Size(225, 20);
+            this.txtRfcRepresentante.TabIndex = 6;
+            // 
+            // txtModPermiso
+            // 
+            this.txtModPermiso.Location = new System.Drawing.Point(516, 90);
+            this.txtModPermiso.Name = "txtModPermiso";
+            this.txtModPermiso.ReadOnly = true;
+            this.txtModPermiso.Size = new System.Drawing.Size(225, 20);
+            this.txtModPermiso.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(395, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(110, 23);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Mod. Permiso:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtCaracter
+            // 
+            this.txtCaracter.Location = new System.Drawing.Point(516, 60);
+            this.txtCaracter.Name = "txtCaracter";
+            this.txtCaracter.ReadOnly = true;
+            this.txtCaracter.Size = new System.Drawing.Size(225, 20);
+            this.txtCaracter.TabIndex = 10;
+            // 
+            // txtRfcProveedor
+            // 
+            this.txtRfcProveedor.Location = new System.Drawing.Point(516, 30);
+            this.txtRfcProveedor.Name = "txtRfcProveedor";
+            this.txtRfcProveedor.ReadOnly = true;
+            this.txtRfcProveedor.Size = new System.Drawing.Size(225, 20);
+            this.txtRfcProveedor.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(395, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 23);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Caracter.:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(395, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(110, 23);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "RFC Proveedor;";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtPeriodo
+            // 
+            this.txtPeriodo.Location = new System.Drawing.Point(901, 60);
+            this.txtPeriodo.Name = "txtPeriodo";
+            this.txtPeriodo.ReadOnly = true;
+            this.txtPeriodo.Size = new System.Drawing.Size(225, 20);
+            this.txtPeriodo.TabIndex = 16;
+            // 
+            // txtNoPermiso
+            // 
+            this.txtNoPermiso.Location = new System.Drawing.Point(901, 30);
+            this.txtNoPermiso.Name = "txtNoPermiso";
+            this.txtNoPermiso.ReadOnly = true;
+            this.txtNoPermiso.Size = new System.Drawing.Size(225, 20);
+            this.txtNoPermiso.TabIndex = 15;
+            // 
+            // label8
+            // 
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(780, 60);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(110, 23);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Periodo:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(780, 30);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(110, 23);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "No. Permiso:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ReporteCv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1078, 545);
+            this.ClientSize = new System.Drawing.Size(1176, 545);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnArchivo);
             this.Controls.Add(this.groupBox2);
@@ -212,8 +316,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Reportes Cv";
             this.groupBox1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -227,9 +330,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -237,7 +337,20 @@
         private System.Windows.Forms.ToolStripLabel tsTotalRegistros;
         private System.Windows.Forms.DataGridView dgvRegistrosDiario;
         private System.Windows.Forms.Button btnArchivo;
-        private System.Windows.Forms.ComboBox cbxSucursales;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtPeriodo;
+        private System.Windows.Forms.TextBox txtNoPermiso;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtModPermiso;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtCaracter;
+        private System.Windows.Forms.TextBox txtRfcProveedor;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtRfcRepresentante;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtRfcContrib;
+        private System.Windows.Forms.TextBox txtVersion;
     }
 }

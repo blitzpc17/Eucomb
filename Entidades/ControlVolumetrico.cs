@@ -21,7 +21,8 @@ namespace Entidades
         public int NumeroDuctosTransporteDistribucion { get; set; }    
         public int NumeroDispensarios { get; set; }  
         public DateTime FechaYHoraCorte { get; set; }
-        List<Producto> Productos { get; set; }
+        public List<Producto> Productos { get; set; }
+        public Bitacora Bitacora { get; set; }
 
 
     }

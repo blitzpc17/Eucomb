@@ -13,7 +13,6 @@ namespace DataSystem.Acceso
 {
     public partial class MDISistema : Form
     {
-        private int childFormNumber = 0;
 
         public MDISistema()
         {

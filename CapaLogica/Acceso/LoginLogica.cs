@@ -15,7 +15,9 @@ namespace CapaLogica.Acceso
 
         public bool ValidarAcceso(String usuario, String contrasena)
         {
-            return (usuario == "SA" && contrasena == "123456");
+            if ((usuario == "SA" && contrasena == "123456") ||
+                (usuario == "MARIO" && contrasena == "1234")) return true; 
+                    return false;
         }
     }
 }

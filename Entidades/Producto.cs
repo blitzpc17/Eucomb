@@ -12,5 +12,8 @@ namespace Entidades
         public String ClaveSubProduto { get; set; }
         public Gasolina Gasolina { get; set; }
         public String MarcaComercial { get; set; }
+        public Tanque Tanque { get; set; }
+        public List<Dispensario> Dispensario { get; set; }
+
     }
 }

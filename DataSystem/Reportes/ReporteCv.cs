@@ -16,7 +16,6 @@ namespace DataSystem.Reportes
     public partial class ReporteCv : Form
     {
         private ReporteCvLogica contexto;
-        private List<Sucursales> _lstSucursales;
         public ReporteCv()
         {
             InitializeComponent();
@@ -38,46 +37,92 @@ namespace DataSystem.Reportes
         {
             this.Text = "EUCOMB GASOLINERAS MÉXICO | " + "Reportes Cv";
             contexto =  new ReporteCvLogica();
-            LlenarComboSucursales(); 
-        }
-
-        private void LlenarComboSucursales()
-        {
-            _lstSucursales = (from e in Enum.GetValues(typeof(Enumeraciones.Sucursales)).Cast<Enumeraciones.Sucursales>()
-                              select new Sucursales() { Id = Convert.ToInt32(e), Nombre = e.ToString() }).ToList();
-
-            cbxSucursales.DataSource = _lstSucursales;
-            cbxSucursales.DisplayMember = "Nombre";
-            cbxSucursales.ValueMember = "Id";
-
         }
 
         private void LeerXml(String rutaXlm)
         {
-            LlenarDgvDiario(contexto.LeerReporteCvXml(rutaXlm));
+            contexto.ObjControlVolumetrico = contexto.LeerReporteCvXml(rutaXlm);
+            if (contexto.ObjControlVolumetrico == null) return;
+            LlenarEncabezado(contexto.ObjControlVolumetrico);
+            LlenarDgvDiario(contexto.ObjControlVolumetrico);
         }
 
         private void LlenarDgvDiario(ControlVolumetrico obj)
         {
-            dgvRegistrosDiario.Columns.Add("version", "Versión");
-            dgvRegistrosDiario.Columns.Add("rfcContribuyente", "Rfc Contrib.");
-            dgvRegistrosDiario.Columns.Add("rfcRepresentanteLegal", "Rfc Rep. Legal");
-            dgvRegistrosDiario.Columns.Add("rfcProveedor", "Rfc Prov.");
-            dgvRegistrosDiario.Columns.Add("tipoCaracter", "Tipo Caract.");
-            dgvRegistrosDiario.Columns.Add("modalidadPermiso", "Mod. Permiso");
-            dgvRegistrosDiario.Columns.Add("NumPermiso", "No. Permiso");
-            dgvRegistrosDiario.Columns.Add("claveInstalacion", "Clave Inst.");
-            dgvRegistrosDiario.Columns.Add("descripcionInstalacion", "Descrip. Inst.");
-            dgvRegistrosDiario.Columns.Add("numeroPozos", "No. Pozos");
-            dgvRegistrosDiario.Columns.Add("numeroTanques", "No. Tanques");
-            dgvRegistrosDiario.Columns.Add("numeroDuctosEntradaSalida", "No. Dctos. E/S");
-            dgvRegistrosDiario.Columns.Add("numeroDuctosTransporteDistribucion", "No. Dctos. Trans. Distrib,");
-            dgvRegistrosDiario.Columns.Add("fechaYHoraReporte", "Fecha / Hora Reporte");
+            dgvRegistrosDiario.Columns.Add("TotalEntregas", "Total entregas");
+            dgvRegistrosDiario.Columns.Add("ValorNumerico3", "Valor Núm.");
+            dgvRegistrosDiario.Columns.Add("UM3", "UM");
+            dgvRegistrosDiario.Columns.Add("TotalDocumento", "Total Doc.");
+            dgvRegistrosDiario.Columns.Add("ImporteTotalEntregas", "Importe Total Entrega");
+            dgvRegistrosDiario.Columns.Add("RFCClienteProveedor", "Rfc cliente");
+            dgvRegistrosDiario.Columns.Add("NombreClienteProveedor", "Nombre Cliente");
+            dgvRegistrosDiario.Columns.Add("CFDI", "Cfdi");
+            dgvRegistrosDiario.Columns.Add("TipoCfdi", "Tipo Cfdi");
+            dgvRegistrosDiario.Columns.Add("PrecioCompra", "Precio Compra");
+            dgvRegistrosDiario.Columns.Add("PrecioVentaPublico", "Precio Vta. Pub.");
+            dgvRegistrosDiario.Columns.Add("PrecioVenta", "Precio Venta");
+            dgvRegistrosDiario.Columns.Add("FechaHoraTrans", "Fecha Hora Op.");
+            dgvRegistrosDiario.Columns.Add("ValorNumerico14", "Valor Núm.");
+            dgvRegistrosDiario.Columns.Add("UM15", "UM15");
+            dgvRegistrosDiario.Columns.Add("DieselCombustibleNoFosil", "Combustible no fosil");
             //dgvRegistrosDiario.Columns.Add("", "");
+            foreach (var pro  in obj.Productos)
+            {
+                foreach(var dis in pro.Dispensario)
+                {
+                    foreach(var man in dis.Manguera)
+                    {
+                        foreach(var entrega in man.Entregas.Entrega)
+                        {
+                            foreach(var complemento in entrega.Complemento.Complemento_Expendio)
+                            {
+                                clsReporte registro = new clsReporte
+                                {
+                                    TotalEntregas = man.Entregas.TotalEntregas,
+                                    ValorNumerico3 = man.Entregas.SumaVolumenEntregado.ValorNumerico,
+                                    UM4 = man.Entregas.SumaVolumenEntregado.UM,
+                                    TotalDucumentos = man.Entregas.TotalDocumentos,
+                                    ImporteTotalEntregas = man.Entregas.SumaVolumenEntregado.ValorNumerico,
+                                    RfcCliente = complemento.Nacional.RfcClienteOProveedor,
+                                    NombreCliente = complemento.Nacional.NombreClienteOProveedor,
+                                    Cfdi = complemento.Nacional.Cfdis.Cfdi,
+                                    TipoCfdi = complemento.Nacional.Cfdis.TipoCfdi,
+                                    PrecioCompra = complemento.Nacional.Cfdis.PrecioCompra,
+                                    PrecioVentaPublico = complemento.Nacional.Cfdis.PrecioDeVentaAlPublico,
+                                    PrecioVenta = complemento.Nacional.Cfdis.PrecioVenta,
+                                    FechaHoraTransaccion = complemento.Nacional.Cfdis.FechaYHoraTransaccion,
+                                    ValorNumerico14 = complemento.Nacional.Cfdis.VolumenDocumentado.ValorNumerico,
+                                    UM15 = complemento.Nacional.Cfdis.VolumenDocumentado.UM
 
-            dgvRegistrosDiario.Rows.Add(obj.Version, obj.RfcContribuyente, obj.RfcRepresentanteLegal, obj.RfcProveedor, obj.Caracter.TipoCaracter, obj.Caracter.ModalidadPermiso, obj.Caracter.NumPermiso,obj.ClaveInstalacion, obj.DescripcionInstalacion, obj.NumeroPozos, obj.NumeroTanques,obj.NumeroDuctosEntradaSalida, obj.NumeroDuctosTransporteDistribucion, obj.FechaYHoraCorte);
+                                };
+
+                                dgvRegistrosDiario.Rows.Add(registro.TotalEntregas, registro.ValorNumerico3, registro.UM4, registro.TotalDucumentos, 
+                                    registro.ImporteTotalEntregas,registro.RfcCliente, registro.NombreCliente, registro.Cfdi, registro.TipoCfdi, registro.PrecioCompra,
+                                    registro.PrecioVentaPublico, registro.PrecioVenta, registro.FechaHoraTransaccion, registro.ValorNumerico14, registro.UM15);
+
+                            }
+                        }
+                    }
+                }
+            }
+
+           
 
             tsTotalRegistros.Text = dgvRegistrosDiario.RowCount.ToString("N0");
+
+        }
+
+        private void LlenarEncabezado(ControlVolumetrico obj)
+        {
+            txtVersion.Text = obj.Version;
+            txtRfcRepresentante.Text = obj.RfcRepresentanteLegal;
+            txtRfcProveedor.Text = obj.RfcProveedor;
+            txtNoPermiso.Text = obj.Caracter.NumPermiso;
+            txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
+            txtRfcContrib.Text = obj.RfcContribuyente;
+            txtCaracter.Text = obj.Caracter.TipoCaracter;
+            txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
+
 
         }
     }
