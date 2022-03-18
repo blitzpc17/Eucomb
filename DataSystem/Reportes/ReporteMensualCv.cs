@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Entidades.JSONMensual;
+using LinqToExcel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace DataSystem.Reportes
 {
     public partial class ReporteMensualCv : Form
     {
+        private ExcelQueryFactory urlConexion;
         public ReporteMensualCv()
         {
             InitializeComponent();
@@ -229,8 +231,33 @@ namespace DataSystem.Reportes
             }
 
 
+            
 
 
+
+        }
+
+        private void btnImportarLayout_Click(object sender, EventArgs e)
+        {
+            ImportarExcel();
+        }
+
+        private void ImportarExcel()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string rutaImportado = dlg.FileName;
+                urlConexion = new ExcelQueryFactory(rutaImportado);
+
+                var query = from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
+                            select a;
+
+
+                dataGridView1.DataSource = query.ToList();
+                
+
+            }
         }
     }
 }
