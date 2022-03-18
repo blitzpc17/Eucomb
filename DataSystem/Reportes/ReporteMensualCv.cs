@@ -45,10 +45,13 @@ namespace DataSystem.Reportes
                     }
                 }
             }
-            MessageBox.Show("No se ha seleccionado ningun archivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningun archivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
-           
-           
+
+
         }
 
 
@@ -121,7 +124,7 @@ namespace DataSystem.Reportes
                 objProducto.Gasolina = new Entidades.XMLMensual.Gasolina
                 {
                     ComposOctanajeGasolina = nodeGasolina.ChildNodes[0].InnerText,
-                    GasolinaConCombustibleNoFosil = nodeGasolina.ChildNodes[1].InnerText
+                    GasolinaConCombustibleNoFosil = nodeGasolina.ChildNodes[1] ==null? nodeGasolina.ChildNodes[0].InnerText: nodeGasolina.ChildNodes[1].InnerText
                 };
                 var nodeREPORTEVOLUMENMENSUAL = pro.ChildNodes[4];
                 objProducto.REPORTEDEVOLUMENMENSUAL = new Entidades.XMLMensual.REPORTEDEVOLUMENMENSUAL();
@@ -230,8 +233,25 @@ namespace DataSystem.Reportes
                 obj.PRODUCTO.Add(objProducto);
             }
 
-
-            
+            List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
+            foreach(var prod in obj.PRODUCTO)
+            {
+                foreach(var registros in prod.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL)
+                {
+                    Entidades.cls.clsControlVolumetricoMensual objIntesis = new Entidades.cls.clsControlVolumetricoMensual
+                    {
+                        RfcClienteOProveedor = registros.RfcClienteOProveedor,
+                        NombreClienteOProveedor = registros.NombreClienteOProveedor,
+                        CFDI = registros.CFDIs.CFDI,
+                        FechaYHoraTransaccion = registros.CFDIs.FechaYHoraTransaccion,
+                        ValorNumerico = registros.CFDIs.VolumenDocumentado.ValorNumerico,
+                    };
+                    LstControlVolumetricoMensual.Add(objIntesis);
+                }
+            }
+            LstControlVolumetricoMensual = LstControlVolumetricoMensual.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x=>x.ValorNumerico).ToList();
+            dgvRegistrosDiario.DataSource = LstControlVolumetricoMensual;
+            tsTotalRegistros.Text = dgvRegistrosDiario.RowCount.ToString("N0");
 
 
 
@@ -253,8 +273,11 @@ namespace DataSystem.Reportes
                 var query = from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
                             select a;
 
-
-                dgvManuales.DataSource = query.ToList();
+                var lstManuales = query.ToList();
+                lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
+                lstManuales = lstManuales.Where(x=>x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("Diesel")).ToList();
+                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x=>x.uuid).ThenBy(x=>x.cantidad).ToList();
+                dgvManuales.DataSource = lstManuales;
                 tsManuales.Text = dgvManuales.RowCount.ToString("N0");
 
             }

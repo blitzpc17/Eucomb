@@ -17,7 +17,7 @@ namespace Entidades.cls
         public string status { get; set; }  
         public DateTime fec_reg { get; set; }
         public String nombrep { get; set; }
-        public decimal cantidad { get; set; }
+        public decimal cant { get; set; }
         public decimal precio { get; set; }
         public decimal imported { get; set; }
         public String uuid { get; set; }
