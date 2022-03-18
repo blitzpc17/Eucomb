@@ -254,8 +254,8 @@ namespace DataSystem.Reportes
                             select a;
 
 
-                dataGridView1.DataSource = query.ToList();
-                
+                dgvManuales.DataSource = query.ToList();
+                tsManuales.Text = dgvManuales.RowCount.ToString("N0");
 
             }
         }
