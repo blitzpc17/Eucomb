@@ -19,7 +19,14 @@ namespace DataSystem.Acceso
             InitializeComponent();
         }
 
-        private void reportesCvToolStripMenuItem_Click(object sender, EventArgs e)
+        private void reporteMensualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteMensualCv reporte = new ReporteMensualCv();
+            reporte.MdiParent = this;
+            reporte.Show();
+        }
+
+        private void reporteDiarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReporteCv reporte = new ReporteCv();
             reporte.MdiParent = this;

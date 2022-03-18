@@ -30,11 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.sistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteríaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportesCvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteMensualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDiarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,14 +50,6 @@
             this.menuStrip.Size = new System.Drawing.Size(1246, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 581);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1246, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "StatusStrip";
             // 
             // sistemaToolStripMenuItem
             // 
@@ -73,10 +67,34 @@
             // 
             // reportesCvToolStripMenuItem
             // 
+            this.reportesCvToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reporteMensualToolStripMenuItem,
+            this.reporteDiarioToolStripMenuItem});
             this.reportesCvToolStripMenuItem.Name = "reportesCvToolStripMenuItem";
             this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reportesCvToolStripMenuItem.Text = "Reportes Cv";
-            this.reportesCvToolStripMenuItem.Click += new System.EventHandler(this.reportesCvToolStripMenuItem_Click);
+            // 
+            // reporteMensualToolStripMenuItem
+            // 
+            this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
+            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
+            this.reporteMensualToolStripMenuItem.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem_Click);
+            // 
+            // reporteDiarioToolStripMenuItem
+            // 
+            this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
+            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
+            this.reporteDiarioToolStripMenuItem.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem_Click);
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Location = new System.Drawing.Point(0, 581);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1246, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "StatusStrip";
             // 
             // MDISistema
             // 
@@ -106,6 +124,8 @@
         private System.Windows.Forms.ToolStripMenuItem sistemaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteríaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportesCvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem;
     }
 }
 

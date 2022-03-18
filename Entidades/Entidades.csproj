@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,7 +53,25 @@
     <Compile Include="clsReporte.cs" />
     <Compile Include="Complemento.cs" />
     <Compile Include="Complemento_Expendio.cs" />
+    <Compile Include="ControlDeExistencias.cs" />
     <Compile Include="Entrega.cs" />
+    <Compile Include="JSONMensual\BitacoraMensual.cs" />
+    <Compile Include="JSONMensual\clsReporteMensual.cs" />
+    <Compile Include="JSONMensual\cdfi.cs" />
+    <Compile Include="JSONMensual\CfdiEntrega.cs" />
+    <Compile Include="JSONMensual\CFDIs.cs" />
+    <Compile Include="JSONMensual\Complemento.cs" />
+    <Compile Include="JSONMensual\Complementos.cs" />
+    <Compile Include="JSONMensual\ControlesVolumetricos.cs" />
+    <Compile Include="JSONMensual\Entregas.cs" />
+    <Compile Include="JSONMensual\Nacional.cs" />
+    <Compile Include="JSONMensual\NacionalEntrega.cs" />
+    <Compile Include="JSONMensual\Producto.cs" />
+    <Compile Include="JSONMensual\Recepciones.cs" />
+    <Compile Include="JSONMensual\ReporteDeVolumenMensual.cs" />
+    <Compile Include="JSONMensual\SumaVolumenEntregadoMes.cs" />
+    <Compile Include="JSONMensual\SumaVolumenRecepcionesMes.cs" />
+    <Compile Include="JSONMensual\VolumenDocumentado.cs" />
     <Compile Include="Manguera.cs" />
     <Compile Include="MedicionDispensario.cs" />
     <Compile Include="ControlVolumetrico.cs" />
@@ -63,6 +84,7 @@
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recepciones.cs" />
+    <Compile Include="Serializer.cs" />
     <Compile Include="Sucursales.cs" />
     <Compile Include="SumaVolumenEntregado.cs" />
     <Compile Include="SumaVolumenRecepcion.cs" />
@@ -75,6 +97,42 @@
     <Compile Include="VolumenExistencias.cs" />
     <Compile Include="VolumenExistenciasAnterior.cs" />
     <Compile Include="VolumenMinimoOperacion.cs" />
+    <Compile Include="XMLMensual\CapacidadOperativaTanque.cs" />
+    <Compile Include="XMLMensual\CapacidadTotalTanque.cs" />
+    <Compile Include="XMLMensual\CapacidadUtilTanque.cs" />
+    <Compile Include="XMLMensual\Caracter.cs" />
+    <Compile Include="XMLMensual\Cfdis.cs" />
+    <Compile Include="XMLMensual\Complemento.cs" />
+    <Compile Include="XMLMensual\Complemento_Expendio.cs" />
+    <Compile Include="XMLMensual\CONTROLDEEXISTENCIAS.cs" />
+    <Compile Include="XMLMensual\ControlesVolumetricos.cs" />
+    <Compile Include="XMLMensual\DISPENSARIO.cs" />
+    <Compile Include="XMLMensual\ENTREGA.cs" />
+    <Compile Include="XMLMensual\ENTREGAS.cs" />
+    <Compile Include="XMLMensual\EXISTENCIAS.cs" />
+    <Compile Include="XMLMensual\Gasolina.cs" />
+    <Compile Include="XMLMensual\MANGUERA.cs" />
+    <Compile Include="XMLMensual\MedicionDispensario.cs" />
+    <Compile Include="XMLMensual\MedicionTanque.cs" />
+    <Compile Include="XMLMensual\NACIONAL.cs" />
+    <Compile Include="XMLMensual\PRODUCTO.cs" />
+    <Compile Include="XMLMensual\RECEPCIONES.cs" />
+    <Compile Include="XMLMensual\REPORTEDEVOLUMENMENSUAL.cs" />
+    <Compile Include="XMLMensual\SumaVolumenEntregado.cs" />
+    <Compile Include="XMLMensual\SumaVolumenRecepcion.cs" />
+    <Compile Include="XMLMensual\TANQUE.cs" />
+    <Compile Include="XMLMensual\VolumenAcumOpsEntrega.cs" />
+    <Compile Include="XMLMensual\VolumenAcumOpsRecepcion.cs" />
+    <Compile Include="XMLMensual\VolumenDocumentado.cs" />
+    <Compile Include="XMLMensual\VolumenEntregadoTotalizadorAcum.cs" />
+    <Compile Include="XMLMensual\VolumenEntregadoTotalizadorInsta.cs" />
+    <Compile Include="XMLMensual\VolumenExistenciaAnterior.cs" />
+    <Compile Include="XMLMensual\VolumenExistencias.cs" />
+    <Compile Include="XMLMensual\VolumenExistenciasMes.cs" />
+    <Compile Include="XMLMensual\VolumenMinimoOperacion.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

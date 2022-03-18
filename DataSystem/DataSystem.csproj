@@ -51,6 +51,9 @@
     <ApplicationIcon>logosys.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -85,6 +88,12 @@
     <Compile Include="Reportes\ReporteCv.Designer.cs">
       <DependentUpon>ReporteCv.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\ReporteMensualCv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteMensualCv.Designer.cs">
+      <DependentUpon>ReporteMensualCv.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Acceso\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +113,10 @@
     <EmbeddedResource Include="Reportes\ReporteCv.resx">
       <DependentUpon>ReporteCv.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteMensualCv.resx">
+      <DependentUpon>ReporteMensualCv.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,6 +145,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logosys.ico" />
+    <None Include="Resources\carpeta %285%29.png" />
+    <None Include="Resources\carpeta %283%29.png" />
+    <None Include="Resources\carpeta %281%29.png" />
+    <None Include="Resources\carpeta2.png" />
+    <None Include="Resources\carpeta1.png" />
+    <None Include="Resources\carpeta.png" />
     <None Include="Resources\holagaso.jpeg" />
     <None Include="Resources\logogde.jpeg" />
   </ItemGroup>
