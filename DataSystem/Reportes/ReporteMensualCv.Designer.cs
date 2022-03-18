@@ -60,7 +60,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnImportarLayout = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnComparar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -69,8 +69,8 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.tsErrores = new System.Windows.Forms.ToolStripLabel();
+            this.dgvErrores = new System.Windows.Forms.DataGridView();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -81,7 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvManuales)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.toolStrip3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -415,15 +415,16 @@
             this.btnImportarLayout.UseVisualStyleBackColor = true;
             this.btnImportarLayout.Click += new System.EventHandler(this.btnImportarLayout_Click);
             // 
-            // button1
+            // btnComparar
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(1141, 590);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 35);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Exportar Resultados";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnComparar.Location = new System.Drawing.Point(1141, 590);
+            this.btnComparar.Name = "btnComparar";
+            this.btnComparar.Size = new System.Drawing.Size(110, 35);
+            this.btnComparar.TabIndex = 5;
+            this.btnComparar.Text = "Comparar";
+            this.btnComparar.UseVisualStyleBackColor = true;
+            this.btnComparar.Click += new System.EventHandler(this.btnComparar_Click);
             // 
             // groupBox3
             // 
@@ -482,7 +483,7 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.toolStrip3);
-            this.groupBox4.Controls.Add(this.dataGridView2);
+            this.groupBox4.Controls.Add(this.dgvErrores);
             this.groupBox4.Location = new System.Drawing.Point(821, 214);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(425, 359);
@@ -495,7 +496,7 @@
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel4,
-            this.toolStripLabel5});
+            this.tsErrores});
             this.toolStrip3.Location = new System.Drawing.Point(3, 331);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(419, 25);
@@ -508,26 +509,26 @@
             this.toolStripLabel4.Size = new System.Drawing.Size(99, 22);
             this.toolStripLabel4.Text = "Total de registros:";
             // 
-            // toolStripLabel5
+            // tsErrores
             // 
-            this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(13, 22);
-            this.toolStripLabel5.Text = "0";
+            this.tsErrores.Name = "tsErrores";
+            this.tsErrores.Size = new System.Drawing.Size(13, 22);
+            this.tsErrores.Text = "0";
             // 
-            // dataGridView2
+            // dgvErrores
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvErrores.AllowUserToAddRows = false;
+            this.dgvErrores.AllowUserToDeleteRows = false;
+            this.dgvErrores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(7, 20);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(412, 308);
-            this.dataGridView2.TabIndex = 0;
+            this.dgvErrores.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvErrores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvErrores.Location = new System.Drawing.Point(7, 20);
+            this.dgvErrores.Name = "dgvErrores";
+            this.dgvErrores.ReadOnly = true;
+            this.dgvErrores.Size = new System.Drawing.Size(412, 308);
+            this.dgvErrores.TabIndex = 0;
             // 
             // ReporteMensualCv
             // 
@@ -536,7 +537,7 @@
             this.ClientSize = new System.Drawing.Size(1263, 646);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnComparar);
             this.Controls.Add(this.btnImportarLayout);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -560,7 +561,7 @@
             this.groupBox4.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -599,7 +600,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnImportarLayout;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnComparar;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -608,7 +609,7 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.ToolStripLabel tsErrores;
+        private System.Windows.Forms.DataGridView dgvErrores;
     }
 }

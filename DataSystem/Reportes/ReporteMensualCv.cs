@@ -19,6 +19,8 @@ namespace DataSystem.Reportes
 {
     public partial class ReporteMensualCv : Form
     {
+        private List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensual;
+        private List<Entidades.cls.FACTURASDETALLE> lstManuales;
         private ExcelQueryFactory urlConexion;
         public ReporteMensualCv()
         {
@@ -233,7 +235,7 @@ namespace DataSystem.Reportes
                 obj.PRODUCTO.Add(objProducto);
             }
 
-            List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
+            LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
             foreach(var prod in obj.PRODUCTO)
             {
                 foreach(var registros in prod.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL)
@@ -270,16 +272,111 @@ namespace DataSystem.Reportes
                 string rutaImportado = dlg.FileName;
                 urlConexion = new ExcelQueryFactory(rutaImportado);
 
-                var query = from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
-                            select a;
+                var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
+                            select new Entidades.cls.FACTURASDETALLE
+                            {
+                                folio_imp = a.folio_imp,
+                                cliente = a.cliente,
+                                importe = a.importe,
+                                serie = a.serie,
+                                docto = a.docto,
+                                status = a.status,
+                                fec_reg = a.fec_reg,
+                                nombrep = a.nombrep,
+                                cant =a.cant,
+                                precio = a.precio,  
+                                imported = a.imported,
+                                uuid = a.uuid.ToUpper().Trim(),
+                            }).ToList();
 
-                var lstManuales = query.ToList();
+                lstManuales = query;
                 lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
                 lstManuales = lstManuales.Where(x=>x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("Diesel")).ToList();
-                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x=>x.uuid).ThenBy(x=>x.cantidad).ToList();
+                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x=>x.uuid).ThenBy(x=>x.cant).ToList();
                 dgvManuales.DataSource = lstManuales;
                 tsManuales.Text = dgvManuales.RowCount.ToString("N0");
 
+            }
+        }
+
+        private void btnComparar_Click(object sender, EventArgs e)
+        {
+            List<Entidades.cls.clsResultadosMensual> LstResultadosMensual;
+            List<Entidades.cls.clsControlVolumetricoMensual> lstCoincidencias;
+           if (lstManuales!= null && LstControlVolumetricoMensual != null)
+            {                
+                if (lstManuales.Count> LstControlVolumetricoMensual.Count)
+                {
+                    LstResultadosMensual = new List<Entidades.cls.clsResultadosMensual>();
+
+                    foreach(var registro in lstManuales)
+                    {
+                        if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim()))
+                        {
+                            Console.WriteLine("No existe el uuid en intesis");
+                            LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
+                            {
+                                Contafolio_imp = registro.folio_imp,
+                                Contanombre = registro.nombre,
+                                Contauuid = registro.uuid,
+                                Contacant = registro.cant,
+                                Observacion = "No existe el uuid en intesis"
+                            });
+                        }
+                        else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim() && x.NombreClienteOProveedor == registro.nombre.ToUpper().Trim()))
+                        {
+                            Console.WriteLine("Existe el UUID pero no coincide el nombre de cliente del registro.");
+                            LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
+                            {
+                                Contafolio_imp = registro.folio_imp,
+                                Contacant =registro.cant,
+                                Contauuid = registro.uuid,
+                                Contanombre = registro.nombre,
+                                Observacion = "Existe el UUID, coinciden los nombres de cliente pero no cuadran las cantidades"
+                            });
+                        }/*else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim() && x.NombreClienteOProveedor == registro.nombre.ToUpper().Trim()&& x.ValorNumerico == decimal.Round(registro.cant,2)))
+                        {
+                            Console.WriteLine("Existe el UUID, coinciden los nombres de cliente pero no cuadran las cantidades");
+                        }*/
+                    }
+
+                    /*
+                    foreach (var item in lstManuales)
+                    {
+                        
+                        lstCoincidencias = LstControlVolumetricoMensual.Where(x => x.NombreClienteOProveedor == item.nombre).ToList();
+
+                        if (lstCoincidencias != null){   
+                            foreach (var res in lstCoincidencias)
+                            {
+                                if(res.CFDI == item.uuid.ToUpper().Trim())
+                                {
+                                    Console.WriteLine(decimal.Round(item.cant,2));
+                                    if(res.ValorNumerico == decimal.Round(item.cant,2))
+                                    {
+                                        LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
+                                        {
+                                            Contanombre = res.NombreClienteOProveedor
+                                        });
+                                    }
+                                    
+                                }
+                               
+                            }
+                        }
+                    }*/
+                    dgvErrores.DataSource = LstResultadosMensual;
+                    tsErrores.Text = dgvErrores.RowCount.ToString("N0");
+
+                }
+                else
+                {
+                    
+                }
+            }
+            else
+            {
+                //mandar alerta que no se han cargado os registros
             }
         }
     }

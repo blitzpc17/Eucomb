@@ -64,6 +64,7 @@
     <Compile Include="Cfdis.cs" />
     <Compile Include="clsReporte.cs" />
     <Compile Include="cls\clsControlVolumetricoMensual.cs" />
+    <Compile Include="cls\clsResultadosMensual.cs" />
     <Compile Include="cls\FACTURASDETALLE.cs" />
     <Compile Include="Complemento.cs" />
     <Compile Include="Complemento_Expendio.cs" />
