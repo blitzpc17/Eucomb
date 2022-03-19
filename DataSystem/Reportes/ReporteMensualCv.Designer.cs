@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReporteMensualCv));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -39,9 +40,9 @@
             this.rbXml = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.btnCargarArchivo = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtArchivoCargado = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSucursal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtPeriodo = new System.Windows.Forms.TextBox();
             this.txtNoPermiso = new System.Windows.Forms.TextBox();
@@ -71,6 +72,14 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.tsErrores = new System.Windows.Forms.ToolStripLabel();
             this.dgvErrores = new System.Windows.Forms.DataGridView();
+            this.btnExportar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.txtLitros = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtPipas = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtImporteComprado = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -90,12 +99,12 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.toolStrip1);
             this.groupBox2.Controls.Add(this.dgvRegistrosDiario);
-            this.groupBox2.Location = new System.Drawing.Point(12, 214);
+            this.groupBox2.Location = new System.Drawing.Point(15, 232);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 359);
+            this.groupBox2.Size = new System.Drawing.Size(375, 359);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Registros Sistema";
+            this.groupBox2.Text = "Contenido Control Volumetrico";
             // 
             // toolStrip1
             // 
@@ -105,7 +114,7 @@
             this.tsTotalRegistros});
             this.toolStrip1.Location = new System.Drawing.Point(3, 331);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(366, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(369, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -133,19 +142,25 @@
             this.dgvRegistrosDiario.Location = new System.Drawing.Point(7, 20);
             this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
             this.dgvRegistrosDiario.ReadOnly = true;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(359, 308);
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(362, 308);
             this.dgvRegistrosDiario.TabIndex = 0;
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.txtImporteComprado);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Controls.Add(this.txtPipas);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.txtLitros);
+            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.btnCargarArchivo);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.txtArchivoCargado);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtSucursal);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtPeriodo);
             this.groupBox1.Controls.Add(this.txtNoPermiso);
@@ -163,9 +178,9 @@
             this.groupBox1.Controls.Add(this.txtVersion);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(15, 30);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1239, 196);
+            this.groupBox1.Size = new System.Drawing.Size(1145, 196);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Encabezado";
@@ -174,7 +189,7 @@
             // 
             this.panel1.Controls.Add(this.rbJson);
             this.panel1.Controls.Add(this.rbXml);
-            this.panel1.Location = new System.Drawing.Point(888, 60);
+            this.panel1.Location = new System.Drawing.Point(901, 90);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(225, 24);
             this.panel1.TabIndex = 23;
@@ -204,7 +219,7 @@
             // label11
             // 
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(767, 61);
+            this.label11.Location = new System.Drawing.Point(780, 90);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(110, 23);
             this.label11.TabIndex = 22;
@@ -217,43 +232,43 @@
             this.btnCargarArchivo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCargarArchivo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnCargarArchivo.Image = global::DataSystem.Properties.Resources.carpeta__5_;
-            this.btnCargarArchivo.Location = new System.Drawing.Point(1082, 88);
+            this.btnCargarArchivo.Location = new System.Drawing.Point(1101, 118);
             this.btnCargarArchivo.Name = "btnCargarArchivo";
-            this.btnCargarArchivo.Size = new System.Drawing.Size(31, 22);
+            this.btnCargarArchivo.Size = new System.Drawing.Size(25, 25);
             this.btnCargarArchivo.TabIndex = 21;
             this.btnCargarArchivo.UseVisualStyleBackColor = false;
             this.btnCargarArchivo.Click += new System.EventHandler(this.btnCargarArchivo_Click);
             // 
-            // textBox2
+            // txtArchivoCargado
             // 
-            this.textBox2.Location = new System.Drawing.Point(888, 90);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(188, 20);
-            this.textBox2.TabIndex = 20;
+            this.txtArchivoCargado.Location = new System.Drawing.Point(901, 120);
+            this.txtArchivoCargado.Name = "txtArchivoCargado";
+            this.txtArchivoCargado.ReadOnly = true;
+            this.txtArchivoCargado.Size = new System.Drawing.Size(194, 20);
+            this.txtArchivoCargado.TabIndex = 20;
             // 
             // label10
             // 
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(767, 87);
+            this.label10.Location = new System.Drawing.Point(780, 120);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(110, 23);
             this.label10.TabIndex = 19;
             this.label10.Text = "Archivo:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBox1
+            // txtSucursal
             // 
-            this.textBox1.Location = new System.Drawing.Point(147, 33);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(225, 20);
-            this.textBox1.TabIndex = 18;
+            this.txtSucursal.Location = new System.Drawing.Point(131, 30);
+            this.txtSucursal.Name = "txtSucursal";
+            this.txtSucursal.ReadOnly = true;
+            this.txtSucursal.Size = new System.Drawing.Size(225, 20);
+            this.txtSucursal.TabIndex = 18;
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(26, 33);
+            this.label7.Location = new System.Drawing.Point(10, 30);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(110, 23);
             this.label7.TabIndex = 17;
@@ -262,7 +277,7 @@
             // 
             // txtPeriodo
             // 
-            this.txtPeriodo.Location = new System.Drawing.Point(888, 30);
+            this.txtPeriodo.Location = new System.Drawing.Point(901, 60);
             this.txtPeriodo.Name = "txtPeriodo";
             this.txtPeriodo.ReadOnly = true;
             this.txtPeriodo.Size = new System.Drawing.Size(225, 20);
@@ -270,7 +285,7 @@
             // 
             // txtNoPermiso
             // 
-            this.txtNoPermiso.Location = new System.Drawing.Point(516, 123);
+            this.txtNoPermiso.Location = new System.Drawing.Point(516, 120);
             this.txtNoPermiso.Name = "txtNoPermiso";
             this.txtNoPermiso.ReadOnly = true;
             this.txtNoPermiso.Size = new System.Drawing.Size(225, 20);
@@ -279,7 +294,7 @@
             // label8
             // 
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(767, 30);
+            this.label8.Location = new System.Drawing.Point(780, 60);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(110, 23);
             this.label8.TabIndex = 14;
@@ -352,7 +367,7 @@
             // 
             // txtRfcRepresentante
             // 
-            this.txtRfcRepresentante.Location = new System.Drawing.Point(147, 123);
+            this.txtRfcRepresentante.Location = new System.Drawing.Point(131, 120);
             this.txtRfcRepresentante.Name = "txtRfcRepresentante";
             this.txtRfcRepresentante.ReadOnly = true;
             this.txtRfcRepresentante.Size = new System.Drawing.Size(225, 20);
@@ -361,7 +376,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(26, 123);
+            this.label3.Location = new System.Drawing.Point(10, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 23);
             this.label3.TabIndex = 5;
@@ -370,7 +385,7 @@
             // 
             // txtRfcContrib
             // 
-            this.txtRfcContrib.Location = new System.Drawing.Point(147, 93);
+            this.txtRfcContrib.Location = new System.Drawing.Point(131, 90);
             this.txtRfcContrib.Name = "txtRfcContrib";
             this.txtRfcContrib.ReadOnly = true;
             this.txtRfcContrib.Size = new System.Drawing.Size(225, 20);
@@ -378,7 +393,7 @@
             // 
             // txtVersion
             // 
-            this.txtVersion.Location = new System.Drawing.Point(147, 63);
+            this.txtVersion.Location = new System.Drawing.Point(131, 60);
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.ReadOnly = true;
             this.txtVersion.Size = new System.Drawing.Size(225, 20);
@@ -387,7 +402,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(26, 93);
+            this.label2.Location = new System.Drawing.Point(10, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 23);
             this.label2.TabIndex = 2;
@@ -397,7 +412,7 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(26, 63);
+            this.label1.Location = new System.Drawing.Point(10, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 23);
             this.label1.TabIndex = 0;
@@ -407,7 +422,7 @@
             // btnImportarLayout
             // 
             this.btnImportarLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnImportarLayout.Location = new System.Drawing.Point(15, 590);
+            this.btnImportarLayout.Location = new System.Drawing.Point(15, 599);
             this.btnImportarLayout.Name = "btnImportarLayout";
             this.btnImportarLayout.Size = new System.Drawing.Size(110, 35);
             this.btnImportarLayout.TabIndex = 4;
@@ -418,7 +433,7 @@
             // btnComparar
             // 
             this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnComparar.Location = new System.Drawing.Point(1141, 590);
+            this.btnComparar.Location = new System.Drawing.Point(1050, 599);
             this.btnComparar.Name = "btnComparar";
             this.btnComparar.Size = new System.Drawing.Size(110, 35);
             this.btnComparar.TabIndex = 5;
@@ -429,15 +444,15 @@
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.toolStrip2);
             this.groupBox3.Controls.Add(this.dgvManuales);
-            this.groupBox3.Location = new System.Drawing.Point(390, 214);
+            this.groupBox3.Location = new System.Drawing.Point(396, 232);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(425, 359);
+            this.groupBox3.Size = new System.Drawing.Size(375, 359);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "RegistrosManuales";
+            this.groupBox3.Text = "Contenido Facturación";
             // 
             // toolStrip2
             // 
@@ -447,7 +462,7 @@
             this.tsManuales});
             this.toolStrip2.Location = new System.Drawing.Point(3, 331);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(419, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(369, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -475,21 +490,22 @@
             this.dgvManuales.Location = new System.Drawing.Point(7, 20);
             this.dgvManuales.Name = "dgvManuales";
             this.dgvManuales.ReadOnly = true;
-            this.dgvManuales.Size = new System.Drawing.Size(412, 308);
+            this.dgvManuales.Size = new System.Drawing.Size(362, 308);
             this.dgvManuales.TabIndex = 0;
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.toolStrip3);
             this.groupBox4.Controls.Add(this.dgvErrores);
-            this.groupBox4.Location = new System.Drawing.Point(821, 214);
+            this.groupBox4.Location = new System.Drawing.Point(785, 232);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(425, 359);
+            this.groupBox4.Size = new System.Drawing.Size(375, 359);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Resultado Comparacion";
+            this.groupBox4.Text = "Resultado Comparación";
             // 
             // toolStrip3
             // 
@@ -499,7 +515,7 @@
             this.tsErrores});
             this.toolStrip3.Location = new System.Drawing.Point(3, 331);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(419, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(369, 25);
             this.toolStrip3.TabIndex = 1;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -527,20 +543,97 @@
             this.dgvErrores.Location = new System.Drawing.Point(7, 20);
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.ReadOnly = true;
-            this.dgvErrores.Size = new System.Drawing.Size(412, 308);
+            this.dgvErrores.Size = new System.Drawing.Size(362, 308);
             this.dgvErrores.TabIndex = 0;
+            // 
+            // btnExportar
+            // 
+            this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportar.Location = new System.Drawing.Point(934, 599);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(110, 35);
+            this.btnExportar.TabIndex = 8;
+            this.btnExportar.Text = "Exportar";
+            this.btnExportar.UseVisualStyleBackColor = true;
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelar.Location = new System.Drawing.Point(818, 599);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(110, 35);
+            this.btnCancelar.TabIndex = 9;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            // 
+            // txtLitros
+            // 
+            this.txtLitros.Location = new System.Drawing.Point(131, 150);
+            this.txtLitros.Name = "txtLitros";
+            this.txtLitros.ReadOnly = true;
+            this.txtLitros.Size = new System.Drawing.Size(225, 20);
+            this.txtLitros.TabIndex = 25;
+            // 
+            // label12
+            // 
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(10, 150);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(110, 23);
+            this.label12.TabIndex = 24;
+            this.label12.Text = "Litros:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtPipas
+            // 
+            this.txtPipas.Location = new System.Drawing.Point(516, 150);
+            this.txtPipas.Name = "txtPipas";
+            this.txtPipas.ReadOnly = true;
+            this.txtPipas.Size = new System.Drawing.Size(225, 20);
+            this.txtPipas.TabIndex = 27;
+            // 
+            // label13
+            // 
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(395, 150);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(110, 23);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "No. Pipas:";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtImporteComprado
+            // 
+            this.txtImporteComprado.Location = new System.Drawing.Point(901, 30);
+            this.txtImporteComprado.Name = "txtImporteComprado";
+            this.txtImporteComprado.ReadOnly = true;
+            this.txtImporteComprado.Size = new System.Drawing.Size(225, 20);
+            this.txtImporteComprado.TabIndex = 29;
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(780, 30);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(110, 23);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Imp comprado:";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ReporteMensualCv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1263, 646);
+            this.ClientSize = new System.Drawing.Size(1167, 646);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnExportar);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnComparar);
             this.Controls.Add(this.btnImportarLayout);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReporteMensualCv";
             this.Text = "ReporteMensualCv";
             this.groupBox2.ResumeLayout(false);
@@ -579,9 +672,9 @@
         private System.Windows.Forms.RadioButton rbXml;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnCargarArchivo;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtArchivoCargado;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSucursal;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtPeriodo;
         private System.Windows.Forms.TextBox txtNoPermiso;
@@ -611,5 +704,13 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripLabel tsErrores;
         private System.Windows.Forms.DataGridView dgvErrores;
+        private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.TextBox txtImporteComprado;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtPipas;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtLitros;
+        private System.Windows.Forms.Label label12;
     }
 }

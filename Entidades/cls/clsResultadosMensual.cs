@@ -8,6 +8,7 @@ namespace Entidades.cls
 {
     public class clsResultadosMensual
     {
+        /*
         public String Contafolio_imp { get; set; }
         public String Contacliente { get; set; }
         public String Contanombre { get; set; }
@@ -25,7 +26,13 @@ namespace Entidades.cls
         public String SysNombreClienteOProveedor { set; get; }
         public String SysCFDI { get; set; }
         public DateTime? SysFechaYHoraTransaccion { get; set; }
-        public Decimal? SysValorNumerico { get; set; }
+        public Decimal? SysValorNumerico { get; set; }*/
+
+        public String UUID { get; set; }
+        public String NombreCliente { get; set; }
+        public String NombreClienteContenidoFacturacion { get; set; }
+        public decimal Cantidad { get; set; }
+        public decimal CantidadContenidoFacturacion { get; set; }
         public String Observacion { get; set; }
     }
 }

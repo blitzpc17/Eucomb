@@ -1,4 +1,5 @@
-﻿using Entidades;
+﻿using DataSystem.Recursos;
+using Entidades;
 using Entidades.JSONMensual;
 using LinqToExcel;
 using Newtonsoft.Json;
@@ -35,6 +36,7 @@ namespace DataSystem.Reportes
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string rutaDoc = openFileDialog.FileName;
+                txtArchivoCargado.Text = openFileDialog.SafeFileName;
                 if (!string.IsNullOrEmpty(rutaDoc))
                 {
                     if (rbJson.Checked)
@@ -255,7 +257,16 @@ namespace DataSystem.Reportes
             dgvRegistrosDiario.DataSource = LstControlVolumetricoMensual;
             tsTotalRegistros.Text = dgvRegistrosDiario.RowCount.ToString("N0");
 
-
+            //llenar encabezado
+            txtVersion.Text = obj.Version;
+            txtRfcRepresentante.Text = obj.RfcRepresentanteLegal;
+            txtRfcProveedor.Text = obj.RfcProveedor;
+            txtRfcContrib.Text = obj.RfcContribuyente;
+            txtNoPermiso.Text = obj.Caracter.NumPermiso;
+            txtSucursal.Text = Enumeraciones.CatalogSucursales().Where(x=>x.Value==obj.Caracter.NumPermiso).First().Key;
+            txtCaracter.Text = obj.Caracter.TipoCaracter;
+            txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
+            txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
 
         }
 
@@ -273,23 +284,24 @@ namespace DataSystem.Reportes
                 urlConexion = new ExcelQueryFactory(rutaImportado);
 
                 var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
-                            select new Entidades.cls.FACTURASDETALLE
-                            {
-                                folio_imp = a.folio_imp,
-                                cliente = a.cliente,
-                                importe = a.importe,
-                                serie = a.serie,
-                                docto = a.docto,
-                                status = a.status,
-                                fec_reg = a.fec_reg,
-                                nombrep = a.nombrep,
-                                cant =a.cant,
-                                precio = a.precio,  
-                                imported = a.imported,
-                                uuid = a.uuid.ToUpper().Trim(),
-                            }).ToList();
-
-                lstManuales = query;
+                            select a).ToList();
+                var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
+                {
+                    folio_imp = x.folio_imp,
+                    cliente = x.cliente,
+                    importe = x.importe,
+                    serie = x.serie,
+                    docto = x.docto,
+                    status = x.status,
+                    fec_reg = x.fec_reg,
+                    nombrep = x.nombrep,
+                    cant = Math.Round(x.cant, 2),
+                    precio = x.precio,
+                    imported = x.imported,
+                    uuid = x.uuid.ToUpper().Trim(),
+                    nombre = x.nombre,
+                }).ToList();
+                lstManuales = prueba;
                 lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
                 lstManuales = lstManuales.Where(x=>x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("Diesel")).ToList();
                 lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x=>x.uuid).ThenBy(x=>x.cant).ToList();
@@ -302,7 +314,6 @@ namespace DataSystem.Reportes
         private void btnComparar_Click(object sender, EventArgs e)
         {
             List<Entidades.cls.clsResultadosMensual> LstResultadosMensual;
-            List<Entidades.cls.clsControlVolumetricoMensual> lstCoincidencias;
            if (lstManuales!= null && LstControlVolumetricoMensual != null)
             {                
                 if (lstManuales.Count> LstControlVolumetricoMensual.Count)
@@ -311,60 +322,52 @@ namespace DataSystem.Reportes
 
                     foreach(var registro in lstManuales)
                     {
-                        if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim()))
+                        String cfdi = registro.uuid.ToUpper().Trim();
+                        String nombreCliente = registro.nombre.Trim().ToUpper();
+                        Decimal cantidad = Math.Round(registro.cant,2);
+                        if (!LstControlVolumetricoMensual.Any(x => x.CFDI == cfdi))
                         {
-                            Console.WriteLine("No existe el uuid en intesis");
                             LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                            {
-                                Contafolio_imp = registro.folio_imp,
-                                Contanombre = registro.nombre,
-                                Contauuid = registro.uuid,
-                                Contacant = registro.cant,
-                                Observacion = "No existe el uuid en intesis"
+                            {                                
+                                NombreCliente = registro.nombre,
+                                UUID = registro.uuid,
+                                Cantidad = registro.cant,
+                                CantidadContenidoFacturacion = 0,
+                                Observacion = "No existe en archivo C.V"
                             });
                         }
-                        else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim() && x.NombreClienteOProveedor == registro.nombre.ToUpper().Trim()))
+                        else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == cfdi && x.NombreClienteOProveedor==nombreCliente))
                         {
-                            Console.WriteLine("Existe el UUID pero no coincide el nombre de cliente del registro.");
                             LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                            {
-                                Contafolio_imp = registro.folio_imp,
-                                Contacant =registro.cant,
-                                Contauuid = registro.uuid,
-                                Contanombre = registro.nombre,
-                                Observacion = "Existe el UUID, coinciden los nombres de cliente pero no cuadran las cantidades"
+                            {                               
+                                Cantidad =registro.cant,
+                                CantidadContenidoFacturacion = cantidad,
+                                UUID = registro.uuid,
+                                NombreCliente = registro.nombre,
+                                NombreClienteContenidoFacturacion = nombreCliente,
+                                Observacion = "Existe en archivo C.V, pero no coinciden los nombres de cliente."
                             });
-                        }/*else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == registro.uuid.ToUpper().Trim() && x.NombreClienteOProveedor == registro.nombre.ToUpper().Trim()&& x.ValorNumerico == decimal.Round(registro.cant,2)))
-                        {
-                            Console.WriteLine("Existe el UUID, coinciden los nombres de cliente pero no cuadran las cantidades");
-                        }*/
+                        }
+                        //else
+                        //{
+                        //    var lstCfdis = LstControlVolumetricoMensual.Where(x => x.CFDI == cfdi).ToList();
+                        //    bool existe = lstCfdis.Any(x=> x.ValorNumerico == cantidad);
+                        //    if (existe==false)
+                        //    {
+                        //        LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
+                        //        {
+                        //            Cantidad = registro.cant,
+                        //            CantidadContenidoFacturacion = cantidad,
+                        //            UUID = registro.uuid,
+                        //            NombreCliente = registro.nombre,
+                        //            NombreClienteContenidoFacturacion = nombreCliente,
+                        //            Observacion = "Existe en archivo C.V, pero la cantidad no cuadra."
+                        //        });
+                        //    }
+                        //}
                     }
 
-                    /*
-                    foreach (var item in lstManuales)
-                    {
-                        
-                        lstCoincidencias = LstControlVolumetricoMensual.Where(x => x.NombreClienteOProveedor == item.nombre).ToList();
-
-                        if (lstCoincidencias != null){   
-                            foreach (var res in lstCoincidencias)
-                            {
-                                if(res.CFDI == item.uuid.ToUpper().Trim())
-                                {
-                                    Console.WriteLine(decimal.Round(item.cant,2));
-                                    if(res.ValorNumerico == decimal.Round(item.cant,2))
-                                    {
-                                        LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                                        {
-                                            Contanombre = res.NombreClienteOProveedor
-                                        });
-                                    }
-                                    
-                                }
-                               
-                            }
-                        }
-                    }*/
+                    
                     dgvErrores.DataSource = LstResultadosMensual;
                     tsErrores.Text = dgvErrores.RowCount.ToString("N0");
 

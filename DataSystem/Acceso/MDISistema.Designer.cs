@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDISistema));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.sistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteríaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,20 +72,20 @@
             this.reporteMensualToolStripMenuItem,
             this.reporteDiarioToolStripMenuItem});
             this.reportesCvToolStripMenuItem.Name = "reportesCvToolStripMenuItem";
-            this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.reportesCvToolStripMenuItem.Text = "Reportes Cv";
             // 
             // reporteMensualToolStripMenuItem
             // 
             this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
-            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
             this.reporteMensualToolStripMenuItem.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem_Click);
             // 
             // reporteDiarioToolStripMenuItem
             // 
             this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
-            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
             this.reporteDiarioToolStripMenuItem.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem_Click);
             // 
@@ -103,6 +104,7 @@
             this.ClientSize = new System.Drawing.Size(1246, 603);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MDISistema";
