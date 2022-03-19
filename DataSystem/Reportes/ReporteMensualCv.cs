@@ -1,20 +1,15 @@
 ﻿using DataSystem.Recursos;
-using Entidades;
 using Entidades.JSONMensual;
+using ExcelWriter;
 using LinqToExcel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace DataSystem.Reportes
 {
@@ -22,6 +17,7 @@ namespace DataSystem.Reportes
     {
         private List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensual;
         private List<Entidades.cls.FACTURASDETALLE> lstManuales;
+        List<Entidades.cls.clsResultadosMensual> LstResultados;
         private ExcelQueryFactory urlConexion;
         public ReporteMensualCv()
         {
@@ -30,7 +26,7 @@ namespace DataSystem.Reportes
 
         private void btnCargarArchivo_Click(object sender, EventArgs e)
         {
-            
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -71,6 +67,7 @@ namespace DataSystem.Reportes
 
         private void LeerXml(string RutaArchivo)
         {
+            List<Entidades.cls.clsGasolinasInfo> LstProductos = new List<Entidades.cls.clsGasolinasInfo>();
             XmlDocument doc = new XmlDocument();
             doc.Load(RutaArchivo);
 
@@ -90,19 +87,19 @@ namespace DataSystem.Reportes
             XmlNode nodeNumeroDuctosTransporteDistribucion = doc.SelectSingleNode("//Covol:NumeroDuctosTransporteDistribucion", nsm);
             XmlNode nodeNumeroDispensarios = doc.SelectSingleNode("//Covol:NumeroDispensarios", nsm);
             XmlNode nodeFechaYHoraReporteMes = doc.SelectSingleNode("//Covol:FechaYHoraReporteMes", nsm);
-            XmlNodeList nodePRODUCTO = doc.SelectNodes("//Covol:PRODUCTO",nsm);
+            XmlNodeList nodePRODUCTO = doc.SelectNodes("//Covol:PRODUCTO", nsm);
 
             Entidades.XMLMensual.ControlesVolumetricos obj = new Entidades.XMLMensual.ControlesVolumetricos();
             obj.Version = nodeVersion.InnerText;
             obj.RfcContribuyente = nodeRfcContribuyente.InnerText;
             obj.RfcRepresentanteLegal = nodeRfcRepresentanteLegal.InnerText;
             obj.RfcProveedor = nodeRfcProveedor.InnerText;
-            
+
             obj.Caracter = new Entidades.XMLMensual.Caracter
             {
-                  TipoCaracter = nodeCaracter.ChildNodes[0].InnerText,
-                  ModalidadPermiso = nodeCaracter.ChildNodes[1].InnerText,
-                  NumPermiso   =    nodeCaracter.ChildNodes[2].InnerText
+                TipoCaracter = nodeCaracter.ChildNodes[0].InnerText,
+                ModalidadPermiso = nodeCaracter.ChildNodes[1].InnerText,
+                NumPermiso = nodeCaracter.ChildNodes[2].InnerText
             };
             obj.ClaveInstalacion = nodeClaveInstalacion.InnerText;
             obj.DescripcionInstalacion = nodeDescripcionInstalacion.InnerText;
@@ -114,21 +111,22 @@ namespace DataSystem.Reportes
             obj.FechaYHoraCorte = DateTime.Parse(nodeFechaYHoraReporteMes.InnerText);
 
             obj.PRODUCTO = new List<Entidades.XMLMensual.PRODUCTO>();
-            
-            foreach( XmlNode pro  in nodePRODUCTO)
+
+            foreach (XmlNode pro in nodePRODUCTO)
             {
-               
+
                 Entidades.XMLMensual.PRODUCTO objProducto = new Entidades.XMLMensual.PRODUCTO
                 {
                     ClaveProducto = pro.ChildNodes[0].InnerText,
                     ClaveSubProducto = pro.ChildNodes[1].InnerText,
                     MarcaComercial = pro.ChildNodes[3].InnerText,
-                };
+                };              
+
                 var nodeGasolina = pro.ChildNodes[2];
                 objProducto.Gasolina = new Entidades.XMLMensual.Gasolina
                 {
                     ComposOctanajeGasolina = nodeGasolina.ChildNodes[0].InnerText,
-                    GasolinaConCombustibleNoFosil = nodeGasolina.ChildNodes[1] ==null? nodeGasolina.ChildNodes[0].InnerText: nodeGasolina.ChildNodes[1].InnerText
+                    GasolinaConCombustibleNoFosil = nodeGasolina.ChildNodes[1] == null ? nodeGasolina.ChildNodes[0].InnerText : nodeGasolina.ChildNodes[1].InnerText
                 };
                 var nodeREPORTEVOLUMENMENSUAL = pro.ChildNodes[4];
                 objProducto.REPORTEDEVOLUMENMENSUAL = new Entidades.XMLMensual.REPORTEDEVOLUMENMENSUAL();
@@ -155,6 +153,14 @@ namespace DataSystem.Reportes
                     ValorNumerico = decimal.Parse(SumaVolumenRecepcionMes.ChildNodes[0].InnerText),
                     UM = SumaVolumenRecepcionMes.ChildNodes[1].InnerText
                 };
+                Entidades.cls.clsGasolinasInfo objGasolina = new Entidades.cls.clsGasolinasInfo
+                {
+                    NombreProducto = pro.ChildNodes[3].InnerText,
+                    Litros = decimal.Parse(SumaVolumenRecepcionMes.ChildNodes[0].InnerText),
+                    Importe = decimal.Parse(RECEPCIONES.ChildNodes[3].InnerText),
+
+                };
+                LstProductos.Add(objGasolina);
                 var Complemento = RECEPCIONES.ChildNodes[4];
                 objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento = new Entidades.XMLMensual.Complemento();
 
@@ -162,14 +168,14 @@ namespace DataSystem.Reportes
                 objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL = new List<Entidades.XMLMensual.NACIONAL>();
 
 
-                foreach ( XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
+                foreach (XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
                 {
                     Entidades.XMLMensual.NACIONAL objNac = new Entidades.XMLMensual.NACIONAL
                     {
                         RfcClienteOProveedor = nac.ChildNodes[0].InnerText,
                         NombreClienteOProveedor = nac.ChildNodes[1].InnerText,
                     };
-                    var nodeCFDI = nac.ChildNodes[2]; 
+                    var nodeCFDI = nac.ChildNodes[2];
                     objNac.CFDIs = new Entidades.XMLMensual.Cfdis
                     {
                         CFDI = nodeCFDI.ChildNodes[0].InnerText,
@@ -192,7 +198,7 @@ namespace DataSystem.Reportes
                 var ENTREGAS = nodeREPORTEVOLUMENMENSUAL.ChildNodes[2];
                 objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS = new Entidades.XMLMensual.ENTREGAS
                 {
-                    TotalEntregasMes =int.Parse(ENTREGAS.ChildNodes[0].InnerText),
+                    TotalEntregasMes = int.Parse(ENTREGAS.ChildNodes[0].InnerText),
                     TotalDocumentosMes = int.Parse(ENTREGAS.ChildNodes[2].InnerText),
                     ImporteTotalEntregasMes = decimal.Parse(ENTREGAS.ChildNodes[3].InnerText)
                 };
@@ -219,7 +225,7 @@ namespace DataSystem.Reportes
                     {
                         CFDI = nodeCfdiNac.ChildNodes[0].InnerText,
                         TipoCFDI = nodeCfdiNac.ChildNodes[1].InnerText,
-                        PrecioCompra = decimal.Parse( nodeCfdiNac.ChildNodes[2].InnerText),
+                        PrecioCompra = decimal.Parse(nodeCfdiNac.ChildNodes[2].InnerText),
                         PrecioDeVentaAlPublico = decimal.Parse(nodeCfdiNac.ChildNodes[3].InnerText),
                         PrecioVenta = decimal.Parse(nodeCfdiNac.ChildNodes[4].InnerText),
                         FechaYHoraTransaccion = DateTime.Parse(nodeCfdiNac.ChildNodes[5].InnerText)
@@ -238,9 +244,9 @@ namespace DataSystem.Reportes
             }
 
             LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
-            foreach(var prod in obj.PRODUCTO)
+            foreach (var prod in obj.PRODUCTO)
             {
-                foreach(var registros in prod.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL)
+                foreach (var registros in prod.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL)
                 {
                     Entidades.cls.clsControlVolumetricoMensual objIntesis = new Entidades.cls.clsControlVolumetricoMensual
                     {
@@ -253,7 +259,7 @@ namespace DataSystem.Reportes
                     LstControlVolumetricoMensual.Add(objIntesis);
                 }
             }
-            LstControlVolumetricoMensual = LstControlVolumetricoMensual.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x=>x.ValorNumerico).ToList();
+            LstControlVolumetricoMensual = LstControlVolumetricoMensual.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x => x.ValorNumerico).ToList();
             dgvRegistrosDiario.DataSource = LstControlVolumetricoMensual;
             tsTotalRegistros.Text = dgvRegistrosDiario.RowCount.ToString("N0");
 
@@ -263,10 +269,11 @@ namespace DataSystem.Reportes
             txtRfcProveedor.Text = obj.RfcProveedor;
             txtRfcContrib.Text = obj.RfcContribuyente;
             txtNoPermiso.Text = obj.Caracter.NumPermiso;
-            txtSucursal.Text = Enumeraciones.CatalogSucursales().Where(x=>x.Value==obj.Caracter.NumPermiso).First().Key;
+            txtSucursal.Text = Enumeraciones.CatalogSucursales().Where(x => x.Value == obj.Caracter.NumPermiso).First().Key;
             txtCaracter.Text = obj.Caracter.TipoCaracter;
             txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
             txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
+            dgvDatosGasolinas.DataSource = LstProductos;
 
         }
 
@@ -284,7 +291,7 @@ namespace DataSystem.Reportes
                 urlConexion = new ExcelQueryFactory(rutaImportado);
 
                 var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
-                            select a).ToList();
+                             select a).ToList();
                 var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
                 {
                     folio_imp = x.folio_imp,
@@ -299,12 +306,12 @@ namespace DataSystem.Reportes
                     precio = x.precio,
                     imported = x.imported,
                     uuid = x.uuid.ToUpper().Trim(),
-                    nombre = x.nombre,
+                    nombre = x.nombre.Trim(),
                 }).ToList();
                 lstManuales = prueba;
                 lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-                lstManuales = lstManuales.Where(x=>x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("Diesel")).ToList();
-                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x=>x.uuid).ThenBy(x=>x.cant).ToList();
+                lstManuales = lstManuales.Where(x => x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("Diesel")).ToList();
+                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
                 dgvManuales.DataSource = lstManuales;
                 tsManuales.Text = dgvManuales.RowCount.ToString("N0");
 
@@ -313,73 +320,134 @@ namespace DataSystem.Reportes
 
         private void btnComparar_Click(object sender, EventArgs e)
         {
-            List<Entidades.cls.clsResultadosMensual> LstResultadosMensual;
-           if (lstManuales!= null && LstControlVolumetricoMensual != null)
-            {                
-                if (lstManuales.Count> LstControlVolumetricoMensual.Count)
-                {
-                    LstResultadosMensual = new List<Entidades.cls.clsResultadosMensual>();
-
-                    foreach(var registro in lstManuales)
-                    {
-                        String cfdi = registro.uuid.ToUpper().Trim();
-                        String nombreCliente = registro.nombre.Trim().ToUpper();
-                        Decimal cantidad = Math.Round(registro.cant,2);
-                        if (!LstControlVolumetricoMensual.Any(x => x.CFDI == cfdi))
-                        {
-                            LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                            {                                
-                                NombreCliente = registro.nombre,
-                                UUID = registro.uuid,
-                                Cantidad = registro.cant,
-                                CantidadContenidoFacturacion = 0,
-                                Observacion = "No existe en archivo C.V"
-                            });
-                        }
-                        else if (!LstControlVolumetricoMensual.Any(x => x.CFDI == cfdi && x.NombreClienteOProveedor==nombreCliente))
-                        {
-                            LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                            {                               
-                                Cantidad =registro.cant,
-                                CantidadContenidoFacturacion = cantidad,
-                                UUID = registro.uuid,
-                                NombreCliente = registro.nombre,
-                                NombreClienteContenidoFacturacion = nombreCliente,
-                                Observacion = "Existe en archivo C.V, pero no coinciden los nombres de cliente."
-                            });
-                        }
-                        //else
-                        //{
-                        //    var lstCfdis = LstControlVolumetricoMensual.Where(x => x.CFDI == cfdi).ToList();
-                        //    bool existe = lstCfdis.Any(x=> x.ValorNumerico == cantidad);
-                        //    if (existe==false)
-                        //    {
-                        //        LstResultadosMensual.Add(new Entidades.cls.clsResultadosMensual
-                        //        {
-                        //            Cantidad = registro.cant,
-                        //            CantidadContenidoFacturacion = cantidad,
-                        //            UUID = registro.uuid,
-                        //            NombreCliente = registro.nombre,
-                        //            NombreClienteContenidoFacturacion = nombreCliente,
-                        //            Observacion = "Existe en archivo C.V, pero la cantidad no cuadra."
-                        //        });
-                        //    }
-                        //}
-                    }
-
-                    
-                    dgvErrores.DataSource = LstResultadosMensual;
-                    tsErrores.Text = dgvErrores.RowCount.ToString("N0");
-
-                }
-                else
-                {
-                    
-                }
-            }
-            else
+            UnirListados();           
+        }
+        
+        public void UnirListados()
+        {
+            if(lstManuales==null || LstControlVolumetricoMensual == null)
             {
-                //mandar alerta que no se han cargado os registros
+                MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+            if (LstControlVolumetricoMensual.Count < lstManuales.Count)
+            {
+                int posActual = 0;
+                Entidades.cls.FACTURASDETALLE ObjDetalle;
+                foreach(var itemCv in LstControlVolumetricoMensual)
+                {
+                    
+                    ObjDetalle = lstManuales[posActual];
+                    if(itemCv.CFDI == ObjDetalle.uuid)
+                    {
+                        //se registra
+                        LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                        {
+                            CFDI = itemCv.CFDI,
+                            NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
+                            VolumenNumerico = itemCv.ValorNumerico,
+                            UUID = ObjDetalle.uuid,
+                            NombreCliente = ObjDetalle.nombre,
+                            Cant = ObjDetalle.cant,
+                            folio_Imp = ObjDetalle.folio_imp
+                        });
+                        posActual++;
+                    }
+                    else
+                    {
+                        while((itemCv.CFDI != lstManuales[posActual].uuid)){
+                            //crea registros en blanco
+                            ObjDetalle = lstManuales[posActual];
+                            LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                            {
+                                CFDI = null,
+                                NombreClienteOPRoveedor = null,
+                                VolumenNumerico = 0,
+                                UUID = ObjDetalle.uuid,
+                                NombreCliente = ObjDetalle.nombre,
+                                Cant = ObjDetalle.cant,
+                                folio_Imp = ObjDetalle.folio_imp,
+                                Observacion = "No se encuentra registro en Archivo C.V."
+                            });
+                            posActual++; 
+                        }
+                        //agrega amos porque ya encontro
+                        ObjDetalle = lstManuales[posActual];
+                        LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                        {
+                            CFDI = itemCv.CFDI,
+                            NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
+                            VolumenNumerico = itemCv.ValorNumerico,
+                            UUID = ObjDetalle.uuid,
+                            NombreCliente = ObjDetalle.nombre,
+                            Cant = ObjDetalle.cant,
+                            folio_Imp = ObjDetalle.folio_imp
+                            
+                        });
+                        posActual++;                    }
+                }
+
+              
+                dgvErrores.DataSource = LstResultados;
+                tsErrores.Text = dgvErrores.RowCount.ToString("N0");
+            }
+
+            MessageBox.Show("Comparacion exitosa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            if (dgvErrores.RowCount <= 0)
+            {
+                MessageBox.Show("No se han cargado los archivos de compracion (Archivo CV y Detalle Mensual)", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                return;
+            }
+            SaveFileDialog dlg = new SaveFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string rutaSalida = dlg.FileName+".xlsx";
+
+                IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                byte[] excelResult = AccountExport.Export(LstResultados);
+                File.WriteAllBytes(rutaSalida, excelResult);
+                MessageBox.Show("Se han exportado los registros.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+           
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Se perdeta la información ingresada. ¿Deseas reestablecer el modulo?","Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                LimpiarControlesGbx(gbxEncabezado);
+                LimpiarControlesGbx(gbxFacturacion);
+                LimpiarControlesGbx(gbxCv);
+                LimpiarControlesGbx(gbxComparacion);
+                lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
+                LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
+                LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+            }           
+        }
+
+        private void LimpiarControlesGbx(GroupBox gbx)
+        {
+            //Limpiar todo
+            foreach (var gctrl in gbx.Controls)
+            {
+                if (gctrl is TextBox)
+                {
+                    ((TextBox)gctrl).Clear();
+                }
+                else if (gctrl is DataGridView)
+                {
+                    ((DataGridView)gctrl).DataSource = null;
+                }
+                else if (gctrl is ToolStrip)
+                {
+                    ((ToolStrip)gctrl).Items[1].Text = 0.ToString("N0");
+                }
             }
         }
     }

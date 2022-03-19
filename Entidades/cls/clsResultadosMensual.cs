@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelWriter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +28,21 @@ namespace Entidades.cls
         public String SysCFDI { get; set; }
         public DateTime? SysFechaYHoraTransaccion { get; set; }
         public Decimal? SysValorNumerico { get; set; }*/
-
+        [ExportCustom("CFDI", 1)]
+        public String CFDI { get; set; }
+        [ExportCustom("Nombre Cliente PRoveedor", 2)]
+        public String NombreClienteOPRoveedor { get; set; }
+        [ExportCustom("Valor númerico", 3)]
+        public decimal VolumenNumerico { get; set; }
+        [ExportCustom("Folio_Imp", 4)]
+        public String folio_Imp { get; set; }
+        [ExportCustom("UUID", 5)]
         public String UUID { get; set; }
+        [ExportCustom("Nombre Cliente", 6)]
         public String NombreCliente { get; set; }
-        public String NombreClienteContenidoFacturacion { get; set; }
-        public decimal Cantidad { get; set; }
-        public decimal CantidadContenidoFacturacion { get; set; }
+        [ExportCustom("Cant", 7)]
+        public decimal Cant { get; set; }
+        [ExportCustom("Observaciones", 8)]
         public String Observacion { get; set; }
     }
 }
