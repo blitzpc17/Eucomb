@@ -333,13 +333,16 @@ namespace DataSystem.Reportes
             LstResultados = new List<Entidades.cls.clsResultadosMensual>();
             if (LstControlVolumetricoMensual.Count < lstManuales.Count)
             {
+               
                 int posActual = 0;
                 Entidades.cls.FACTURASDETALLE ObjDetalle;
                 foreach(var itemCv in LstControlVolumetricoMensual)
-                {
-                    
+                {                    
                     ObjDetalle = lstManuales[posActual];
-                    if(itemCv.CFDI == ObjDetalle.uuid)
+                    //calculando diferencia en cantidades
+                    decimal diferencia = itemCv.ValorNumerico - ObjDetalle.cant;
+                    diferencia = diferencia < 0 ? diferencia * -1 : diferencia;
+                    if(itemCv.CFDI == ObjDetalle.uuid && (diferencia<0.1M))
                     {
                         //se registra
                         LstResultados.Add(new Entidades.cls.clsResultadosMensual
@@ -356,22 +359,56 @@ namespace DataSystem.Reportes
                     }
                     else
                     {
-                        while((itemCv.CFDI != lstManuales[posActual].uuid)){
-                            //crea registros en blanco
-                            ObjDetalle = lstManuales[posActual];
-                            LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                        if((itemCv.CFDI != lstManuales[posActual].uuid))
+                        {
+                            while ((itemCv.CFDI != lstManuales[posActual].uuid))
                             {
-                                CFDI = null,
-                                NombreClienteOPRoveedor = null,
-                                VolumenNumerico = 0,
-                                UUID = ObjDetalle.uuid,
-                                NombreCliente = ObjDetalle.nombre,
-                                Cant = ObjDetalle.cant,
-                                folio_Imp = ObjDetalle.folio_imp,
-                                Observacion = "No se encuentra registro en Archivo C.V."
-                            });
-                            posActual++; 
+                                //crea registros en blanco
+                                ObjDetalle = lstManuales[posActual];
+                                LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                {
+                                    CFDI = null,
+                                    NombreClienteOPRoveedor = null,
+                                    VolumenNumerico = 0,
+                                    UUID = ObjDetalle.uuid,
+                                    NombreCliente = ObjDetalle.nombre,
+                                    Cant = ObjDetalle.cant,
+                                    folio_Imp = ObjDetalle.folio_imp,
+                                    Observacion = "*No se encuentra registro en Archivo C.V.\n"
+                                });
+                                posActual++;
+                            }
                         }
+                        else if((diferencia > 0.1M))
+                        {
+                            //si esta igual el cfdi entonces esta mal la cantidad
+                            //validar si hay mas renglones asociados a ese cfdi
+                            int noCfdis = lstManuales.Where(x => x.uuid == itemCv.CFDI).Count();                            
+
+                            while (diferencia>0.1M && noCfdis>1)
+                            {                               
+                                //crea registros en blanco
+                               
+                                LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                {
+                                    CFDI = null,
+                                    NombreClienteOPRoveedor = null,
+                                    VolumenNumerico = 0,
+                                    UUID = ObjDetalle.uuid,
+                                    NombreCliente = ObjDetalle.nombre,
+                                    Cant = ObjDetalle.cant,
+                                    folio_Imp = ObjDetalle.folio_imp,
+                                    Observacion = "*No se encuentra registro en Archivo C.V.\r\n"
+                                });
+
+                              
+                                posActual++;
+                                ObjDetalle = lstManuales[posActual];
+                                diferencia = itemCv.ValorNumerico - ObjDetalle.cant;
+                                diferencia = diferencia < 0 ? diferencia * -1 : diferencia;
+                            }
+                        }
+
                         //agrega amos porque ya encontro
                         ObjDetalle = lstManuales[posActual];
                         LstResultados.Add(new Entidades.cls.clsResultadosMensual
@@ -383,9 +420,32 @@ namespace DataSystem.Reportes
                             NombreCliente = ObjDetalle.nombre,
                             Cant = ObjDetalle.cant,
                             folio_Imp = ObjDetalle.folio_imp
-                            
+
                         });
-                        posActual++;                    }
+                        posActual++;
+
+                    }
+                }
+
+                
+                foreach(var registro in LstResultados)
+                {
+                    string observacion = "";
+                    if (registro.Cant != registro.VolumenNumerico&&registro.CFDI!=null)
+                    {
+                        observacion += "*Las cantidades no cinciden.\r\n";
+                    }                    
+
+                    if(registro.NombreCliente != registro.NombreClienteOPRoveedor && registro.CFDI != null)
+                    {
+                        observacion += "*El nombre del cliente no coincide.\r\n";
+                    }
+
+                    if (!string.IsNullOrEmpty(observacion))
+                    {
+                        registro.Observacion = observacion;
+                    }
+                    registro.DiferenciaCantidades = (registro.Cant - registro.VolumenNumerico)<0?((registro.Cant - registro.VolumenNumerico)*-1): registro.Cant - registro.VolumenNumerico;
                 }
 
               
@@ -405,6 +465,7 @@ namespace DataSystem.Reportes
                 return;
             }
             SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = "Rev Inf Arch Mensual";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string rutaSalida = dlg.FileName+".xlsx";
@@ -421,34 +482,38 @@ namespace DataSystem.Reportes
         {
             if(MessageBox.Show("Se perdeta la información ingresada. ¿Deseas reestablecer el modulo?","Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                LimpiarControlesGbx(gbxEncabezado);
-                LimpiarControlesGbx(gbxFacturacion);
-                LimpiarControlesGbx(gbxCv);
-                LimpiarControlesGbx(gbxComparacion);
+                LimpiarControlesFormulario();
                 lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
                 LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
                 LstResultados = new List<Entidades.cls.clsResultadosMensual>();
             }           
         }
 
-        private void LimpiarControlesGbx(GroupBox gbx)
+        private void LimpiarControlesFormulario()
         {
-            //Limpiar todo
-            foreach (var gctrl in gbx.Controls)
+            foreach(var cont in this.Controls)
             {
-                if (gctrl is TextBox)
+                if(cont is GroupBox)
                 {
-                    ((TextBox)gctrl).Clear();
-                }
-                else if (gctrl is DataGridView)
-                {
-                    ((DataGridView)gctrl).DataSource = null;
-                }
-                else if (gctrl is ToolStrip)
-                {
-                    ((ToolStrip)gctrl).Items[1].Text = 0.ToString("N0");
+                    foreach (var gctrl in ((GroupBox)cont).Controls)
+                    {
+                        if (gctrl is TextBox)
+                        {
+                            ((TextBox)gctrl).Clear();
+                        }
+                        else if (gctrl is DataGridView)
+                        {
+                            ((DataGridView)gctrl).DataSource = null;
+                        }
+                        else if (gctrl is ToolStrip)
+                        {
+                            ((ToolStrip)gctrl).Items[1].Text = 0.ToString("N0");
+                        }
+                    }
                 }
             }
+            
+            
         }
     }
 }
