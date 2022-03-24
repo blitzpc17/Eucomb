@@ -32,5 +32,12 @@ namespace DataSystem.Acceso
             reporte.MdiParent = this;
             reporte.Show();
         }
+
+        private void reporteNuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteMensualComparativo r = new ReporteMensualComparativo();
+            r.MdiParent = this;
+            r.Show();
+        }
     }
 }

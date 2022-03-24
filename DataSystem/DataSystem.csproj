@@ -121,6 +121,12 @@
     <Compile Include="Reportes\ReporteCv.Designer.cs">
       <DependentUpon>ReporteCv.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\ReporteMensualComparativo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteMensualComparativo.Designer.cs">
+      <DependentUpon>ReporteMensualComparativo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\ReporteMensualCv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     </Compile>
     <EmbeddedResource Include="Reportes\ReporteCv.resx">
       <DependentUpon>ReporteCv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteMensualComparativo.resx">
+      <DependentUpon>ReporteMensualComparativo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReporteMensualCv.resx">
       <DependentUpon>ReporteMensualCv.cs</DependentUpon>

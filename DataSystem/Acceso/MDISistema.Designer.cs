@@ -38,6 +38,7 @@
             this.reporteDiarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.reporteNuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,22 +71,23 @@
             // 
             this.reportesCvToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reporteMensualToolStripMenuItem,
-            this.reporteDiarioToolStripMenuItem});
+            this.reporteDiarioToolStripMenuItem,
+            this.reporteNuevoToolStripMenuItem});
             this.reportesCvToolStripMenuItem.Name = "reportesCvToolStripMenuItem";
-            this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reportesCvToolStripMenuItem.Text = "Reportes Cv";
             // 
             // reporteMensualToolStripMenuItem
             // 
             this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
-            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
             this.reporteMensualToolStripMenuItem.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem_Click);
             // 
             // reporteDiarioToolStripMenuItem
             // 
             this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
-            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
             this.reporteDiarioToolStripMenuItem.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem_Click);
             // 
@@ -96,6 +98,13 @@
             this.statusStrip.Size = new System.Drawing.Size(1246, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
+            // 
+            // reporteNuevoToolStripMenuItem
+            // 
+            this.reporteNuevoToolStripMenuItem.Name = "reporteNuevoToolStripMenuItem";
+            this.reporteNuevoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteNuevoToolStripMenuItem.Text = "Reporte Nuevo";
+            this.reporteNuevoToolStripMenuItem.Click += new System.EventHandler(this.reporteNuevoToolStripMenuItem_Click);
             // 
             // MDISistema
             // 
@@ -128,6 +137,7 @@
         private System.Windows.Forms.ToolStripMenuItem reportesCvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteNuevoToolStripMenuItem;
     }
 }
 

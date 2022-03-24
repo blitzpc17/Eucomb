@@ -35,11 +35,11 @@
             this.tsTotalRegistros = new System.Windows.Forms.ToolStripLabel();
             this.dgvRegistrosDiario = new System.Windows.Forms.DataGridView();
             this.gbxEncabezado = new System.Windows.Forms.GroupBox();
+            this.dgvDatosGasolinas = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rbJson = new System.Windows.Forms.RadioButton();
             this.rbXml = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
-            this.btnCargarArchivo = new System.Windows.Forms.Button();
             this.txtArchivoCargado = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtSucursal = new System.Windows.Forms.TextBox();
@@ -74,11 +74,12 @@
             this.dgvErrores = new System.Windows.Forms.DataGridView();
             this.btnExportar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.dgvDatosGasolinas = new System.Windows.Forms.DataGridView();
+            this.btnCargarArchivo = new System.Windows.Forms.Button();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
             this.gbxEncabezado.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDatosGasolinas)).BeginInit();
             this.panel1.SuspendLayout();
             this.gbxFacturacion.SuspendLayout();
             this.toolStrip2.SuspendLayout();
@@ -86,7 +87,6 @@
             this.gbxComparacion.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDatosGasolinas)).BeginInit();
             this.SuspendLayout();
             // 
             // gbxCv
@@ -176,6 +176,18 @@
             this.gbxEncabezado.TabStop = false;
             this.gbxEncabezado.Text = "Encabezado";
             // 
+            // dgvDatosGasolinas
+            // 
+            this.dgvDatosGasolinas.AllowUserToAddRows = false;
+            this.dgvDatosGasolinas.AllowUserToDeleteRows = false;
+            this.dgvDatosGasolinas.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvDatosGasolinas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDatosGasolinas.Location = new System.Drawing.Point(780, 60);
+            this.dgvDatosGasolinas.Name = "dgvDatosGasolinas";
+            this.dgvDatosGasolinas.ReadOnly = true;
+            this.dgvDatosGasolinas.Size = new System.Drawing.Size(362, 109);
+            this.dgvDatosGasolinas.TabIndex = 24;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.rbJson);
@@ -216,19 +228,6 @@
             this.label11.TabIndex = 22;
             this.label11.Text = "Tipo Archivo:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnCargarArchivo
-            // 
-            this.btnCargarArchivo.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnCargarArchivo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCargarArchivo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCargarArchivo.Image = global::DataSystem.Properties.Resources.carpeta__5_;
-            this.btnCargarArchivo.Location = new System.Drawing.Point(1101, 28);
-            this.btnCargarArchivo.Name = "btnCargarArchivo";
-            this.btnCargarArchivo.Size = new System.Drawing.Size(25, 25);
-            this.btnCargarArchivo.TabIndex = 21;
-            this.btnCargarArchivo.UseVisualStyleBackColor = false;
-            this.btnCargarArchivo.Click += new System.EventHandler(this.btnCargarArchivo_Click);
             // 
             // txtArchivoCargado
             // 
@@ -559,17 +558,18 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // dgvDatosGasolinas
+            // btnCargarArchivo
             // 
-            this.dgvDatosGasolinas.AllowUserToAddRows = false;
-            this.dgvDatosGasolinas.AllowUserToDeleteRows = false;
-            this.dgvDatosGasolinas.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvDatosGasolinas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDatosGasolinas.Location = new System.Drawing.Point(780, 60);
-            this.dgvDatosGasolinas.Name = "dgvDatosGasolinas";
-            this.dgvDatosGasolinas.ReadOnly = true;
-            this.dgvDatosGasolinas.Size = new System.Drawing.Size(362, 109);
-            this.dgvDatosGasolinas.TabIndex = 24;
+            this.btnCargarArchivo.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnCargarArchivo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCargarArchivo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnCargarArchivo.Image = global::DataSystem.Properties.Resources.carpeta__5_;
+            this.btnCargarArchivo.Location = new System.Drawing.Point(1101, 28);
+            this.btnCargarArchivo.Name = "btnCargarArchivo";
+            this.btnCargarArchivo.Size = new System.Drawing.Size(25, 25);
+            this.btnCargarArchivo.TabIndex = 21;
+            this.btnCargarArchivo.UseVisualStyleBackColor = false;
+            this.btnCargarArchivo.Click += new System.EventHandler(this.btnCargarArchivo_Click);
             // 
             // ReporteMensualCv
             // 
@@ -594,6 +594,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).EndInit();
             this.gbxEncabezado.ResumeLayout(false);
             this.gbxEncabezado.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDatosGasolinas)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.gbxFacturacion.ResumeLayout(false);
@@ -606,7 +607,6 @@
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDatosGasolinas)).EndInit();
             this.ResumeLayout(false);
 
         }
