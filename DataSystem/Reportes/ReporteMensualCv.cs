@@ -284,38 +284,48 @@ namespace DataSystem.Reportes
 
         private void ImportarExcel()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
+            try
             {
-                string rutaImportado = dlg.FileName;
-                urlConexion = new ExcelQueryFactory(rutaImportado);
-
-                var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>("Hoja1")
-                             select a).ToList();
-                var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
+                OpenFileDialog dlg = new OpenFileDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    folio_imp = x.folio_imp,
-                    cliente = x.cliente,
-                    importe = x.importe,
-                    serie = x.serie,
-                    docto = x.docto,
-                    status = x.status,
-                    fec_reg = x.fec_reg,
-                    nombrep = x.nombrep,
-                    cant = Math.Round(x.cant, 2),
-                    precio = x.precio,
-                    imported = x.imported,
-                    uuid = x.uuid.ToUpper().Trim(),
-                    nombre = x.nombre.Trim(),
-                }).ToList();
-                lstManuales = prueba;
-                lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-                lstManuales = lstManuales.Where(x => x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("Diesel")).ToList();
-                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
-                dgvManuales.DataSource = lstManuales;
-                tsManuales.Text = dgvManuales.RowCount.ToString("N0");
+                    string[] nombreArchivo = dlg.SafeFileName.Split('.');
+                    string rutaImportado = dlg.FileName;
+                    urlConexion = new ExcelQueryFactory(rutaImportado);
 
+                    var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>(nombreArchivo[0])
+                                 select a).ToList();
+                    var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
+                    {
+                        folio_imp = x.folio_imp,
+                        cliente = x.cliente,
+                        importe = x.importe,
+                        serie = x.serie,
+                        docto = x.docto,
+                        status = x.status,
+                        fec_reg = x.fec_reg,
+                        nombrep = x.nombrep,
+                        cant = Math.Round(x.cant, 2),
+                        precio = x.precio,
+                        imported = x.imported,
+                        uuid = x.uuid != null ? x.uuid.ToUpper().Trim() : null,
+                        nombre = x.nombre.Trim(),
+
+                    }).ToList();
+                    lstManuales = prueba;
+                    lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
+                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("Diesel"))).ToList();
+                    lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
+                    dgvManuales.DataSource = lstManuales;
+                    tsManuales.Text = dgvManuales.RowCount.ToString("N0");
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error en la operación", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }           
+
+            
         }
 
         private void btnComparar_Click(object sender, EventArgs e)
@@ -347,13 +357,28 @@ namespace DataSystem.Reportes
                         //se registra
                         LstResultados.Add(new Entidades.cls.clsResultadosMensual
                         {
-                            CFDI = itemCv.CFDI,
+                            RfcClienteOProveedor = itemCv.RfcClienteOProveedor,                           
                             NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
+                            CFDI = itemCv.CFDI,
+                            FechaYHoraTransaccion = itemCv.FechaYHoraTransaccion,
                             VolumenNumerico = itemCv.ValorNumerico,
-                            UUID = ObjDetalle.uuid,
-                            NombreCliente = ObjDetalle.nombre,
+                          //  Existe = itemCv==null? ">":"<>",
+                            folio_Imp = ObjDetalle.folio_imp,
+                            clavecli = ObjDetalle.cliente,
+                            NombreCliente = ObjDetalle.nombre,                          
+                            importe = ObjDetalle.importe,
+                            serie = ObjDetalle.serie,
+                            docto = ObjDetalle.docto,   
+                            status = ObjDetalle.status, 
+                            fecha_reg = ObjDetalle.fec_reg,
+                            nombrep = ObjDetalle.nombrep,   
                             Cant = ObjDetalle.cant,
-                            folio_Imp = ObjDetalle.folio_imp
+                            precio = ObjDetalle.precio,
+                            imported = ObjDetalle.imported,
+                            UUID = ObjDetalle.uuid,
+                            ComparaNombre = (itemCv.NombreClienteOProveedor!=ObjDetalle.nombre),
+                            ComparaCfdi = (itemCv.CFDI!=ObjDetalle.uuid),
+                            ComparaLts = (itemCv.ValorNumerico!=ObjDetalle.cant)
                         });
                         posActual++;
                     }
@@ -367,13 +392,28 @@ namespace DataSystem.Reportes
                                 ObjDetalle = lstManuales[posActual];
                                 LstResultados.Add(new Entidades.cls.clsResultadosMensual
                                 {
-                                    CFDI = null,
+                                    RfcClienteOProveedor = null,
                                     NombreClienteOPRoveedor = null,
+                                    CFDI = null,
+                                    FechaYHoraTransaccion = null,
                                     VolumenNumerico = 0,
-                                    UUID = ObjDetalle.uuid,
-                                    NombreCliente = ObjDetalle.nombre,
-                                    Cant = ObjDetalle.cant,
+                                    Existe = ">",
                                     folio_Imp = ObjDetalle.folio_imp,
+                                    clavecli = ObjDetalle.cliente,
+                                    NombreCliente = ObjDetalle.nombre,
+                                    importe = ObjDetalle.importe,
+                                    serie = ObjDetalle.serie,
+                                    docto = ObjDetalle.docto,
+                                    status = ObjDetalle.status,
+                                    fecha_reg = ObjDetalle.fec_reg,
+                                    nombrep = ObjDetalle.nombrep,
+                                    Cant = ObjDetalle.cant,
+                                    precio = ObjDetalle.precio,
+                                    imported = ObjDetalle.imported,
+                                    UUID = ObjDetalle.uuid,
+                                    ComparaNombre = (itemCv.NombreClienteOProveedor != ObjDetalle.nombre),
+                                    ComparaCfdi = (itemCv.CFDI != ObjDetalle.uuid),
+                                    ComparaLts = (itemCv.ValorNumerico != ObjDetalle.cant),
                                     Observacion = "*No se encuentra registro en Archivo C.V.\n"
                                 });
                                 posActual++;
@@ -391,13 +431,28 @@ namespace DataSystem.Reportes
                                
                                 LstResultados.Add(new Entidades.cls.clsResultadosMensual
                                 {
-                                    CFDI = null,
+                                    RfcClienteOProveedor = null,
                                     NombreClienteOPRoveedor = null,
+                                    CFDI = null,
+                                    FechaYHoraTransaccion = null,
                                     VolumenNumerico = 0,
-                                    UUID = ObjDetalle.uuid,
-                                    NombreCliente = ObjDetalle.nombre,
-                                    Cant = ObjDetalle.cant,
+                                    Existe =  ">",
                                     folio_Imp = ObjDetalle.folio_imp,
+                                    clavecli = ObjDetalle.cliente,
+                                    NombreCliente = ObjDetalle.nombre,
+                                    importe = ObjDetalle.importe,
+                                    serie = ObjDetalle.serie,
+                                    docto = ObjDetalle.docto,
+                                    status = ObjDetalle.status,
+                                    fecha_reg = ObjDetalle.fec_reg,
+                                    nombrep = ObjDetalle.nombrep,
+                                    Cant = ObjDetalle.cant,
+                                    precio = ObjDetalle.precio,
+                                    imported = ObjDetalle.imported,
+                                    UUID = ObjDetalle.uuid,
+                                    ComparaNombre = (itemCv.NombreClienteOProveedor != ObjDetalle.nombre),
+                                    ComparaCfdi = (itemCv.CFDI != ObjDetalle.uuid),
+                                    ComparaLts = (itemCv.ValorNumerico != ObjDetalle.cant),
                                     Observacion = "*No se encuentra registro en Archivo C.V.\r\n"
                                 });
 
@@ -413,13 +468,28 @@ namespace DataSystem.Reportes
                         ObjDetalle = lstManuales[posActual];
                         LstResultados.Add(new Entidades.cls.clsResultadosMensual
                         {
-                            CFDI = itemCv.CFDI,
-                            NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
-                            VolumenNumerico = itemCv.ValorNumerico,
-                            UUID = ObjDetalle.uuid,
+                            RfcClienteOProveedor = null,
+                            NombreClienteOPRoveedor = null,
+                            CFDI = null,
+                            FechaYHoraTransaccion = null,
+                            VolumenNumerico = 0,
+                          //  Existe = itemCv == null ? ">" : "<>",
+                            folio_Imp = ObjDetalle.folio_imp,
+                            clavecli = ObjDetalle.cliente,
                             NombreCliente = ObjDetalle.nombre,
+                            importe = ObjDetalle.importe,
+                            serie = ObjDetalle.serie,
+                            docto = ObjDetalle.docto,
+                            status = ObjDetalle.status,
+                            fecha_reg = ObjDetalle.fec_reg,
+                            nombrep = ObjDetalle.nombrep,
                             Cant = ObjDetalle.cant,
-                            folio_Imp = ObjDetalle.folio_imp
+                            precio = ObjDetalle.precio,
+                            imported = ObjDetalle.imported,
+                            UUID = ObjDetalle.uuid,
+                            ComparaNombre = (itemCv.NombreClienteOProveedor != ObjDetalle.nombre),
+                            ComparaCfdi = (itemCv.CFDI != ObjDetalle.uuid),
+                            ComparaLts = (itemCv.ValorNumerico != ObjDetalle.cant),
 
                         });
                         posActual++;
@@ -434,11 +504,13 @@ namespace DataSystem.Reportes
                     if (registro.Cant != registro.VolumenNumerico&&registro.CFDI!=null)
                     {
                         observacion += "*Las cantidades no cinciden.\r\n";
+                        registro.Existe = "<>";
                     }                    
 
                     if(registro.NombreCliente != registro.NombreClienteOPRoveedor && registro.CFDI != null)
                     {
                         observacion += "*El nombre del cliente no coincide.\r\n";
+                        registro.Existe = "<>";
                     }
 
                     if (!string.IsNullOrEmpty(observacion))
@@ -447,7 +519,7 @@ namespace DataSystem.Reportes
                     }
                     registro.DiferenciaCantidades = (registro.Cant - registro.VolumenNumerico)<0?((registro.Cant - registro.VolumenNumerico)*-1): registro.Cant - registro.VolumenNumerico;
                 }
-
+                LstResultados = LstResultados.Where(x=>x.Observacion!=null).ToList();
               
                 dgvErrores.DataSource = LstResultados;
                 tsErrores.Text = dgvErrores.RowCount.ToString("N0");

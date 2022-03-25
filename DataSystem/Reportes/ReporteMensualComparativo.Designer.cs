@@ -30,28 +30,27 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.gbxCv = new System.Windows.Forms.GroupBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.tsTotalRegistros = new System.Windows.Forms.ToolStripLabel();
-            this.dgvRegistrosDiario = new System.Windows.Forms.DataGridView();
-            this.gbxFacturacion = new System.Windows.Forms.GroupBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.tsManuales = new System.Windows.Forms.ToolStripLabel();
-            this.dgvManuales = new System.Windows.Forms.DataGridView();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnExportar = new System.Windows.Forms.Button();
+            this.btnComparar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnImportarLayout = new System.Windows.Forms.Button();
             this.gbxComparacion = new System.Windows.Forms.GroupBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.tsErrores = new System.Windows.Forms.ToolStripLabel();
             this.dgvErrores = new System.Windows.Forms.DataGridView();
-            this.btnImportarLayout = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnExportar = new System.Windows.Forms.Button();
-            this.btnComparar = new System.Windows.Forms.Button();
+            this.gbxFacturacion = new System.Windows.Forms.GroupBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.tsManuales = new System.Windows.Forms.ToolStripLabel();
+            this.dgvManuales = new System.Windows.Forms.DataGridView();
+            this.gbxCv = new System.Windows.Forms.GroupBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tsTotalRegistros = new System.Windows.Forms.ToolStripLabel();
+            this.dgvRegistrosDiario = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gbxEncabezado = new System.Windows.Forms.GroupBox();
             this.txtSucursal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -71,21 +70,22 @@
             this.txtVersion = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.gbxCv.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
-            this.gbxFacturacion.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvManuales)).BeginInit();
             this.gbxComparacion.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).BeginInit();
+            this.gbxFacturacion.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvManuales)).BeginInit();
+            this.gbxCv.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.gbxEncabezado.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -121,130 +121,58 @@
             this.tabPage1.Text = "Archivo";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // btnCancelar
             // 
-            this.tabPage2.Controls.Add(this.gbxEncabezado);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1190, 564);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Datos XLM";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelar.Location = new System.Drawing.Point(840, 520);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(110, 35);
+            this.btnCancelar.TabIndex = 14;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // tabPage3
+            // btnExportar
             // 
-            this.tabPage3.Controls.Add(this.dataGridView1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1190, 564);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Inventarios";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportar.Location = new System.Drawing.Point(956, 520);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(110, 35);
+            this.btnExportar.TabIndex = 13;
+            this.btnExportar.Text = "Exportar";
+            this.btnExportar.UseVisualStyleBackColor = true;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
-            // gbxCv
+            // btnComparar
             // 
-            this.gbxCv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbxCv.Controls.Add(this.toolStrip1);
-            this.gbxCv.Controls.Add(this.dgvRegistrosDiario);
-            this.gbxCv.Location = new System.Drawing.Point(15, 30);
-            this.gbxCv.Name = "gbxCv";
-            this.gbxCv.Size = new System.Drawing.Size(375, 484);
-            this.gbxCv.TabIndex = 4;
-            this.gbxCv.TabStop = false;
-            this.gbxCv.Text = "Contenido Control Volumetrico";
+            this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnComparar.Location = new System.Drawing.Point(1072, 520);
+            this.btnComparar.Name = "btnComparar";
+            this.btnComparar.Size = new System.Drawing.Size(110, 35);
+            this.btnComparar.TabIndex = 12;
+            this.btnComparar.Text = "Comparar";
+            this.btnComparar.UseVisualStyleBackColor = true;
+            this.btnComparar.Click += new System.EventHandler(this.btnComparar_Click);
             // 
-            // toolStrip1
+            // button1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.tsTotalRegistros});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 456);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(369, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(134, 520);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(110, 35);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Importar Excel";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // toolStripLabel1
+            // btnImportarLayout
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(99, 22);
-            this.toolStripLabel1.Text = "Total de registros:";
-            // 
-            // tsTotalRegistros
-            // 
-            this.tsTotalRegistros.Name = "tsTotalRegistros";
-            this.tsTotalRegistros.Size = new System.Drawing.Size(13, 22);
-            this.tsTotalRegistros.Text = "0";
-            // 
-            // dgvRegistrosDiario
-            // 
-            this.dgvRegistrosDiario.AllowUserToAddRows = false;
-            this.dgvRegistrosDiario.AllowUserToDeleteRows = false;
-            this.dgvRegistrosDiario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvRegistrosDiario.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dgvRegistrosDiario.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRegistrosDiario.Location = new System.Drawing.Point(7, 20);
-            this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
-            this.dgvRegistrosDiario.ReadOnly = true;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(362, 433);
-            this.dgvRegistrosDiario.TabIndex = 0;
-            // 
-            // gbxFacturacion
-            // 
-            this.gbxFacturacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbxFacturacion.Controls.Add(this.toolStrip2);
-            this.gbxFacturacion.Controls.Add(this.dgvManuales);
-            this.gbxFacturacion.Location = new System.Drawing.Point(396, 30);
-            this.gbxFacturacion.Name = "gbxFacturacion";
-            this.gbxFacturacion.Size = new System.Drawing.Size(375, 484);
-            this.gbxFacturacion.TabIndex = 7;
-            this.gbxFacturacion.TabStop = false;
-            this.gbxFacturacion.Text = "Contenido Facturación";
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2,
-            this.tsManuales});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 456);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(369, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(99, 22);
-            this.toolStripLabel2.Text = "Total de registros:";
-            // 
-            // tsManuales
-            // 
-            this.tsManuales.Name = "tsManuales";
-            this.tsManuales.Size = new System.Drawing.Size(13, 22);
-            this.tsManuales.Text = "0";
-            // 
-            // dgvManuales
-            // 
-            this.dgvManuales.AllowUserToAddRows = false;
-            this.dgvManuales.AllowUserToDeleteRows = false;
-            this.dgvManuales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvManuales.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dgvManuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvManuales.Location = new System.Drawing.Point(7, 20);
-            this.dgvManuales.Name = "dgvManuales";
-            this.dgvManuales.ReadOnly = true;
-            this.dgvManuales.Size = new System.Drawing.Size(362, 433);
-            this.dgvManuales.TabIndex = 0;
+            this.btnImportarLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnImportarLayout.Location = new System.Drawing.Point(18, 520);
+            this.btnImportarLayout.Name = "btnImportarLayout";
+            this.btnImportarLayout.Size = new System.Drawing.Size(110, 35);
+            this.btnImportarLayout.TabIndex = 10;
+            this.btnImportarLayout.Text = "Importar Xml";
+            this.btnImportarLayout.UseVisualStyleBackColor = true;
             // 
             // gbxComparacion
             // 
@@ -299,58 +227,120 @@
             this.dgvErrores.Size = new System.Drawing.Size(394, 430);
             this.dgvErrores.TabIndex = 0;
             // 
-            // btnImportarLayout
+            // gbxFacturacion
             // 
-            this.btnImportarLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnImportarLayout.Location = new System.Drawing.Point(18, 520);
-            this.btnImportarLayout.Name = "btnImportarLayout";
-            this.btnImportarLayout.Size = new System.Drawing.Size(110, 35);
-            this.btnImportarLayout.TabIndex = 10;
-            this.btnImportarLayout.Text = "Importar Xml";
-            this.btnImportarLayout.UseVisualStyleBackColor = true;
+            this.gbxFacturacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbxFacturacion.Controls.Add(this.toolStrip2);
+            this.gbxFacturacion.Controls.Add(this.dgvManuales);
+            this.gbxFacturacion.Location = new System.Drawing.Point(396, 30);
+            this.gbxFacturacion.Name = "gbxFacturacion";
+            this.gbxFacturacion.Size = new System.Drawing.Size(375, 484);
+            this.gbxFacturacion.TabIndex = 7;
+            this.gbxFacturacion.TabStop = false;
+            this.gbxFacturacion.Text = "Contenido Facturación";
             // 
-            // button1
+            // toolStrip2
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(134, 520);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 35);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Importar Excel";
-            this.button1.UseVisualStyleBackColor = true;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2,
+            this.tsManuales});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 456);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(369, 25);
+            this.toolStrip2.TabIndex = 1;
+            this.toolStrip2.Text = "toolStrip2";
             // 
-            // btnCancelar
+            // toolStripLabel2
             // 
-            this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelar.Location = new System.Drawing.Point(840, 520);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(110, 35);
-            this.btnCancelar.TabIndex = 14;
-            this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(99, 22);
+            this.toolStripLabel2.Text = "Total de registros:";
             // 
-            // btnExportar
+            // tsManuales
             // 
-            this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportar.Location = new System.Drawing.Point(956, 520);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(110, 35);
-            this.btnExportar.TabIndex = 13;
-            this.btnExportar.Text = "Exportar";
-            this.btnExportar.UseVisualStyleBackColor = true;
-            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            this.tsManuales.Name = "tsManuales";
+            this.tsManuales.Size = new System.Drawing.Size(13, 22);
+            this.tsManuales.Text = "0";
             // 
-            // btnComparar
+            // dgvManuales
             // 
-            this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnComparar.Location = new System.Drawing.Point(1072, 520);
-            this.btnComparar.Name = "btnComparar";
-            this.btnComparar.Size = new System.Drawing.Size(110, 35);
-            this.btnComparar.TabIndex = 12;
-            this.btnComparar.Text = "Comparar";
-            this.btnComparar.UseVisualStyleBackColor = true;
-            this.btnComparar.Click += new System.EventHandler(this.btnComparar_Click);
+            this.dgvManuales.AllowUserToAddRows = false;
+            this.dgvManuales.AllowUserToDeleteRows = false;
+            this.dgvManuales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvManuales.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgvManuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvManuales.Location = new System.Drawing.Point(7, 20);
+            this.dgvManuales.Name = "dgvManuales";
+            this.dgvManuales.ReadOnly = true;
+            this.dgvManuales.Size = new System.Drawing.Size(362, 433);
+            this.dgvManuales.TabIndex = 0;
+            // 
+            // gbxCv
+            // 
+            this.gbxCv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbxCv.Controls.Add(this.toolStrip1);
+            this.gbxCv.Controls.Add(this.dgvRegistrosDiario);
+            this.gbxCv.Location = new System.Drawing.Point(15, 30);
+            this.gbxCv.Name = "gbxCv";
+            this.gbxCv.Size = new System.Drawing.Size(375, 484);
+            this.gbxCv.TabIndex = 4;
+            this.gbxCv.TabStop = false;
+            this.gbxCv.Text = "Contenido Control Volumetrico";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.tsTotalRegistros});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 456);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(369, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(99, 22);
+            this.toolStripLabel1.Text = "Total de registros:";
+            // 
+            // tsTotalRegistros
+            // 
+            this.tsTotalRegistros.Name = "tsTotalRegistros";
+            this.tsTotalRegistros.Size = new System.Drawing.Size(13, 22);
+            this.tsTotalRegistros.Text = "0";
+            // 
+            // dgvRegistrosDiario
+            // 
+            this.dgvRegistrosDiario.AllowUserToAddRows = false;
+            this.dgvRegistrosDiario.AllowUserToDeleteRows = false;
+            this.dgvRegistrosDiario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRegistrosDiario.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgvRegistrosDiario.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRegistrosDiario.Location = new System.Drawing.Point(7, 20);
+            this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
+            this.dgvRegistrosDiario.ReadOnly = true;
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(362, 433);
+            this.dgvRegistrosDiario.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.gbxEncabezado);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1190, 564);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Datos XLM";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // gbxEncabezado
             // 
@@ -544,6 +534,16 @@
             this.label1.Text = "Versión;";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dataGridView1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1190, 564);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Inventarios";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // dataGridView1
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -565,25 +565,25 @@
             this.Text = "ReporteMensualComparativo";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.gbxCv.ResumeLayout(false);
-            this.gbxCv.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).EndInit();
-            this.gbxFacturacion.ResumeLayout(false);
-            this.gbxFacturacion.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvManuales)).EndInit();
             this.gbxComparacion.ResumeLayout(false);
             this.gbxComparacion.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
+            this.gbxFacturacion.ResumeLayout(false);
+            this.gbxFacturacion.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvManuales)).EndInit();
+            this.gbxCv.ResumeLayout(false);
+            this.gbxCv.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.gbxEncabezado.ResumeLayout(false);
             this.gbxEncabezado.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
