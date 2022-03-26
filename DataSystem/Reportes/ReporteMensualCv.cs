@@ -314,7 +314,7 @@ namespace DataSystem.Reportes
                     }).ToList();
                     lstManuales = prueba;
                     lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("Diesel"))).ToList();
+                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel")||x.nombrep.StartsWith("DIESEL"))).ToList();
                     lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
                     dgvManuales.DataSource = lstManuales;
                     tsManuales.Text = dgvManuales.RowCount.ToString("N0");
@@ -519,7 +519,7 @@ namespace DataSystem.Reportes
                     }
                     registro.DiferenciaCantidades = (registro.Cant - registro.VolumenNumerico)<0?((registro.Cant - registro.VolumenNumerico)*-1): registro.Cant - registro.VolumenNumerico;
                 }
-                LstResultados = LstResultados.Where(x=>x.Observacion!=null).ToList();
+                LstResultados = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>.01M).ToList();
               
                 dgvErrores.DataSource = LstResultados;
                 tsErrores.Text = dgvErrores.RowCount.ToString("N0");
