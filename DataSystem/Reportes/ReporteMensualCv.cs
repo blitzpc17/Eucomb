@@ -498,32 +498,196 @@ namespace DataSystem.Reportes
                 }
 
                 
-                foreach(var registro in LstResultados)
-                {
-                    string observacion = "";
-                    if (registro.Cant != registro.VolumenNumerico&&registro.CFDI!=null)
-                    {
-                        observacion += "*Las cantidades no cinciden.\r\n";
-                        registro.Existe = "<>";
-                    }                    
-
-                    if(registro.NombreCliente != registro.NombreClienteOPRoveedor && registro.CFDI != null)
-                    {
-                        observacion += "*El nombre del cliente no coincide.\r\n";
-                        registro.Existe = "<>";
-                    }
-
-                    if (!string.IsNullOrEmpty(observacion))
-                    {
-                        registro.Observacion = observacion;
-                    }
-                    registro.DiferenciaCantidades = (registro.Cant - registro.VolumenNumerico)<0?((registro.Cant - registro.VolumenNumerico)*-1): registro.Cant - registro.VolumenNumerico;
-                }
-                LstResultados = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>.01M).ToList();
-              
-                dgvErrores.DataSource = LstResultados;
-                tsErrores.Text = dgvErrores.RowCount.ToString("N0");
+                
             }
+            else
+            {
+
+                int posActual = 0;
+               // Entidades.cls.FACTURASDETALLE ObjDetalle;
+                Entidades.cls.clsControlVolumetricoMensual ObjCv;
+                foreach (var itemDet in lstManuales)
+                {
+                    ObjCv = LstControlVolumetricoMensual[posActual];
+                    //calculando diferencia en cantidades
+                    decimal diferencia = itemDet.cant - ObjCv.ValorNumerico;
+                    diferencia = diferencia < 0 ? diferencia * -1 : diferencia;
+                    if (itemDet.uuid == ObjCv.CFDI && (diferencia < 0.1M))
+                    {
+                        //se registra
+                        LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = ObjCv.RfcClienteOProveedor,
+                            NombreClienteOPRoveedor = ObjCv.NombreClienteOProveedor,
+                            CFDI = ObjCv.CFDI,
+                            FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
+                            VolumenNumerico = ObjCv.ValorNumerico,
+                            //  Existe = itemCv==null? ">":"<>",
+                            folio_Imp = itemDet.folio_imp,
+                            clavecli = itemDet.cliente,
+                            NombreCliente = itemDet.nombre,
+                            importe = itemDet.importe,
+                            serie = itemDet.serie,
+                            docto = itemDet.docto,
+                            status = itemDet.status,
+                            fecha_reg = itemDet.fec_reg,
+                            nombrep = itemDet.nombrep,
+                            Cant = itemDet.cant,
+                            precio = itemDet.precio,
+                            imported = itemDet.imported,
+                            UUID = itemDet.uuid,
+                            ComparaNombre = (ObjCv.NombreClienteOProveedor != itemDet.nombre),
+                            ComparaCfdi = (ObjCv.CFDI != itemDet.uuid),
+                            ComparaLts = (ObjCv.ValorNumerico != itemDet.cant)
+                        });
+                        posActual++;
+                    }
+                    else
+                    {
+                        if ((ObjCv.CFDI != LstControlVolumetricoMensual[posActual].CFDI))
+                        {
+                            while ((itemDet.uuid != LstControlVolumetricoMensual[posActual].CFDI))
+                            {
+                                //crea registros en blanco
+                                ObjCv = LstControlVolumetricoMensual[posActual];
+                                LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                {
+                                    RfcClienteOProveedor = ObjCv.RfcClienteOProveedor,
+                                    NombreClienteOPRoveedor = ObjCv.NombreClienteOProveedor,
+                                    CFDI = ObjCv.CFDI,
+                                    FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
+                                    VolumenNumerico = ObjCv.ValorNumerico,
+                                    folio_Imp = null,
+                                    clavecli = null,
+                                    NombreCliente = null,
+                                    importe = 0,
+                                    serie = null,
+                                    docto = null,
+                                    status = null,
+                                    fecha_reg = null,
+                                    nombrep = null,
+                                    Cant = 0,
+                                    precio = 0,
+                                    imported = 0,
+                                    UUID = null,
+                                    ComparaNombre = (ObjCv.NombreClienteOProveedor != itemDet.nombre),
+                                    ComparaCfdi = (ObjCv.CFDI != itemDet.uuid),
+                                    ComparaLts = (ObjCv.ValorNumerico != itemDet.cant),
+                                    Observacion = "*No se encuentra registro en Archivo C.V.\n"
+                                });
+                                posActual++;
+                            }
+                        }
+                        else if ((diferencia > 0.1M))
+                        {
+                            //si esta igual el cfdi entonces esta mal la cantidad
+                            //validar si hay mas renglones asociados a ese cfdi
+                            int noCfdis = lstManuales.Where(x => x.uuid == itemDet.uuid).Count();
+
+                            while (diferencia > 0.1M && noCfdis > 1)
+                            {
+                                //crea registros en blanco
+
+                                LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                {
+                                    RfcClienteOProveedor = ObjCv.RfcClienteOProveedor,
+                                    NombreClienteOPRoveedor = ObjCv.NombreClienteOProveedor,
+                                    CFDI = ObjCv.CFDI,
+                                    FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
+                                    VolumenNumerico = ObjCv.ValorNumerico,
+                                    folio_Imp = null,
+                                    clavecli = null,
+                                    NombreCliente = null,
+                                    importe = 0,
+                                    serie = null,
+                                    docto = null,
+                                    status = null,
+                                    fecha_reg = null,
+                                    nombrep = null,
+                                    Cant = 0,
+                                    precio = 0,
+                                    imported = 0,
+                                    UUID = null,
+                                    ComparaNombre = (ObjCv.NombreClienteOProveedor != itemDet.nombre),
+                                    ComparaCfdi = (ObjCv.CFDI != itemDet.uuid),
+                                    ComparaLts = (ObjCv.ValorNumerico != itemDet.cant),
+                                    Observacion = "*No se encuentra registro en Archivo C.V.\r\n"
+                                });
+
+
+                                posActual++;
+                                ObjCv = LstControlVolumetricoMensual[posActual];
+                                diferencia = itemDet.cant - ObjCv.ValorNumerico;
+                                diferencia = diferencia < 0 ? diferencia * -1 : diferencia;
+                            }
+                        }
+
+                        //agrega amos porque ya encontro
+                        ObjCv = LstControlVolumetricoMensual[posActual];
+                        LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = ObjCv.RfcClienteOProveedor,
+                            NombreClienteOPRoveedor = ObjCv.NombreClienteOProveedor,
+                            CFDI = ObjCv.CFDI,
+                            FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
+                            VolumenNumerico = ObjCv.ValorNumerico,
+                            //  Existe = itemCv == null ? ">" : "<>",
+                            folio_Imp = null,
+                            clavecli = null,
+                            NombreCliente = null,
+                            importe = 0,
+                            serie = null,
+                            docto = null,
+                            status = null,
+                            fecha_reg = null,
+                            nombrep = null,
+                            Cant = 0,
+                            precio = 0,
+                            imported = 0,
+                            UUID = null,
+                            ComparaNombre = (itemDet.nombre != ObjCv.NombreClienteOProveedor),
+                            ComparaCfdi = (itemDet.uuid != ObjCv.CFDI),
+                            ComparaLts = (itemDet.cant != ObjCv.ValorNumerico),
+
+                        });
+                        posActual++;
+
+                    }
+                }
+
+
+
+
+
+
+
+            }
+
+            foreach (var registro in LstResultados)
+            {
+                string observacion = "";
+                if (registro.Cant != registro.VolumenNumerico && registro.CFDI != null)
+                {
+                    observacion += "*Las cantidades no cinciden.\r\n";
+                    registro.Existe = "<>";
+                }
+
+                if (registro.NombreCliente != registro.NombreClienteOPRoveedor && registro.CFDI != null)
+                {
+                    observacion += "*El nombre del cliente no coincide.\r\n";
+                    registro.Existe = "<>";
+                }
+
+                if (!string.IsNullOrEmpty(observacion))
+                {
+                    registro.Observacion = observacion;
+                }
+                registro.DiferenciaCantidades = (registro.Cant - registro.VolumenNumerico) < 0 ? ((registro.Cant - registro.VolumenNumerico) * -1) : registro.Cant - registro.VolumenNumerico;
+            }
+            LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > .01M).ToList();
+
+            dgvErrores.DataSource = LstResultados;
+            tsErrores.Text = dgvErrores.RowCount.ToString("N0");
 
             MessageBox.Show("Comparacion exitosa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

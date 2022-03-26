@@ -49,7 +49,7 @@ namespace Entidades.cls
         public String status { get; set; }
 
         [ExportCustom("fecha_reg", 14)]
-        public DateTime fecha_reg { get; set; }
+        public DateTime? fecha_reg { get; set; }
 
         [ExportCustom("nombrep", 15)]
         public String nombrep { get; set; }
