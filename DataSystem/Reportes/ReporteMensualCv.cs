@@ -330,7 +330,8 @@ namespace DataSystem.Reportes
 
         private void btnComparar_Click(object sender, EventArgs e)
         {
-            UnirListados();           
+            //UnirListados();
+            ComparacionArchivos();
         }
         
         public void UnirListados()
@@ -386,38 +387,46 @@ namespace DataSystem.Reportes
                     {
                         if((itemCv.CFDI != lstManuales[posActual].uuid))
                         {
-                            while ((itemCv.CFDI != lstManuales[posActual].uuid))
+                            //ver si existe en el otro listdo                           
+                            int elementosRestantes = lstManuales.Count - posActual;
+                            var lstprueba = lstManuales.GetRange(posActual, elementosRestantes).ToList();
+                            bool existeEnManuales = lstManuales.GetRange(posActual, elementosRestantes).Any(x=>x.uuid==itemCv.CFDI);
+
+                            if (existeEnManuales)
                             {
-                                //crea registros en blanco
-                                ObjDetalle = lstManuales[posActual];
-                                LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                while ((itemCv.CFDI != lstManuales[posActual].uuid))
                                 {
-                                    RfcClienteOProveedor = null,
-                                    NombreClienteOPRoveedor = null,
-                                    CFDI = null,
-                                    FechaYHoraTransaccion = null,
-                                    VolumenNumerico = 0,
-                                    Existe = ">",
-                                    folio_Imp = ObjDetalle.folio_imp,
-                                    clavecli = ObjDetalle.cliente,
-                                    NombreCliente = ObjDetalle.nombre,
-                                    importe = ObjDetalle.importe,
-                                    serie = ObjDetalle.serie,
-                                    docto = ObjDetalle.docto,
-                                    status = ObjDetalle.status,
-                                    fecha_reg = ObjDetalle.fec_reg,
-                                    nombrep = ObjDetalle.nombrep,
-                                    Cant = ObjDetalle.cant,
-                                    precio = ObjDetalle.precio,
-                                    imported = ObjDetalle.imported,
-                                    UUID = ObjDetalle.uuid,
-                                    ComparaNombre = (itemCv.NombreClienteOProveedor != ObjDetalle.nombre),
-                                    ComparaCfdi = (itemCv.CFDI != ObjDetalle.uuid),
-                                    ComparaLts = (itemCv.ValorNumerico != ObjDetalle.cant),
-                                    Observacion = "*No se encuentra registro en Archivo C.V.\n"
-                                });
-                                posActual++;
-                            }
+                                    //crea registros en blanco
+                                    ObjDetalle = lstManuales[posActual];
+                                    LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                                    {
+                                        RfcClienteOProveedor = null,
+                                        NombreClienteOPRoveedor = null,
+                                        CFDI = null,
+                                        FechaYHoraTransaccion = null,
+                                        VolumenNumerico = 0,
+                                        Existe = ">",
+                                        folio_Imp = ObjDetalle.folio_imp,
+                                        clavecli = ObjDetalle.cliente,
+                                        NombreCliente = ObjDetalle.nombre,
+                                        importe = ObjDetalle.importe,
+                                        serie = ObjDetalle.serie,
+                                        docto = ObjDetalle.docto,
+                                        status = ObjDetalle.status,
+                                        fecha_reg = ObjDetalle.fec_reg,
+                                        nombrep = ObjDetalle.nombrep,
+                                        Cant = ObjDetalle.cant,
+                                        precio = ObjDetalle.precio,
+                                        imported = ObjDetalle.imported,
+                                        UUID = ObjDetalle.uuid,
+                                        ComparaNombre = (itemCv.NombreClienteOProveedor != ObjDetalle.nombre),
+                                        ComparaCfdi = (itemCv.CFDI != ObjDetalle.uuid),
+                                        ComparaLts = (itemCv.ValorNumerico != ObjDetalle.cant),
+                                        Observacion = "*No se encuentra registro en Archivo C.V.\n"
+                                    });
+                                    posActual++;
+                                }
+                            }                           
                         }
                         else if((diferencia > 0.1M))
                         {
@@ -473,7 +482,6 @@ namespace DataSystem.Reportes
                             CFDI = null,
                             FechaYHoraTransaccion = null,
                             VolumenNumerico = 0,
-                          //  Existe = itemCv == null ? ">" : "<>",
                             folio_Imp = ObjDetalle.folio_imp,
                             clavecli = ObjDetalle.cliente,
                             NombreCliente = ObjDetalle.nombre,
@@ -751,5 +759,377 @@ namespace DataSystem.Reportes
             
             
         }
+
+        private void ComparacionArchivos()
+        {
+            if (lstManuales == null || LstControlVolumetricoMensual == null)
+            {
+                MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+            List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensualAux = LstControlVolumetricoMensual;
+            List<Entidades.cls.FACTURASDETALLE> lstManualesAux = lstManuales;
+
+            Entidades.cls.clsResultadosMensual ObjResultado;
+
+            var lstUUIDsManuales = lstManualesAux.Select(x => x.uuid).Distinct().ToList();
+            var lstCFDICv = LstControlVolumetricoMensualAux.Select(x => x.CFDI).Distinct().ToList();
+
+            var lstUnionListas =
+            lstUUIDsManuales.Intersect(lstCFDICv).ToList();
+
+            var lstNoexisten = lstUUIDsManuales.Except(lstUnionListas).ToList();
+            lstNoexisten.AddRange(lstCFDICv.Except(lstUnionListas).ToList());
+
+
+            //excuir en las listas principales
+            lstManualesAux = (
+                    from m in lstManuales
+                    where !lstNoexisten.Contains(m.uuid)
+                    select m).ToList();
+
+            //reordenar listas
+            LstControlVolumetricoMensualAux = (
+                from cv in LstControlVolumetricoMensual
+                where !lstNoexisten.Contains(cv.CFDI)
+                select cv).ToList();
+
+
+
+            foreach (var itemE in lstUnionListas)
+            {
+                var lstCoincidenciasManuales = lstManualesAux.Where(x => x.uuid == itemE).ToList();
+                var lstCvCoincidencias = LstControlVolumetricoMensualAux.Where(x => x.CFDI == itemE).ToList();
+
+                lstCoincidenciasManuales = lstCoincidenciasManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
+                lstCvCoincidencias = lstCvCoincidencias.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x => x.ValorNumerico).ToList();
+
+                if (lstCoincidenciasManuales.Count == lstCvCoincidencias.Count)
+                {
+                    for (int i = 0; i < lstCoincidenciasManuales.Count; i++)
+                    {
+                        Entidades.cls.clsControlVolumetricoMensual ObjCv;
+                        Entidades.cls.FACTURASDETALLE ObjDet;
+
+                        ObjCv = lstCvCoincidencias[i];
+                        ObjDet = lstCoincidenciasManuales[i];
+                        decimal diferencia = decimal.Round(ObjDet.cant, 2) - ObjCv.ValorNumerico;
+                        diferencia = diferencia < 0 ? (diferencia * -1):diferencia;
+                        
+                        ObjResultado = new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = ObjCv.RfcClienteOProveedor,
+                            NombreClienteOPRoveedor = ObjCv.NombreClienteOProveedor,
+                            CFDI = ObjCv.CFDI,
+                            FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
+                            VolumenNumerico = ObjCv.ValorNumerico,
+                            Existe = diferencia > 0? "<>":null,
+                            folio_Imp = ObjDet.uuid,
+                            clavecli = ObjDet.cliente,
+                            NombreCliente = ObjDet.nombre,
+                            importe = ObjDet.importe,
+                            serie = ObjDet.serie,
+                            docto = ObjDet.docto,
+                            status = ObjDet.status,
+                            fecha_reg = ObjDet.fec_reg,
+                            nombrep = ObjDet.nombrep,
+                            Cant = decimal.Round(ObjDet.cant, 2),
+                            precio = ObjDet.precio,
+                            imported = ObjDet.imported,
+                            UUID = ObjDet.uuid,
+                            ComparaNombre = ObjCv.NombreClienteOProveedor == ObjDet.nombre? true:false,
+                            ComparaCfdi = ObjCv.CFDI == ObjDet.uuid? true:false,
+                            ComparaLts = diferencia>0?false:true,
+                            Observacion = diferencia>0? "Las cantidades no cinciden.\r\n":null
+                        };
+                        LstResultados.Add(ObjResultado);
+
+                    }
+                }
+                else
+                {
+                    if (lstCoincidenciasManuales.Count > lstCvCoincidencias.Count)
+                    {
+                        int indexInicioMan = 0;
+                        int indexInicioManAux = 0;
+                        Entidades.cls.FACTURASDETALLE ObjMan;
+                        foreach (var objCv in lstCvCoincidencias)
+                        {
+                            decimal diferencia = 0;
+                            if(indexInicioMan < lstCoincidenciasManuales.Count)
+                            {
+                                indexInicioManAux = indexInicioMan;
+                            }
+                            else
+                            {
+                                indexInicioMan = indexInicioManAux;
+                            }
+                            
+                            while (indexInicioMan < lstCoincidenciasManuales.Count)
+                            {
+                                ObjMan = lstCoincidenciasManuales[(indexInicioMan)];
+                                diferencia = decimal.Round(ObjMan.cant,2) - objCv.ValorNumerico;
+                                if (diferencia < 0.10M)
+                                {
+                                    //registro normal
+                                    ObjResultado = new Entidades.cls.clsResultadosMensual
+                                    {
+                                        RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                                        NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
+                                        CFDI = objCv.CFDI,
+                                        FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                                        VolumenNumerico = objCv.ValorNumerico,
+                                        Existe = diferencia > 0 ? "<>" : null,
+                                        folio_Imp = ObjMan.uuid,
+                                        clavecli = ObjMan.cliente,
+                                        NombreCliente = ObjMan.nombre,
+                                        importe = ObjMan.importe,
+                                        serie = ObjMan.serie,
+                                        docto = ObjMan.docto,
+                                        status = ObjMan.status,
+                                        fecha_reg = ObjMan.fec_reg,
+                                        nombrep = ObjMan.nombrep,
+                                        Cant = decimal.Round(ObjMan.cant, 2),
+                                        precio = ObjMan.precio,
+                                        imported = ObjMan.imported,
+                                        UUID = ObjMan.uuid,
+                                        ComparaNombre = ObjMan.nombre == objCv.NombreClienteOProveedor ? true : false,
+                                        ComparaCfdi = ObjMan.uuid == objCv.CFDI ? true : false,
+                                        ComparaLts = diferencia > 0 ? false : true,
+                                        Observacion = diferencia > 0 ? "Las cantidades no cinciden.\r\n" : null
+                                    };
+                                    LstResultados.Add(ObjResultado);
+                                    indexInicioMan++;                                    
+                                    break;
+                                }
+                                else
+                                {
+                                    // se sigue  poque no encuentra similitud                                    
+                                    indexInicioMan++;
+                                }
+                            }
+                            if (indexInicioMan >= lstCoincidenciasManuales.Count)
+                            {
+                                ObjResultado = new Entidades.cls.clsResultadosMensual
+                                {
+                                    RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                                    NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
+                                    CFDI = objCv.CFDI,
+                                    FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                                    VolumenNumerico = objCv.ValorNumerico,
+                                    Existe = "<",
+                                    folio_Imp = null,
+                                    clavecli = null,
+                                    NombreCliente = null,
+                                    importe = 0,
+                                    serie = null,
+                                    docto = null,
+                                    status = null,
+                                    fecha_reg = null,
+                                    nombrep = null,
+                                    Cant = 0,
+                                    precio = 0,
+                                    imported = 0,
+                                    UUID = null,
+                                    ComparaNombre = false,
+                                    ComparaCfdi = false,
+                                    ComparaLts = false,
+                                    Observacion = "No Existe en Archivo"
+                                };
+                                LstResultados.Add(ObjResultado);
+                                //registras como que solo estan en cv
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int indexInicioMan = 0;
+                        int indexInicioManAux = 0;
+                        Entidades.cls.clsControlVolumetricoMensual objCv;
+                        foreach (var objMan in lstCoincidenciasManuales)
+                        {
+                            decimal diferencia = 0;
+                            if (indexInicioMan < lstCvCoincidencias.Count)
+                            {
+                                indexInicioManAux = indexInicioMan;
+                            }
+                            else
+                            {
+                                indexInicioMan = indexInicioManAux;
+                            }
+
+                            while (indexInicioMan < lstCvCoincidencias.Count)
+                            {
+                                objCv = lstCvCoincidencias[(indexInicioMan)];
+                                diferencia = decimal.Round(objCv.ValorNumerico, 2) - objMan.cant;
+                                if (diferencia < 0.10M)
+                                {
+                                    //registro normal
+                                    ObjResultado = new Entidades.cls.clsResultadosMensual
+                                    {
+                                        RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                                        NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
+                                        CFDI = objCv.CFDI,
+                                        FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                                        VolumenNumerico = objCv.ValorNumerico,
+                                        Existe = diferencia > 0 ? "<>" : null,
+                                        folio_Imp = objMan.uuid,
+                                        clavecli = objMan.cliente,
+                                        NombreCliente = objMan.nombre,
+                                        importe = objMan.importe,
+                                        serie = objMan.serie,
+                                        docto = objMan.docto,
+                                        status = objMan.status,
+                                        fecha_reg = objMan.fec_reg,
+                                        nombrep = objMan.nombrep,
+                                        Cant = decimal.Round(objMan.cant, 2),
+                                        precio = objMan.precio,
+                                        imported = objMan.imported,
+                                        UUID = objMan.uuid,
+                                        ComparaNombre = objMan.nombre == objCv.NombreClienteOProveedor ? true : false,
+                                        ComparaCfdi = objMan.uuid == objCv.CFDI ? true : false,
+                                        ComparaLts = diferencia > 0 ? false : true,
+                                        Observacion = diferencia > 0 ? "Las cantidades no cinciden.\r\n" : null
+                                    };
+                                    LstResultados.Add(ObjResultado);
+                                    indexInicioMan++;
+                                    break;
+                                }
+                                else
+                                {
+                                    // se sigue  poque no encuentra similitud                                    
+                                    indexInicioMan++;
+                                }
+                            }
+                            if (indexInicioMan >= lstCvCoincidencias.Count)
+                            {
+                                ObjResultado = new Entidades.cls.clsResultadosMensual
+                                {
+                                    RfcClienteOProveedor = null,
+                                    NombreClienteOPRoveedor = null,
+                                    CFDI = null,
+                                    FechaYHoraTransaccion =null,
+                                    VolumenNumerico = 0,
+                                    Existe = ">",
+                                    folio_Imp = objMan.folio_imp,
+                                    clavecli = objMan.cliente,
+                                    NombreCliente = objMan.nombre,
+                                    importe = objMan.importe,
+                                    serie = objMan.serie,
+                                    docto = objMan.docto,
+                                    status = objMan.status,
+                                    fecha_reg = objMan.fec_reg,
+                                    nombrep = objMan.nombrep,
+                                    Cant = objMan.cant,
+                                    precio = objMan.precio,
+                                    imported = objMan.precio,
+                                    UUID = objMan.uuid,
+                                    ComparaNombre = false,
+                                    ComparaCfdi = false,
+                                    ComparaLts = false,
+                                    Observacion = "No Existe en C.V"
+                                };
+                                LstResultados.Add(ObjResultado);
+                                //registras como que solo estan en cv
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+            //registrar no existentes
+
+            foreach(var itemNoExiste in lstNoexisten)
+            {
+                if (lstManuales.Any(x=>x.uuid ==itemNoExiste))
+                {
+                    var lstNoMan = lstManuales.Where(x => x.uuid == itemNoExiste).ToList();
+                    foreach (var itemMan in lstNoMan)
+                    {
+                        ObjResultado = new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = null,
+                            NombreClienteOPRoveedor = null,
+                            CFDI = null,
+                            FechaYHoraTransaccion = null,
+                            VolumenNumerico = 0,
+                            Existe = ">",
+                            folio_Imp = itemMan.uuid,
+                            clavecli = itemMan.cliente,
+                            NombreCliente = itemMan.nombre,
+                            importe = itemMan.importe,
+                            serie = itemMan.serie,
+                            docto = itemMan.docto,
+                            status = itemMan.status,
+                            fecha_reg = itemMan.fec_reg,
+                            nombrep = itemMan.nombrep,
+                            Cant = decimal.Round(itemMan.cant, 2),
+                            precio = itemMan.precio,
+                            imported = itemMan.imported,
+                            UUID = itemMan.uuid,
+                            ComparaNombre = false,
+                            ComparaCfdi = false,
+                            ComparaLts = false,
+                            Observacion = "No Existe en C.V."
+                        };
+                        LstResultados.Add(ObjResultado);
+                    }
+                }
+                else
+                {
+                    var lstNoCv = LstControlVolumetricoMensual.Where(x => x.CFDI == itemNoExiste).ToList();
+                    foreach (var itemCv in lstNoCv)
+                    {
+                        ObjResultado = new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = itemCv.RfcClienteOProveedor,
+                            NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
+                            CFDI = itemCv.CFDI,
+                            FechaYHoraTransaccion = itemCv.FechaYHoraTransaccion,
+                            VolumenNumerico = itemCv.ValorNumerico,
+                            Existe = "<",
+                            folio_Imp = null,
+                            clavecli = null,
+                            NombreCliente = null,
+                            importe = 0,
+                            serie = null,
+                            docto = null,
+                            status = null,
+                            fecha_reg = null,
+                            nombrep = null,
+                            Cant = 0,
+                            precio = 0,
+                            imported = 0,
+                            UUID = null,
+                            ComparaNombre = false,
+                            ComparaCfdi = false,
+                            ComparaLts = false,
+                            Observacion = "No Existe en Archivo"
+                        };
+                        LstResultados.Add(ObjResultado);
+                    }
+                }
+                //registrar de lado de los cv
+               
+            }
+
+            foreach(var res in LstResultados)
+            {
+                decimal diferencia = decimal.Round(res.Cant, 2) - res.VolumenNumerico;
+                diferencia = diferencia < 0 ? (diferencia * -1) : diferencia;
+                res.DiferenciaCantidades = diferencia;
+            }
+
+
+            dgvErrores.DataSource = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>0.1M).ToList();
+            tsErrores.Text =  dgvErrores.RowCount.ToString("N0");
+
+
+        }
+
+
     }
 }
