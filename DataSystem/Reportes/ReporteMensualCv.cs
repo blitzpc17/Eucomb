@@ -1124,7 +1124,7 @@ namespace DataSystem.Reportes
             }
 
 
-            dgvErrores.DataSource = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>0.1M).ToList();
+            dgvErrores.DataSource = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>0.01M).ToList();
             tsErrores.Text =  dgvErrores.RowCount.ToString("N0");
 
 
