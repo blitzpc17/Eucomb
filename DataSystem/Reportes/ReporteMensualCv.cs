@@ -162,38 +162,41 @@ namespace DataSystem.Reportes
                 };
                 LstProductos.Add(objGasolina);
                 var Complemento = RECEPCIONES.ChildNodes[4];
-                objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento = new Entidades.XMLMensual.Complemento();
-
-                objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio = new Entidades.XMLMensual.Complemento_Expendio();
-                objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL = new List<Entidades.XMLMensual.NACIONAL>();
-
-
-                foreach (XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
+                if (Complemento.ChildNodes.Count > 0)
                 {
-                    Entidades.XMLMensual.NACIONAL objNac = new Entidades.XMLMensual.NACIONAL
-                    {
-                        RfcClienteOProveedor = nac.ChildNodes[0].InnerText,
-                        NombreClienteOProveedor = nac.ChildNodes[1].InnerText,
-                    };
-                    var nodeCFDI = nac.ChildNodes[2];
-                    objNac.CFDIs = new Entidades.XMLMensual.Cfdis
-                    {
-                        CFDI = nodeCFDI.ChildNodes[0].InnerText,
-                        TipoCFDI = nodeCFDI.ChildNodes[1].InnerText,
-                        PrecioCompra = decimal.Parse(nodeCFDI.ChildNodes[2].InnerText),
-                        PrecioDeVentaAlPublico = decimal.Parse(nodeCFDI.ChildNodes[3].InnerText),
-                        PrecioVenta = decimal.Parse(nodeCFDI.ChildNodes[4].InnerText),
-                        FechaYHoraTransaccion = DateTime.Parse(nodeCFDI.ChildNodes[5].InnerText),
-                    };
-                    var nodoValorNumerico = nodeCFDI.ChildNodes[6];
-                    objNac.CFDIs.VolumenDocumentado = new Entidades.XMLMensual.VolumenDocumentado
-                    {
-                        ValorNumerico = decimal.Parse(nodoValorNumerico.ChildNodes[0].InnerText),
-                        UM = nodoValorNumerico.ChildNodes[1].InnerText
-                    };
-                    objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL.Add(objNac);
+                    objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento = new Entidades.XMLMensual.Complemento();
 
-                }
+                    objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio = new Entidades.XMLMensual.Complemento_Expendio();
+                    objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL = new List<Entidades.XMLMensual.NACIONAL>();
+
+
+                    foreach (XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
+                    {
+                        Entidades.XMLMensual.NACIONAL objNac = new Entidades.XMLMensual.NACIONAL
+                        {
+                            RfcClienteOProveedor = nac.ChildNodes[0].InnerText,
+                            NombreClienteOProveedor = nac.ChildNodes[1].InnerText,
+                        };
+                        var nodeCFDI = nac.ChildNodes[2];
+                        objNac.CFDIs = new Entidades.XMLMensual.Cfdis
+                        {
+                            CFDI = nodeCFDI.ChildNodes[0].InnerText,
+                            TipoCFDI = nodeCFDI.ChildNodes[1].InnerText,
+                            PrecioCompra = decimal.Parse(nodeCFDI.ChildNodes[2].InnerText),
+                            PrecioDeVentaAlPublico = decimal.Parse(nodeCFDI.ChildNodes[3].InnerText),
+                            PrecioVenta = decimal.Parse(nodeCFDI.ChildNodes[4].InnerText),
+                            FechaYHoraTransaccion = DateTime.Parse(nodeCFDI.ChildNodes[5].InnerText),
+                        };
+                        var nodoValorNumerico = nodeCFDI.ChildNodes[6];
+                        objNac.CFDIs.VolumenDocumentado = new Entidades.XMLMensual.VolumenDocumentado
+                        {
+                            ValorNumerico = decimal.Parse(nodoValorNumerico.ChildNodes[0].InnerText),
+                            UM = nodoValorNumerico.ChildNodes[1].InnerText
+                        };
+                        objProducto.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL.Add(objNac);
+
+                    }
+                }                
 
                 var ENTREGAS = nodeREPORTEVOLUMENMENSUAL.ChildNodes[2];
                 objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS = new Entidades.XMLMensual.ENTREGAS
