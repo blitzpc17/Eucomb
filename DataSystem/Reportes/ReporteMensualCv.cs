@@ -24,7 +24,7 @@ namespace DataSystem.Reportes
             InitializeComponent();
         }
 
-        private void btnCargarArchivo_Click(object sender, EventArgs e)
+        private void CargarArchivo()
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -32,10 +32,11 @@ namespace DataSystem.Reportes
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string rutaDoc = openFileDialog.FileName;
-                txtArchivoCargado.Text = openFileDialog.SafeFileName;
+                string nombreArchivo = openFileDialog.SafeFileName;
+                String[]arrNombreArchivo = nombreArchivo.Split('.');
                 if (!string.IsNullOrEmpty(rutaDoc))
                 {
-                    if (rbJson.Checked)
+                    if (arrNombreArchivo[1].ToUpper()=="JSON")
                     {
                         LeerJson(rutaDoc);
                     }
@@ -276,7 +277,9 @@ namespace DataSystem.Reportes
             txtCaracter.Text = obj.Caracter.TipoCaracter;
             txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
             txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
-            dgvDatosGasolinas.DataSource = LstProductos;
+           // dgvDatosGasolinas.DataSource = LstProductos;
+
+            
 
         }
 
@@ -757,6 +760,45 @@ namespace DataSystem.Reportes
                             ((ToolStrip)gctrl).Items[1].Text = 0.ToString("N0");
                         }
                     }
+                }else if(cont is TabControl)
+                {
+                    foreach(var tabPage in ((TabControl)cont).TabPages)
+                    {
+                        foreach (var gctrl in ((TabPage)tabPage).Controls)
+                        {
+                            if (gctrl is GroupBox)
+                            {
+                                foreach (var tgctrl in ((GroupBox)gctrl).Controls)
+                                {
+                                    if (tgctrl is TextBox)
+                                    {
+                                        ((TextBox)tgctrl).Clear();
+                                    }
+                                    else if (tgctrl is DataGridView)
+                                    {
+                                        ((DataGridView)tgctrl).DataSource = null;
+                                    }
+                                    else if (tgctrl is ToolStrip)
+                                    {
+                                        ((ToolStrip)tgctrl).Items[1].Text = 0.ToString("N0");
+                                    }
+                                }
+                            }
+                            else if (gctrl is TextBox)
+                            {
+                                ((TextBox)gctrl).Clear();
+                            }
+                            else if (gctrl is DataGridView)
+                            {
+                                ((DataGridView)gctrl).DataSource = null;
+                            }
+                            else if (gctrl is ToolStrip)
+                            {
+                                ((ToolStrip)gctrl).Items[1].Text = 0.ToString("N0");
+                            }
+                        }
+                    }
+                   
                 }
             }
             
@@ -1126,13 +1168,16 @@ namespace DataSystem.Reportes
                 res.DiferenciaCantidades = diferencia;
             }
 
-
-            dgvErrores.DataSource = LstResultados.Where(x=>x.Observacion!=null&&x.DiferenciaCantidades>0.01M).ToList();
+            LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.01M).ToList();
+            dgvErrores.DataSource = LstResultados;
             tsErrores.Text =  dgvErrores.RowCount.ToString("N0");
 
 
         }
 
-
+        private void btnXmlJson_Click(object sender, EventArgs e)
+        {
+            CargarArchivo();
+        }
     }
 }

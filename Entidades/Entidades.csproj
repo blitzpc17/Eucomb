@@ -70,7 +70,9 @@
     <Compile Include="Cfdis.cs" />
     <Compile Include="clsReporte.cs" />
     <Compile Include="cls\clsControlVolumetricoMensual.cs" />
+    <Compile Include="cls\clsEncabezadoInventario.cs" />
     <Compile Include="cls\clsGasolinasInfo.cs" />
+    <Compile Include="cls\clsPartidasInventario.cs" />
     <Compile Include="cls\clsResultadosMensual.cs" />
     <Compile Include="cls\FACTURASDETALLE.cs" />
     <Compile Include="Complemento.cs" />
