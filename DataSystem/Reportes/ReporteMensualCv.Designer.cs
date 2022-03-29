@@ -69,8 +69,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btnXmlJson = new System.Windows.Forms.Button();
             this.panelInventarios = new System.Windows.Forms.Panel();
+            this.btnXmlJson = new System.Windows.Forms.Button();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -93,7 +93,7 @@
             this.gbxCv.Controls.Add(this.dgvRegistrosDiario);
             this.gbxCv.Location = new System.Drawing.Point(9, 110);
             this.gbxCv.Name = "gbxCv";
-            this.gbxCv.Size = new System.Drawing.Size(343, 433);
+            this.gbxCv.Size = new System.Drawing.Size(343, 436);
             this.gbxCv.TabIndex = 3;
             this.gbxCv.TabStop = false;
             this.gbxCv.Text = "Contenido Control Volumetrico";
@@ -104,7 +104,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tsTotalRegistros});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 405);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 408);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(337, 25);
             this.toolStrip1.TabIndex = 1;
@@ -135,7 +135,7 @@
             this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
             this.dgvRegistrosDiario.ReadOnly = true;
             this.dgvRegistrosDiario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 382);
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 385);
             this.dgvRegistrosDiario.TabIndex = 0;
             // 
             // txtSucursal
@@ -384,7 +384,7 @@
             this.gbxComparacion.Controls.Add(this.dgvErrores);
             this.gbxComparacion.Location = new System.Drawing.Point(779, 110);
             this.gbxComparacion.Name = "gbxComparacion";
-            this.gbxComparacion.Size = new System.Drawing.Size(343, 439);
+            this.gbxComparacion.Size = new System.Drawing.Size(343, 436);
             this.gbxComparacion.TabIndex = 7;
             this.gbxComparacion.TabStop = false;
             this.gbxComparacion.Text = "Resultado Comparación";
@@ -395,7 +395,7 @@
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel4,
             this.tsErrores});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 411);
+            this.toolStrip3.Location = new System.Drawing.Point(3, 408);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(337, 25);
             this.toolStrip3.TabIndex = 1;
@@ -426,7 +426,7 @@
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.ReadOnly = true;
             this.dgvErrores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvErrores.Size = new System.Drawing.Size(330, 388);
+            this.dgvErrores.Size = new System.Drawing.Size(330, 385);
             this.dgvErrores.TabIndex = 0;
             // 
             // btnExportar
@@ -506,6 +506,15 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Inventarios";
             // 
+            // panelInventarios
+            // 
+            this.panelInventarios.AutoScroll = true;
+            this.panelInventarios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInventarios.Location = new System.Drawing.Point(3, 3);
+            this.panelInventarios.Name = "panelInventarios";
+            this.panelInventarios.Size = new System.Drawing.Size(1131, 549);
+            this.panelInventarios.TabIndex = 0;
+            // 
             // btnXmlJson
             // 
             this.btnXmlJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -516,15 +525,6 @@
             this.btnXmlJson.Text = "Importar XML/JSON";
             this.btnXmlJson.UseVisualStyleBackColor = true;
             this.btnXmlJson.Click += new System.EventHandler(this.btnXmlJson_Click);
-            // 
-            // panelInventarios
-            // 
-            this.panelInventarios.AutoScroll = true;
-            this.panelInventarios.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelInventarios.Location = new System.Drawing.Point(3, 3);
-            this.panelInventarios.Name = "panelInventarios";
-            this.panelInventarios.Size = new System.Drawing.Size(1131, 549);
-            this.panelInventarios.TabIndex = 0;
             // 
             // ReporteMensualCv
             // 

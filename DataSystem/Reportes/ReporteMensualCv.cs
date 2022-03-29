@@ -277,7 +277,9 @@ namespace DataSystem.Reportes
             txtCaracter.Text = obj.Caracter.TipoCaracter;
             txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
             txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
-            // dgvDatosGasolinas.DataSource = LstProductos;
+
+            limpiarPanelInventarios();
+
             int posicionDgvInventariosY = 0;
             foreach(var pro in obj.PRODUCTO.OrderByDescending(x=>x.ClaveProducto).ToList())
             {
@@ -323,11 +325,11 @@ namespace DataSystem.Reportes
                     numeral++;
                 }
 
-                decimal diferenciaEntregadoRecepcion = pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico - pro.REPORTEDEVOLUMENMENSUAL.ENTREGAS.SumaVolumenEntregado.ValorNumerico;
+                decimal diferenciaEntregadoRecepcion = pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico - sumaRecepciones;
                 dgvPartidas.Rows.Add(null,null,null,null, null,null, "TOTAL:",sumaRecepciones);
                 dgvPartidas.Rows.Add(null, null, null, "VENTA LTS. POR MES:", pro.REPORTEDEVOLUMENMENSUAL.ENTREGAS.SumaVolumenEntregado.ValorNumerico, null, null, null);
                 dgvPartidas.Rows.Add(null, null, null, "DIF- FACT. VS PIPAS:", diferenciaEntregadoRecepcion, null, null,null);
-
+                dgvPartidas.Rows.Add(null, null, null, "LA FACTURA TRAE", diferenciaEntregadoRecepcion >= 0 ? " MENOS" : " MAS");
                 posicionDgvInventariosY = dgvPartidas.Location.Y + dgvPartidas.Size.Height + 15;
                 
             }
@@ -1245,7 +1247,29 @@ namespace DataSystem.Reportes
         private void btnXmlJson_Click(object sender, EventArgs e)
         {            
             CargarArchivo();
+        }
 
+        private void limpiarPanelInventarios()
+        {
+            foreach (var cont in this.Controls)
+            {
+                
+                if (cont is TabControl)
+                {
+                    foreach (var tabPage in ((TabControl)cont).TabPages)
+                    {
+                        foreach (var gctrl in ((TabPage)tabPage).Controls)
+                        {
+                            
+                            if (gctrl is Panel)
+                            {
+                                ((Panel)gctrl).Controls.Clear();
+                            }                           
+                        }
+                    }
+
+                }
+            }
         }
     }
 }
