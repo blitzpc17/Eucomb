@@ -337,16 +337,8 @@ namespace DataSystem.Reportes
         }
 
         private void btnImportarLayout_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Se perderá la información ingresada. ¿Deseas continuar?", "Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                LimpiarControlesFormulario();
-                lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
-                LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
-                LstResultados = new List<Entidades.cls.clsResultadosMensual>();
-                ImportarExcel();
-            }
-            
+        {            
+            ImportarExcel();
         }
 
         private void ImportarExcel()
@@ -1251,16 +1243,9 @@ namespace DataSystem.Reportes
         }
 
         private void btnXmlJson_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Se perderá la información ingresada. ¿Deseas continuar?", "Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                LimpiarControlesFormulario();
-                lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
-                LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
-                LstResultados = new List<Entidades.cls.clsResultadosMensual>();
-                CargarArchivo();
-            }
-            
+        {            
+            CargarArchivo();
+
         }
     }
 }
