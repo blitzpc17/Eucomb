@@ -277,15 +277,76 @@ namespace DataSystem.Reportes
             txtCaracter.Text = obj.Caracter.TipoCaracter;
             txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
             txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
-           // dgvDatosGasolinas.DataSource = LstProductos;
+            // dgvDatosGasolinas.DataSource = LstProductos;
+            int posicionDgvInventariosY = 0;
+            foreach(var pro in obj.PRODUCTO.OrderByDescending(x=>x.ClaveProducto).ToList())
+            {
+                
+                DataGridView dgvEncabezadoInventario = new DataGridView(); 
 
+                dgvEncabezadoInventario.Columns.Add("Texto","");
+                dgvEncabezadoInventario.Columns.Add("Valor", "");
+                dgvEncabezadoInventario.Name = "dgvEncabezado"+pro.ClaveProducto;
+                dgvEncabezadoInventario.Rows.Add("Producto:",pro.ClaveSubProducto+" "+pro.MarcaComercial);
+                dgvEncabezadoInventario.Rows.Add("INVENTARIO EN TANQUE AL FINALIZAR EL MES:", pro.REPORTEDEVOLUMENMENSUAL.CONTROLDEEXISTENCIAS.VolumenExistenciasMes.ValorNumerico);
+                dgvEncabezadoInventario.Rows.Add("NÚMERO DE VECES QUE ENTRO PRODUCTO AL TANQUE:", pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.TotalRecepcionesMes);
+                dgvEncabezadoInventario.Rows.Add("TOTAL DE LITROS QUE MUESTRA LA FACTURA:", pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico);
+                panelInventarios.Controls.Add(dgvEncabezadoInventario);                
+                dgvEncabezadoInventario.Location = new System.Drawing.Point(10, posicionDgvInventariosY+30);
+                dgvEncabezadoInventario.Width = 1107;
+                posicionDgvInventariosY = dgvEncabezadoInventario.Location.Y+dgvEncabezadoInventario.Size.Height+15;
+                dgvEncabezadoInventario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right|System.Windows.Forms.AnchorStyles.Top)))));
+                dgvEncabezadoInventario.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                DataGridView dgvPartidas = new DataGridView();
+                dgvPartidas.Columns.Add("numero", "No.");
+                dgvPartidas.Columns.Add("nombreCliente", "Nombre Cliente Proveedor");
+                dgvPartidas.Columns.Add("rfcCliente", "Rfc Cliente Proveedor");
+                dgvPartidas.Columns.Add("cfdi", "CFDI");
+                dgvPartidas.Columns.Add("fechaHora", "Fecha y Hora");
+                dgvPartidas.Columns.Add("precioCompra", "Precio Compra");
+                dgvPartidas.Columns.Add("precioVenta", "Precio Venta Púb.");
+                dgvPartidas.Columns.Add("valorNumerico", "ValorNumerico");
+
+                panelInventarios.Controls.Add(dgvPartidas);
+                dgvPartidas.Location = new System.Drawing.Point(10, posicionDgvInventariosY + 30);
+                dgvPartidas.Width = 1107;               
+                dgvPartidas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Top)))));
+                dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                //foreach partidas
+                int numeral = 1;
+                decimal sumaRecepciones = 0;
+                foreach(var part in pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL)
+                {
+                    dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico,part.CFDIs.VolumenDocumentado.ValorNumerico);
+                    sumaRecepciones += part.CFDIs.VolumenDocumentado.ValorNumerico;
+                    numeral++;
+                }
+
+                decimal diferenciaEntregadoRecepcion = pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico - pro.REPORTEDEVOLUMENMENSUAL.ENTREGAS.SumaVolumenEntregado.ValorNumerico;
+                dgvPartidas.Rows.Add(null,null,null,null, null,null, "TOTAL:",sumaRecepciones);
+                dgvPartidas.Rows.Add(null, null, null, "VENTA LTS. POR MES:", pro.REPORTEDEVOLUMENMENSUAL.ENTREGAS.SumaVolumenEntregado.ValorNumerico, null, null, null);
+                dgvPartidas.Rows.Add(null, null, null, "DIF- FACT. VS PIPAS:", diferenciaEntregadoRecepcion, null, null,null);
+
+                posicionDgvInventariosY = dgvPartidas.Location.Y + dgvPartidas.Size.Height + 15;
+                
+            }
+            
             
 
         }
 
         private void btnImportarLayout_Click(object sender, EventArgs e)
         {
-            ImportarExcel();
+            if (MessageBox.Show("Se perderá la información ingresada. ¿Deseas continuar?", "Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                LimpiarControlesFormulario();
+                lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
+                LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
+                LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+                ImportarExcel();
+            }
+            
         }
 
         private void ImportarExcel()
@@ -296,6 +357,11 @@ namespace DataSystem.Reportes
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string[] nombreArchivo = dlg.SafeFileName.Split('.');
+                    if (nombreArchivo[1] != "xlsx")
+                    {
+                        MessageBox.Show("EL ARCHIVO EXCEL TIENE QUE TENER  VERSION (.xlsx)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                     string rutaImportado = dlg.FileName;
                     urlConexion = new ExcelQueryFactory(rutaImportado);
 
@@ -328,7 +394,7 @@ namespace DataSystem.Reportes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error en la operación", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("EL NOMBRE DEL ARCHIVO Y DE LA HOJA DEBE DE SER EL MISMO.", "Error en la operación", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }           
 
             
@@ -728,15 +794,20 @@ namespace DataSystem.Reportes
            
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void LimpiarFormulario()
         {
-            if(MessageBox.Show("Se perdeta la información ingresada. ¿Deseas reestablecer el modulo?","Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Se perderá la información ingresada. ¿Deseas continuar?", "Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 LimpiarControlesFormulario();
                 lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
                 LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
                 LstResultados = new List<Entidades.cls.clsResultadosMensual>();
-            }           
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarFormulario();  
         }
 
         private void LimpiarControlesFormulario()
@@ -766,6 +837,10 @@ namespace DataSystem.Reportes
                     {
                         foreach (var gctrl in ((TabPage)tabPage).Controls)
                         {
+                            if(gctrl is Panel)
+                            {
+                                ((Panel)gctrl).Controls.Clear();
+                            }
                             if (gctrl is GroupBox)
                             {
                                 foreach (var tgctrl in ((GroupBox)gctrl).Controls)
@@ -1177,7 +1252,15 @@ namespace DataSystem.Reportes
 
         private void btnXmlJson_Click(object sender, EventArgs e)
         {
-            CargarArchivo();
+            if (MessageBox.Show("Se perderá la información ingresada. ¿Deseas continuar?", "Advertencia", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                LimpiarControlesFormulario();
+                lstManuales = new List<Entidades.cls.FACTURASDETALLE>();
+                LstControlVolumetricoMensual = new List<Entidades.cls.clsControlVolumetricoMensual>();
+                LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+                CargarArchivo();
+            }
+            
         }
     }
 }

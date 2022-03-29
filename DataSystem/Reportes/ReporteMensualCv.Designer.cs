@@ -70,8 +70,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnXmlJson = new System.Windows.Forms.Button();
-            this.dgvInventarioMagna = new System.Windows.Forms.DataGridView();
-            this.dgvEncabezadoMagna = new System.Windows.Forms.DataGridView();
+            this.panelInventarios = new System.Windows.Forms.Panel();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -84,8 +83,6 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventarioMagna)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEncabezadoMagna)).BeginInit();
             this.SuspendLayout();
             // 
             // gbxCv
@@ -501,8 +498,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.dgvEncabezadoMagna);
-            this.tabPage2.Controls.Add(this.dgvInventarioMagna);
+            this.tabPage2.Controls.Add(this.panelInventarios);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -521,21 +517,14 @@
             this.btnXmlJson.UseVisualStyleBackColor = true;
             this.btnXmlJson.Click += new System.EventHandler(this.btnXmlJson_Click);
             // 
-            // dgvInventarioMagna
+            // panelInventarios
             // 
-            this.dgvInventarioMagna.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInventarioMagna.Location = new System.Drawing.Point(24, 126);
-            this.dgvInventarioMagna.Name = "dgvInventarioMagna";
-            this.dgvInventarioMagna.Size = new System.Drawing.Size(1107, 120);
-            this.dgvInventarioMagna.TabIndex = 0;
-            // 
-            // dgvEncabezadoMagna
-            // 
-            this.dgvEncabezadoMagna.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEncabezadoMagna.Location = new System.Drawing.Point(25, 29);
-            this.dgvEncabezadoMagna.Name = "dgvEncabezadoMagna";
-            this.dgvEncabezadoMagna.Size = new System.Drawing.Size(565, 92);
-            this.dgvEncabezadoMagna.TabIndex = 1;
+            this.panelInventarios.AutoScroll = true;
+            this.panelInventarios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInventarios.Location = new System.Drawing.Point(3, 3);
+            this.panelInventarios.Name = "panelInventarios";
+            this.panelInventarios.Size = new System.Drawing.Size(1131, 549);
+            this.panelInventarios.TabIndex = 0;
             // 
             // ReporteMensualCv
             // 
@@ -570,8 +559,6 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventarioMagna)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEncabezadoMagna)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -619,7 +606,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button btnXmlJson;
-        private System.Windows.Forms.DataGridView dgvEncabezadoMagna;
-        private System.Windows.Forms.DataGridView dgvInventarioMagna;
+        private System.Windows.Forms.Panel panelInventarios;
     }
 }
