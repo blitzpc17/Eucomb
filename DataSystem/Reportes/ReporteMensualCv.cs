@@ -18,6 +18,7 @@ namespace DataSystem.Reportes
         private List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensual;
         private List<Entidades.cls.FACTURASDETALLE> lstManuales;
         List<Entidades.cls.clsResultadosMensual> LstResultados;
+        List<Entidades.cls.clsResultadosMensual> LstResultadosAux;
         private ExcelQueryFactory urlConexion;
         public ReporteMensualCv()
         {
@@ -329,7 +330,7 @@ namespace DataSystem.Reportes
                 dgvPartidas.Rows.Add(null,null,null,null, null,null, "TOTAL:",sumaRecepciones);
                 dgvPartidas.Rows.Add(null, null, null, "VENTA LTS. POR MES:", pro.REPORTEDEVOLUMENMENSUAL.ENTREGAS.SumaVolumenEntregado.ValorNumerico, null, null, null);
                 dgvPartidas.Rows.Add(null, null, null, "DIF- FACT. VS PIPAS:", diferenciaEntregadoRecepcion, null, null,null);
-                dgvPartidas.Rows.Add(null, null, null, "LA FACTURA TRAE", diferenciaEntregadoRecepcion >= 0 ? " MENOS" : " MAS");
+                dgvPartidas.Rows.Add(null, null, null, "LA FACTURA TRAE", diferenciaEntregadoRecepcion >= 0 ? " MÁS" : " MENOS");
                 posicionDgvInventariosY = dgvPartidas.Location.Y + dgvPartidas.Size.Height + 15;
                 
             }
@@ -433,10 +434,10 @@ namespace DataSystem.Reportes
                             folio_Imp = ObjDetalle.folio_imp,
                             clavecli = ObjDetalle.cliente,
                             NombreCliente = ObjDetalle.nombre,                          
-                            importe = ObjDetalle.importe,
+                            //importe = ObjDetalle.importe,
                             serie = ObjDetalle.serie,
                             docto = ObjDetalle.docto,   
-                            status = ObjDetalle.status, 
+                            //status = ObjDetalle.status, 
                             fecha_reg = ObjDetalle.fec_reg,
                             nombrep = ObjDetalle.nombrep,   
                             Cant = ObjDetalle.cant,
@@ -475,10 +476,10 @@ namespace DataSystem.Reportes
                                         folio_Imp = ObjDetalle.folio_imp,
                                         clavecli = ObjDetalle.cliente,
                                         NombreCliente = ObjDetalle.nombre,
-                                        importe = ObjDetalle.importe,
+                                        //importe = ObjDetalle.importe,
                                         serie = ObjDetalle.serie,
                                         docto = ObjDetalle.docto,
-                                        status = ObjDetalle.status,
+                                        //status = ObjDetalle.status,
                                         fecha_reg = ObjDetalle.fec_reg,
                                         nombrep = ObjDetalle.nombrep,
                                         Cant = ObjDetalle.cant,
@@ -515,10 +516,10 @@ namespace DataSystem.Reportes
                                     folio_Imp = ObjDetalle.folio_imp,
                                     clavecli = ObjDetalle.cliente,
                                     NombreCliente = ObjDetalle.nombre,
-                                    importe = ObjDetalle.importe,
+                                    //importe = ObjDetalle.importe,
                                     serie = ObjDetalle.serie,
                                     docto = ObjDetalle.docto,
-                                    status = ObjDetalle.status,
+                                    //status = ObjDetalle.status,
                                     fecha_reg = ObjDetalle.fec_reg,
                                     nombrep = ObjDetalle.nombrep,
                                     Cant = ObjDetalle.cant,
@@ -551,10 +552,10 @@ namespace DataSystem.Reportes
                             folio_Imp = ObjDetalle.folio_imp,
                             clavecli = ObjDetalle.cliente,
                             NombreCliente = ObjDetalle.nombre,
-                            importe = ObjDetalle.importe,
+                            //importe = ObjDetalle.importe,
                             serie = ObjDetalle.serie,
                             docto = ObjDetalle.docto,
-                            status = ObjDetalle.status,
+                            //status = ObjDetalle.status,
                             fecha_reg = ObjDetalle.fec_reg,
                             nombrep = ObjDetalle.nombrep,
                             Cant = ObjDetalle.cant,
@@ -600,10 +601,10 @@ namespace DataSystem.Reportes
                             folio_Imp = itemDet.folio_imp,
                             clavecli = itemDet.cliente,
                             NombreCliente = itemDet.nombre,
-                            importe = itemDet.importe,
+                            //importe = itemDet.importe,
                             serie = itemDet.serie,
                             docto = itemDet.docto,
-                            status = itemDet.status,
+                            //status = itemDet.status,
                             fecha_reg = itemDet.fec_reg,
                             nombrep = itemDet.nombrep,
                             Cant = itemDet.cant,
@@ -634,10 +635,10 @@ namespace DataSystem.Reportes
                                     folio_Imp = null,
                                     clavecli = null,
                                     NombreCliente = null,
-                                    importe = 0,
+                                    //importe = 0,
                                     serie = null,
                                     docto = null,
-                                    status = null,
+                                    //status = null,
                                     fecha_reg = null,
                                     nombrep = null,
                                     Cant = 0,
@@ -672,10 +673,10 @@ namespace DataSystem.Reportes
                                     folio_Imp = null,
                                     clavecli = null,
                                     NombreCliente = null,
-                                    importe = 0,
+                                    //importe = 0,
                                     serie = null,
                                     docto = null,
-                                    status = null,
+                                    //status = null,
                                     fecha_reg = null,
                                     nombrep = null,
                                     Cant = 0,
@@ -709,10 +710,10 @@ namespace DataSystem.Reportes
                             folio_Imp = null,
                             clavecli = null,
                             NombreCliente = null,
-                            importe = 0,
+                            //importe = 0,
                             serie = null,
                             docto = null,
-                            status = null,
+                            //status = null,
                             fecha_reg = null,
                             nombrep = null,
                             Cant = 0,
@@ -779,9 +780,19 @@ namespace DataSystem.Reportes
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string rutaSalida = dlg.FileName+".xlsx";
-
-                IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
-                byte[] excelResult = AccountExport.Export(LstResultados);
+                byte[] excelResult;
+                if (chkMargen.Checked)
+                {
+                    LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades >= 0.1M).ToList();
+                    IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                    excelResult = AccountExport.Export(LstResultadosAux);
+                }
+                else {
+                    IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                    excelResult = AccountExport.Export(LstResultados);
+                }
+              
+              
                 File.WriteAllBytes(rutaSalida, excelResult);
                 MessageBox.Show("Se han exportado los registros.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -939,13 +950,13 @@ namespace DataSystem.Reportes
                             FechaYHoraTransaccion = ObjCv.FechaYHoraTransaccion,
                             VolumenNumerico = ObjCv.ValorNumerico,
                             Existe = diferencia > 0? "<>":null,
-                            folio_Imp = ObjDet.uuid,
+                            folio_Imp = ObjDet.folio_imp,
                             clavecli = ObjDet.cliente,
                             NombreCliente = ObjDet.nombre,
-                            importe = ObjDet.importe,
+                            //importe = ObjDet.importe,
                             serie = ObjDet.serie,
                             docto = ObjDet.docto,
-                            status = ObjDet.status,
+                            //status = ObjDet.status,
                             fecha_reg = ObjDet.fec_reg,
                             nombrep = ObjDet.nombrep,
                             Cant = decimal.Round(ObjDet.cant, 2),
@@ -995,13 +1006,13 @@ namespace DataSystem.Reportes
                                         FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
                                         VolumenNumerico = objCv.ValorNumerico,
                                         Existe = diferencia > 0 ? "<>" : null,
-                                        folio_Imp = ObjMan.uuid,
+                                        folio_Imp = ObjMan.folio_imp,
                                         clavecli = ObjMan.cliente,
                                         NombreCliente = ObjMan.nombre,
-                                        importe = ObjMan.importe,
+                                        //importe = ObjMan.importe,
                                         serie = ObjMan.serie,
                                         docto = ObjMan.docto,
-                                        status = ObjMan.status,
+                                        //status = ObjMan.status,
                                         fecha_reg = ObjMan.fec_reg,
                                         nombrep = ObjMan.nombrep,
                                         Cant = decimal.Round(ObjMan.cant, 2),
@@ -1036,10 +1047,10 @@ namespace DataSystem.Reportes
                                     folio_Imp = null,
                                     clavecli = null,
                                     NombreCliente = null,
-                                    importe = 0,
+                                    //importe = 0,
                                     serie = null,
                                     docto = null,
-                                    status = null,
+                                    //status = null,
                                     fecha_reg = null,
                                     nombrep = null,
                                     Cant = 0,
@@ -1088,13 +1099,13 @@ namespace DataSystem.Reportes
                                         FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
                                         VolumenNumerico = objCv.ValorNumerico,
                                         Existe = diferencia > 0 ? "<>" : null,
-                                        folio_Imp = objMan.uuid,
+                                        folio_Imp = objMan.folio_imp,
                                         clavecli = objMan.cliente,
                                         NombreCliente = objMan.nombre,
-                                        importe = objMan.importe,
+                                        //importe = objMan.importe,
                                         serie = objMan.serie,
                                         docto = objMan.docto,
-                                        status = objMan.status,
+                                        //status = objMan.status,
                                         fecha_reg = objMan.fec_reg,
                                         nombrep = objMan.nombrep,
                                         Cant = decimal.Round(objMan.cant, 2),
@@ -1129,10 +1140,10 @@ namespace DataSystem.Reportes
                                     folio_Imp = objMan.folio_imp,
                                     clavecli = objMan.cliente,
                                     NombreCliente = objMan.nombre,
-                                    importe = objMan.importe,
+                                    //importe = objMan.importe,
                                     serie = objMan.serie,
                                     docto = objMan.docto,
-                                    status = objMan.status,
+                                    //status = objMan.status,
                                     fecha_reg = objMan.fec_reg,
                                     nombrep = objMan.nombrep,
                                     Cant = objMan.cant,
@@ -1171,13 +1182,13 @@ namespace DataSystem.Reportes
                             FechaYHoraTransaccion = null,
                             VolumenNumerico = 0,
                             Existe = ">",
-                            folio_Imp = itemMan.uuid,
+                            folio_Imp = itemMan.folio_imp,
                             clavecli = itemMan.cliente,
                             NombreCliente = itemMan.nombre,
-                            importe = itemMan.importe,
+                            //importe = itemMan.importe,
                             serie = itemMan.serie,
                             docto = itemMan.docto,
-                            status = itemMan.status,
+                            //status = itemMan.status,
                             fecha_reg = itemMan.fec_reg,
                             nombrep = itemMan.nombrep,
                             Cant = decimal.Round(itemMan.cant, 2),
@@ -1208,10 +1219,10 @@ namespace DataSystem.Reportes
                             folio_Imp = null,
                             clavecli = null,
                             NombreCliente = null,
-                            importe = 0,
+                            //importe = 0,
                             serie = null,
                             docto = null,
-                            status = null,
+                            //status = null,
                             fecha_reg = null,
                             nombrep = null,
                             Cant = 0,
@@ -1237,7 +1248,7 @@ namespace DataSystem.Reportes
                 res.DiferenciaCantidades = diferencia;
             }
 
-            LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.01M).ToList();
+            LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades >= 0.01M).ToList();
             dgvErrores.DataSource = LstResultados;
             tsErrores.Text =  dgvErrores.RowCount.ToString("N0");
 

@@ -9,19 +9,19 @@ namespace Entidades.cls
 {
     public class clsResultadosMensual
     {
-        [ExportCustom("ns2:RfcClienteOProveedor6", 1)]
+        [ExportCustom("RFC", 1)]
         public String RfcClienteOProveedor { get; set; }
 
-        [ExportCustom("ns2:NombreClienteOProveedor7", 2)]
+        [ExportCustom("Nombre Cliente", 2)]
         public String NombreClienteOPRoveedor { get; set; }
 
-        [ExportCustom("ns2:CFDI8", 3)]
+        [ExportCustom("CFDI", 3)]
         public String CFDI { get; set; }
 
-        [ExportCustom("ns2:FechaYHoraTransaccion13", 4)]
+        [ExportCustom("Fecha Y Hora de Generación", 4)]
         public DateTime? FechaYHoraTransaccion { get; set; }
 
-        [ExportCustom("Valor númerico", 5)]
+        [ExportCustom("Litros de Venta", 5)]
         public decimal VolumenNumerico { get; set; }
 
         [ExportCustom(" ", 6)]
@@ -30,55 +30,49 @@ namespace Entidades.cls
         [ExportCustom("folio_imp", 7)]
         public String folio_Imp { get; set; }
 
-        [ExportCustom("cliente", 8)]
+        [ExportCustom("No. Cliente", 8)]
         public String clavecli { get; set; }
 
-        [ExportCustom("nombre",9)]
+        [ExportCustom("Nom. Cliente",9)]
         public String NombreCliente { get; set; }
 
-        [ExportCustom("importe", 10)]
-        public Decimal importe { get; set; }
-
-        [ExportCustom("serie",11)]
+        [ExportCustom("Serie Factura",10)]
         public String serie { get; set; }
 
-        [ExportCustom("docto", 12)]
+        [ExportCustom("Folio Factura", 11)]
         public String docto { get; set; }
 
-        [ExportCustom("status", 13)]
-        public String status { get; set; }
-
-        [ExportCustom("fecha_reg", 14)]
+        [ExportCustom("Fecha y Hora Generación", 12)]
         public DateTime? fecha_reg { get; set; }
 
-        [ExportCustom("nombrep", 15)]
+        [ExportCustom("Producto", 13)]
         public String nombrep { get; set; }
 
-        [ExportCustom("cant", 16)]
+        [ExportCustom("Litros x Venta", 14)]
         public decimal Cant { get; set; }
 
-        [ExportCustom("precio", 17)]
+        [ExportCustom("Precio por Litro", 15)]
         public decimal precio { get; set; }
 
-        [ExportCustom("imported", 18)]
+        [ExportCustom("Importe de Venta", 16)]
         public decimal imported { get; set; }
 
-        [ExportCustom("UUID", 19)]
+        [ExportCustom("CFDI2", 17)]
         public String UUID { get; set; }
 
-        [ExportCustom("Compara Nombre", 20)]
+        [ExportCustom("Compara Nombre", 18)]
         public bool ComparaNombre { get; set; }
 
-        [ExportCustom("Compra CFDI", 21)]
+        [ExportCustom("Compra CFDI", 19)]
         public bool ComparaCfdi { get; set; }
 
-        [ExportCustom("Comprara LTS", 22)]
+        [ExportCustom("Comprara Litros", 20)]
         public bool ComparaLts { get; set; }
 
-        [ExportCustom("Diferencia Cantidades", 23)]
+        [ExportCustom("Diferencia Cantidades", 21)]
         public decimal DiferenciaCantidades { get; set; }
 
-        [ExportCustom("Observaciones", 24)]
+        [ExportCustom("Observaciones", 22)]
         public String Observacion { get; set; }
     }
 }

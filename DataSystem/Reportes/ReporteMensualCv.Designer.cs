@@ -71,6 +71,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panelInventarios = new System.Windows.Forms.Panel();
             this.btnXmlJson = new System.Windows.Forms.Button();
+            this.chkMargen = new System.Windows.Forms.CheckBox();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -91,9 +92,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.gbxCv.Controls.Add(this.toolStrip1);
             this.gbxCv.Controls.Add(this.dgvRegistrosDiario);
-            this.gbxCv.Location = new System.Drawing.Point(9, 110);
+            this.gbxCv.Location = new System.Drawing.Point(9, 130);
             this.gbxCv.Name = "gbxCv";
-            this.gbxCv.Size = new System.Drawing.Size(343, 436);
+            this.gbxCv.Size = new System.Drawing.Size(343, 451);
             this.gbxCv.TabIndex = 3;
             this.gbxCv.TabStop = false;
             this.gbxCv.Text = "Contenido Control Volumetrico";
@@ -104,7 +105,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tsTotalRegistros});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 408);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 423);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(337, 25);
             this.toolStrip1.TabIndex = 1;
@@ -135,7 +136,7 @@
             this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
             this.dgvRegistrosDiario.ReadOnly = true;
             this.dgvRegistrosDiario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 385);
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 400);
             this.dgvRegistrosDiario.TabIndex = 0;
             // 
             // txtSucursal
@@ -303,7 +304,7 @@
             // btnImportarLayout
             // 
             this.btnImportarLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnImportarLayout.Location = new System.Drawing.Point(15, 599);
+            this.btnImportarLayout.Location = new System.Drawing.Point(135, 634);
             this.btnImportarLayout.Name = "btnImportarLayout";
             this.btnImportarLayout.Size = new System.Drawing.Size(110, 35);
             this.btnImportarLayout.TabIndex = 4;
@@ -314,7 +315,7 @@
             // btnComparar
             // 
             this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnComparar.Location = new System.Drawing.Point(1050, 599);
+            this.btnComparar.Location = new System.Drawing.Point(1050, 634);
             this.btnComparar.Name = "btnComparar";
             this.btnComparar.Size = new System.Drawing.Size(110, 35);
             this.btnComparar.TabIndex = 5;
@@ -328,9 +329,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.gbxFacturacion.Controls.Add(this.toolStrip2);
             this.gbxFacturacion.Controls.Add(this.dgvManuales);
-            this.gbxFacturacion.Location = new System.Drawing.Point(394, 110);
+            this.gbxFacturacion.Location = new System.Drawing.Point(394, 130);
             this.gbxFacturacion.Name = "gbxFacturacion";
-            this.gbxFacturacion.Size = new System.Drawing.Size(343, 436);
+            this.gbxFacturacion.Size = new System.Drawing.Size(343, 451);
             this.gbxFacturacion.TabIndex = 6;
             this.gbxFacturacion.TabStop = false;
             this.gbxFacturacion.Text = "Contenido Facturación";
@@ -341,7 +342,7 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this.tsManuales});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 408);
+            this.toolStrip2.Location = new System.Drawing.Point(3, 423);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(337, 25);
             this.toolStrip2.TabIndex = 1;
@@ -372,7 +373,7 @@
             this.dgvManuales.Name = "dgvManuales";
             this.dgvManuales.ReadOnly = true;
             this.dgvManuales.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvManuales.Size = new System.Drawing.Size(330, 385);
+            this.dgvManuales.Size = new System.Drawing.Size(330, 400);
             this.dgvManuales.TabIndex = 0;
             // 
             // gbxComparacion
@@ -382,9 +383,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxComparacion.Controls.Add(this.toolStrip3);
             this.gbxComparacion.Controls.Add(this.dgvErrores);
-            this.gbxComparacion.Location = new System.Drawing.Point(779, 110);
+            this.gbxComparacion.Location = new System.Drawing.Point(779, 130);
             this.gbxComparacion.Name = "gbxComparacion";
-            this.gbxComparacion.Size = new System.Drawing.Size(343, 436);
+            this.gbxComparacion.Size = new System.Drawing.Size(343, 451);
             this.gbxComparacion.TabIndex = 7;
             this.gbxComparacion.TabStop = false;
             this.gbxComparacion.Text = "Resultado Comparación";
@@ -395,7 +396,7 @@
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel4,
             this.tsErrores});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 408);
+            this.toolStrip3.Location = new System.Drawing.Point(3, 423);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(337, 25);
             this.toolStrip3.TabIndex = 1;
@@ -426,13 +427,13 @@
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.ReadOnly = true;
             this.dgvErrores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvErrores.Size = new System.Drawing.Size(330, 385);
+            this.dgvErrores.Size = new System.Drawing.Size(330, 400);
             this.dgvErrores.TabIndex = 0;
             // 
             // btnExportar
             // 
             this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportar.Location = new System.Drawing.Point(934, 599);
+            this.btnExportar.Location = new System.Drawing.Point(934, 634);
             this.btnExportar.Name = "btnExportar";
             this.btnExportar.Size = new System.Drawing.Size(110, 35);
             this.btnExportar.TabIndex = 8;
@@ -443,7 +444,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelar.Location = new System.Drawing.Point(818, 599);
+            this.btnCancelar.Location = new System.Drawing.Point(818, 634);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 35);
             this.btnCancelar.TabIndex = 9;
@@ -461,12 +462,13 @@
             this.tabControl1.Location = new System.Drawing.Point(15, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1145, 581);
+            this.tabControl1.Size = new System.Drawing.Size(1145, 616);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.chkMargen);
             this.tabPage1.Controls.Add(this.txtRfcProveedor);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.label2);
@@ -491,7 +493,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1137, 555);
+            this.tabPage1.Size = new System.Drawing.Size(1137, 590);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Archivo";
             // 
@@ -518,7 +520,7 @@
             // btnXmlJson
             // 
             this.btnXmlJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnXmlJson.Location = new System.Drawing.Point(131, 599);
+            this.btnXmlJson.Location = new System.Drawing.Point(19, 634);
             this.btnXmlJson.Name = "btnXmlJson";
             this.btnXmlJson.Size = new System.Drawing.Size(110, 35);
             this.btnXmlJson.TabIndex = 11;
@@ -526,11 +528,21 @@
             this.btnXmlJson.UseVisualStyleBackColor = true;
             this.btnXmlJson.Click += new System.EventHandler(this.btnXmlJson_Click);
             // 
+            // chkMargen
+            // 
+            this.chkMargen.AutoSize = true;
+            this.chkMargen.Location = new System.Drawing.Point(993, 94);
+            this.chkMargen.Name = "chkMargen";
+            this.chkMargen.Size = new System.Drawing.Size(129, 17);
+            this.chkMargen.TabIndex = 19;
+            this.chkMargen.Text = "Margen de diferencia ";
+            this.chkMargen.UseVisualStyleBackColor = true;
+            // 
             // ReporteMensualCv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1167, 646);
+            this.ClientSize = new System.Drawing.Size(1167, 681);
             this.Controls.Add(this.btnXmlJson);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCancelar);
@@ -607,5 +619,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button btnXmlJson;
         private System.Windows.Forms.Panel panelInventarios;
+        private System.Windows.Forms.CheckBox chkMargen;
     }
 }
