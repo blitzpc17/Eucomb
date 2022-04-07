@@ -282,23 +282,23 @@ namespace DataSystem.Reportes
             limpiarPanelInventarios();
 
             int posicionDgvInventariosY = 0;
-            foreach(var pro in obj.PRODUCTO.OrderByDescending(x=>x.ClaveProducto).ToList())
+            foreach (var pro in obj.PRODUCTO.OrderByDescending(x => x.ClaveProducto).ToList())
             {
-                
-                DataGridView dgvEncabezadoInventario = new DataGridView(); 
 
-                dgvEncabezadoInventario.Columns.Add("Texto","");
+                DataGridView dgvEncabezadoInventario = new DataGridView();
+
+                dgvEncabezadoInventario.Columns.Add("Texto", "");
                 dgvEncabezadoInventario.Columns.Add("Valor", "");
-                dgvEncabezadoInventario.Name = "dgvEncabezado"+pro.ClaveProducto;
-                dgvEncabezadoInventario.Rows.Add("Producto:",pro.ClaveSubProducto+" "+pro.MarcaComercial);
+                dgvEncabezadoInventario.Name = "dgvEncabezado" + pro.ClaveProducto;
+                dgvEncabezadoInventario.Rows.Add("Producto:", pro.ClaveSubProducto + " " + pro.MarcaComercial);
                 dgvEncabezadoInventario.Rows.Add("INVENTARIO EN TANQUE AL FINALIZAR EL MES:", pro.REPORTEDEVOLUMENMENSUAL.CONTROLDEEXISTENCIAS.VolumenExistenciasMes.ValorNumerico);
                 dgvEncabezadoInventario.Rows.Add("NÚMERO DE VECES QUE ENTRO PRODUCTO AL TANQUE:", pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.TotalRecepcionesMes);
                 dgvEncabezadoInventario.Rows.Add("TOTAL DE LITROS QUE MUESTRA LA FACTURA:", pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico);
-                panelInventarios.Controls.Add(dgvEncabezadoInventario);                
-                dgvEncabezadoInventario.Location = new System.Drawing.Point(10, posicionDgvInventariosY+30);
+                panelInventarios.Controls.Add(dgvEncabezadoInventario);
+                dgvEncabezadoInventario.Location = new System.Drawing.Point(10, posicionDgvInventariosY + 30);
                 dgvEncabezadoInventario.Width = 1107;
-                posicionDgvInventariosY = dgvEncabezadoInventario.Location.Y+dgvEncabezadoInventario.Size.Height+15;
-                dgvEncabezadoInventario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right|System.Windows.Forms.AnchorStyles.Top)))));
+                posicionDgvInventariosY = dgvEncabezadoInventario.Location.Y + dgvEncabezadoInventario.Size.Height + 15;
+                dgvEncabezadoInventario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Top)))));
                 dgvEncabezadoInventario.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 DataGridView dgvPartidas = new DataGridView();
                 dgvPartidas.Columns.Add("numero", "No.");
@@ -312,19 +312,26 @@ namespace DataSystem.Reportes
 
                 panelInventarios.Controls.Add(dgvPartidas);
                 dgvPartidas.Location = new System.Drawing.Point(10, posicionDgvInventariosY + 30);
-                dgvPartidas.Width = 1107;               
+                dgvPartidas.Width = 1107;
                 dgvPartidas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Top)))));
                 dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 //foreach partidas
                 int numeral = 1;
                 decimal sumaRecepciones = 0;
-                foreach(var part in pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL)
-                {
-                    dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico,part.CFDIs.VolumenDocumentado.ValorNumerico);
-                    sumaRecepciones += part.CFDIs.VolumenDocumentado.ValorNumerico;
-                    numeral++;
+                if (pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento == null){
+                    sumaRecepciones = 0;
                 }
+                else
+                {
+                    foreach (var part in pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL)
+                    {
+                        dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico, part.CFDIs.VolumenDocumentado.ValorNumerico);
+                        sumaRecepciones += part.CFDIs.VolumenDocumentado.ValorNumerico;
+                        numeral++;
+                    }
+                }
+                
 
                 decimal diferenciaEntregadoRecepcion = pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.SumaVolumenRecepcionMes.ValorNumerico - sumaRecepciones;
                 dgvPartidas.Rows.Add(null,null,null,null, null,null, "TOTAL:",sumaRecepciones);
