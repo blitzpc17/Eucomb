@@ -381,7 +381,7 @@ namespace DataSystem.Reportes
                     }).ToList();
                     lstManuales = prueba;
                     lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel")||x.nombrep.StartsWith("DIESEL"))).ToList();
+                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel")||x.nombrep.StartsWith("DIESEL")||x.nombrep.StartsWith("COMBUSTIBLE")||x.nombrep.StartsWith("Combustible")||x.nombrep.StartsWith("combustible"))).ToList();
                     lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ToList();
                     dgvManuales.DataSource = lstManuales;
                     tsManuales.Text = dgvManuales.RowCount.ToString("N0");
