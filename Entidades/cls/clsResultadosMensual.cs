@@ -15,7 +15,7 @@ namespace Entidades.cls
         [ExportCustom("Nombre Cliente", 2)]
         public String NombreClienteOPRoveedor { get; set; }
 
-        [ExportCustom("CFDI", 3)]
+        [ExportCustom("CFDI Cliente", 3)]
         public String CFDI { get; set; }
 
         [ExportCustom("Fecha Y Hora de Generación", 4)]
@@ -48,7 +48,7 @@ namespace Entidades.cls
         [ExportCustom("Producto", 13)]
         public String nombrep { get; set; }
 
-        [ExportCustom("Litros x Venta", 14)]
+        [ExportCustom("Litros por Venta", 14)]
         public decimal Cant { get; set; }
 
         [ExportCustom("Precio por Litro", 15)]
@@ -57,7 +57,7 @@ namespace Entidades.cls
         [ExportCustom("Importe de Venta", 16)]
         public decimal imported { get; set; }
 
-        [ExportCustom("CFDI2", 17)]
+        [ExportCustom("CFDI", 17)]
         public String UUID { get; set; }
 
         [ExportCustom("Compara Nombre", 18)]
@@ -66,10 +66,10 @@ namespace Entidades.cls
         [ExportCustom("Compra CFDI", 19)]
         public bool ComparaCfdi { get; set; }
 
-        [ExportCustom("Comprara Litros", 20)]
+        [ExportCustom("Compara Litros", 20)]
         public bool ComparaLts { get; set; }
 
-        [ExportCustom("Diferencia Cantidades", 21)]
+        [ExportCustom("Diferencia de LTs o ML", 21)]
         public decimal DiferenciaCantidades { get; set; }
 
         [ExportCustom("Observaciones", 22)]

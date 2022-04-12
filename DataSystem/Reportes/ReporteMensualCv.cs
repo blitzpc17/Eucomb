@@ -1044,7 +1044,7 @@ namespace DataSystem.Reportes
                                     ComparaNombre = false,
                                     ComparaCfdi = false,
                                     ComparaLts = false,
-                                    Observacion = "No Existe en Archivo"
+                                    Observacion = "NO EXISTE EN FACTURACIÓN"
                                 };
                                 LstResultados.Add(ObjResultado);
                                 //registras como que solo estan en cv
@@ -1081,7 +1081,7 @@ namespace DataSystem.Reportes
                                     ComparaNombre = false,
                                     ComparaCfdi = false,
                                     ComparaLts = false,
-                                    Observacion = "No Existe en C.V"
+                                    Observacion = "NO EXISTE EN ARCHIVO XML"
                                 };
                                 LstResultados.Add(ObjResultado);
                             }
@@ -1113,7 +1113,7 @@ namespace DataSystem.Reportes
                                     ComparaNombre = false,
                                     ComparaCfdi = false,
                                     ComparaLts = false,
-                                    Observacion = "No Existe en Archivo"
+                                    Observacion = "NO EXISTE EN FACTURACIÓN"
                                 };
                                 LstResultados.Add(ObjResultado);
 
@@ -1155,7 +1155,7 @@ namespace DataSystem.Reportes
                             ComparaNombre = false,
                             ComparaCfdi = false,
                             ComparaLts = false,
-                            Observacion = "No Existe en C.V."
+                            Observacion = "NO EXISTE EN ARCHIVO XLM"
                         };
                         LstResultados.Add(ObjResultado);
                     }
@@ -1189,7 +1189,7 @@ namespace DataSystem.Reportes
                             ComparaNombre = false,
                             ComparaCfdi = false,
                             ComparaLts = false,
-                            Observacion = "No Existe en Archivo"
+                            Observacion = "NO EXISTE EN FACTURACIÓN"
                         };
                         LstResultados.Add(ObjResultado);
                     }
