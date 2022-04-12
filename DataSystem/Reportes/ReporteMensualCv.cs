@@ -213,37 +213,41 @@ namespace DataSystem.Reportes
                     ValorNumerico = decimal.Parse(SumaVolumenEntregadoMes.ChildNodes[0].InnerText),
                     UM = SumaVolumenEntregadoMes.ChildNodes[1].InnerText
                 };
+
                 var ComplementoEntregas = ENTREGAS.ChildNodes[4];
                 objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento = new Entidades.XMLMensual.Complemento();
                 objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio = new Entidades.XMLMensual.Complemento_Expendio();
                 objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL = new List<Entidades.XMLMensual.NACIONAL>();
 
-                foreach (XmlNode nacEnt in ComplementoEntregas.ChildNodes[0].ChildNodes)
+                if (ComplementoEntregas.HasChildNodes)
                 {
-                    Entidades.XMLMensual.NACIONAL objNacEnc = new Entidades.XMLMensual.NACIONAL
+                    foreach (XmlNode nacEnt in ComplementoEntregas.ChildNodes[0].ChildNodes)
                     {
-                        RfcClienteOProveedor = nacEnt.ChildNodes[0].InnerText,
-                        NombreClienteOProveedor = nacEnt.ChildNodes[1].InnerText,
-                    };
-                    var nodeCfdiNac = nacEnt.ChildNodes[2];
-                    objNacEnc.CFDIs = new Entidades.XMLMensual.Cfdis
-                    {
-                        CFDI = nodeCfdiNac.ChildNodes[0].InnerText,
-                        TipoCFDI = nodeCfdiNac.ChildNodes[1].InnerText,
-                        PrecioCompra = decimal.Parse(nodeCfdiNac.ChildNodes[2].InnerText),
-                        PrecioDeVentaAlPublico = decimal.Parse(nodeCfdiNac.ChildNodes[3].InnerText),
-                        PrecioVenta = decimal.Parse(nodeCfdiNac.ChildNodes[4].InnerText),
-                        FechaYHoraTransaccion = DateTime.Parse(nodeCfdiNac.ChildNodes[5].InnerText)
-                    };
-                    var VolDocEntrega = nodeCfdiNac.ChildNodes[6];
-                    objNacEnc.CFDIs.VolumenDocumentado = new Entidades.XMLMensual.VolumenDocumentado
-                    {
-                        ValorNumerico = decimal.Parse(VolDocEntrega.ChildNodes[0].InnerText),
-                        UM = VolDocEntrega.ChildNodes[1].InnerText
-                    };
-                    objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL.Add(objNacEnc);
+                        Entidades.XMLMensual.NACIONAL objNacEnc = new Entidades.XMLMensual.NACIONAL
+                        {
+                            RfcClienteOProveedor = nacEnt.ChildNodes[0].InnerText,
+                            NombreClienteOProveedor = nacEnt.ChildNodes[1].InnerText,
+                        };
+                        var nodeCfdiNac = nacEnt.ChildNodes[2];
+                        objNacEnc.CFDIs = new Entidades.XMLMensual.Cfdis
+                        {
+                            CFDI = nodeCfdiNac.ChildNodes[0].InnerText,
+                            TipoCFDI = nodeCfdiNac.ChildNodes[1].InnerText,
+                            PrecioCompra = decimal.Parse(nodeCfdiNac.ChildNodes[2].InnerText),
+                            PrecioDeVentaAlPublico = decimal.Parse(nodeCfdiNac.ChildNodes[3].InnerText),
+                            PrecioVenta = decimal.Parse(nodeCfdiNac.ChildNodes[4].InnerText),
+                            FechaYHoraTransaccion = DateTime.Parse(nodeCfdiNac.ChildNodes[5].InnerText)
+                        };
+                        var VolDocEntrega = nodeCfdiNac.ChildNodes[6];
+                        objNacEnc.CFDIs.VolumenDocumentado = new Entidades.XMLMensual.VolumenDocumentado
+                        {
+                            ValorNumerico = decimal.Parse(VolDocEntrega.ChildNodes[0].InnerText),
+                            UM = VolDocEntrega.ChildNodes[1].InnerText
+                        };
+                        objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL.Add(objNacEnc);
 
-                }
+                    }
+                }               
 
                 obj.PRODUCTO.Add(objProducto);
             }
