@@ -856,9 +856,12 @@ namespace DataSystem.Reportes
                 sl.SetCellValue("U2", "Diferencia de Lts o ML");                
                 sl.SetCellValue("V2", "Observaciones");
 
+                int noRows = 0;
+
                 if (chkMargen.Checked)
                 {
                     LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
+                    noRows = LstResultadosAux.Count();
                     //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
                     //excelResult = AccountExport.Export(LstResultadosAux);
                     GenerarRowsExcel(LstResultadosAux, sl);
@@ -866,6 +869,7 @@ namespace DataSystem.Reportes
                 else {
                     //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
                     //excelResult = AccountExport.Export(LstResultados);
+                    noRows = LstResultados.Count();
                     GenerarRowsExcel(LstResultados, sl);
                 }
 
@@ -876,18 +880,12 @@ namespace DataSystem.Reportes
                 sl.SetColumnStyle(15, styleCantidades);
                 sl.SetColumnStyle(16, styleCantidades);
                 sl.SetColumnStyle(21, styleCantidades);
+                
+                sl.SetCellStyle(3, 1,noRows, 5, styleColorCV );
+                sl.SetCellStyle(3, 7, noRows, 17, styleColorFacturacion);
 
-                for(int i = 1; i <= 5; i++)
-                {
-                    sl.SetColumnStyle(i, styleColorCV);
-                }
-                for(int j = 7; j<= 17; j++){
-                    sl.SetColumnStyle(j, styleColorFacturacion);
-                }                
-                for(int k =1; k<=22; k++)
-                {
-                    sl.SetColumnWidth(k, 27);
-                }
+                sl.SetColumnWidth(1,22,27);
+                sl.SetColumnWidth(6, 3);
 
                 sl.SetRowStyle(2, styleEncabezados);
 
