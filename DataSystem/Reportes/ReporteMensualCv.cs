@@ -856,12 +856,12 @@ namespace DataSystem.Reportes
                 sl.SetCellValue("U2", "Diferencia de Lts o ML");                
                 sl.SetCellValue("V2", "Observaciones");
 
-                int noRows = 0;
+                int noRows = 2;
 
                 if (chkMargen.Checked)
                 {
                     LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
-                    noRows = LstResultadosAux.Count();
+                    noRows += LstResultadosAux.Count();
                     //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
                     //excelResult = AccountExport.Export(LstResultadosAux);
                     GenerarRowsExcel(LstResultadosAux, sl);
@@ -869,7 +869,7 @@ namespace DataSystem.Reportes
                 else {
                     //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
                     //excelResult = AccountExport.Export(LstResultados);
-                    noRows = LstResultados.Count();
+                    noRows += LstResultados.Count();
                     GenerarRowsExcel(LstResultados, sl);
                 }
 
