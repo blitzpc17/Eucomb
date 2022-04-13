@@ -250,6 +250,9 @@ namespace DataSystem.Reportes
                         objProducto.REPORTEDEVOLUMENMENSUAL.ENTREGAS.Complemento.Complemento_Expendio.NACIONAL.Add(objNacEnc);
 
                     }
+                }
+                else {
+                    MessageBox.Show("El producto " + objProducto.ClaveSubProducto + " " + objProducto.MarcaComercial + " no tiene COMPLEMENTOS EN ENTREGAS.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }               
 
                 obj.PRODUCTO.Add(objProducto);
@@ -328,6 +331,7 @@ namespace DataSystem.Reportes
                 decimal sumaRecepciones = 0;
                 if (pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento == null){
                     sumaRecepciones = 0;
+                    MessageBox.Show("El producto "+pro.ClaveSubProducto+" "+pro.MarcaComercial+" no tiene COMPLEMENTOS EN RECEPCIONES.","Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -797,9 +801,18 @@ namespace DataSystem.Reportes
                 SLDocument sl = new SLDocument();
                 sl.SetCellValue("A1", "CONTENIDO DE ARCHIVO CONTROL VOLUMETRICO");
                 sl.SetCellValue("G1", "CONTENIDO EN FACTURACION");
+                sl.SetCellValue("R1", "COMPARACIÓN");
                 SLStyle styleEncabezados = sl.CreateStyle();
                 SLStyle styleCantidades = sl.CreateStyle();
                 SLStyle styleColorCV = sl.CreateStyle();
+                SLStyle styleColorFacturacion = sl.CreateStyle();
+                SLStyle styleColorComparacion = sl.CreateStyle();
+
+                //colores
+                SLThemeSettings themeFacturacion = new SLThemeSettings();
+                themeFacturacion.ThemeName = "colorFacturacion";
+                themeFacturacion.Accent1Color = System.Drawing.Color.Aquamarine;
+                themeFacturacion.Accent2Color = System.Drawing.Color.Yellow;
                 //stylo encabezados
                 styleEncabezados.Alignment.Horizontal = HorizontalAlignmentValues.Center;
                 styleEncabezados.Font.Bold = true;
@@ -807,12 +820,18 @@ namespace DataSystem.Reportes
                 styleCantidades.Alignment.Horizontal = HorizontalAlignmentValues.Right;
                 //stylo color cv
                 styleColorCV.Fill.SetPattern(PatternValues.Solid, SLThemeColorIndexValues.Accent1Color, SLThemeColorIndexValues.Accent2Color);
-
+                //color facturacion
+                styleColorFacturacion.Fill.SetPattern(PatternValues.Solid, themeFacturacion.Accent1Color, themeFacturacion.Accent1Color);
+                //color comparacion
+                styleColorComparacion.Fill.SetPattern(PatternValues.Solid, themeFacturacion.Accent2Color, themeFacturacion.Accent2Color);
                 sl.SetCellStyle("A1", styleEncabezados);
                 sl.SetCellStyle("G1", styleEncabezados);
+                sl.SetCellStyle("R1", styleEncabezados);               
 
                 sl.MergeWorksheetCells("A1", "E1");
-                sl.MergeWorksheetCells("G1","V1");
+                sl.MergeWorksheetCells("G1","Q1");
+                sl.SetCellStyle("R1", styleColorComparacion);
+                sl.MergeWorksheetCells("R1", "V1");
 
                 sl.SetCellValue("A2", "RFC");
                 sl.SetCellValue("B2", "Nombre Cliente");
@@ -837,10 +856,6 @@ namespace DataSystem.Reportes
                 sl.SetCellValue("U2", "Diferencia de Lts o ML");                
                 sl.SetCellValue("V2", "Observaciones");
 
-                sl.SetRowStyle(2, styleEncabezados);
-
-
-
                 if (chkMargen.Checked)
                 {
                     LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
@@ -855,6 +870,8 @@ namespace DataSystem.Reportes
                 }
 
                 sl.SetColumnStyle(5, styleCantidades);
+                sl.SetColumnStyle(8, styleCantidades);
+                sl.SetColumnStyle(11, styleCantidades);
                 sl.SetColumnStyle(14, styleCantidades);
                 sl.SetColumnStyle(15, styleCantidades);
                 sl.SetColumnStyle(16, styleCantidades);
@@ -864,12 +881,15 @@ namespace DataSystem.Reportes
                 {
                     sl.SetColumnStyle(i, styleColorCV);
                 }
+                for(int j = 7; j<= 17; j++){
+                    sl.SetColumnStyle(j, styleColorFacturacion);
+                }                
+                for(int k =1; k<=22; k++)
+                {
+                    sl.SetColumnWidth(k, 27);
+                }
 
-                sl.SetColumnWidth(1, 13);
-                sl.SetColumnWidth(2, 13);
-                sl.SetColumnWidth(3, 37.5);
-                
-
+                sl.SetRowStyle(2, styleEncabezados);
 
 
                 sl.SaveAs(rutaSalida);
