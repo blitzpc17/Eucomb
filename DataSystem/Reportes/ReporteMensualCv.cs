@@ -3,6 +3,9 @@ using Entidades.JSONMensual;
 using ExcelWriter;
 using LinqToExcel;
 using Newtonsoft.Json;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
+using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -790,23 +793,123 @@ namespace DataSystem.Reportes
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string rutaSalida = dlg.FileName+".xlsx";
-                byte[] excelResult;
+                //byte[] excelResult;
+                SLDocument sl = new SLDocument();
+                sl.SetCellValue("A1", "CONTENIDO DE ARCHIVO CONTROL VOLUMETRICO");
+                sl.SetCellValue("G1", "CONTENIDO EN FACTURACION");
+                SLStyle styleEncabezados = sl.CreateStyle();
+                SLStyle styleCantidades = sl.CreateStyle();
+                SLStyle styleColorCV = sl.CreateStyle();
+                //stylo encabezados
+                styleEncabezados.Alignment.Horizontal = HorizontalAlignmentValues.Center;
+                styleEncabezados.Font.Bold = true;
+                //stylo cantidades
+                styleCantidades.Alignment.Horizontal = HorizontalAlignmentValues.Right;
+                //stylo color cv
+                styleColorCV.Fill.SetPattern(PatternValues.Solid, SLThemeColorIndexValues.Accent1Color, SLThemeColorIndexValues.Accent2Color);
+
+                sl.SetCellStyle("A1", styleEncabezados);
+                sl.SetCellStyle("G1", styleEncabezados);
+
+                sl.MergeWorksheetCells("A1", "E1");
+                sl.MergeWorksheetCells("G1","V1");
+
+                sl.SetCellValue("A2", "RFC");
+                sl.SetCellValue("B2", "Nombre Cliente");
+                sl.SetCellValue("C2", "CFDI Cliente");
+                sl.SetCellValue("D2", "Fecha Y Hora de Generación");
+                sl.SetCellValue("E2", "Litros de Venta");
+                sl.SetCellValue("F2", "");
+                sl.SetCellValue("G2", "folio_imp");
+                sl.SetCellValue("H2", "No. Cliente");
+                sl.SetCellValue("I2", "Nom. Cliente");
+                sl.SetCellValue("J2", "Serie Factura");
+                sl.SetCellValue("K2", "Folio Factura");
+                sl.SetCellValue("L2", "Fecha Y Hora Generación");
+                sl.SetCellValue("M2", "Producto");
+                sl.SetCellValue("N2", "Litros por Venta");
+                sl.SetCellValue("O2", "Precio por Litro");
+                sl.SetCellValue("P2", "Importe de Venta");
+                sl.SetCellValue("Q2", "CFDI");
+                sl.SetCellValue("R2", "Compara Nombre");
+                sl.SetCellValue("S2", "Compara CFDI");
+                sl.SetCellValue("T2", "Compara Litros");
+                sl.SetCellValue("U2", "Diferencia de Lts o ML");                
+                sl.SetCellValue("V2", "Observaciones");
+
+                sl.SetRowStyle(2, styleEncabezados);
+
+
+
                 if (chkMargen.Checked)
                 {
                     LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
-                    IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
-                    excelResult = AccountExport.Export(LstResultadosAux);
+                    //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                    //excelResult = AccountExport.Export(LstResultadosAux);
+                    GenerarRowsExcel(LstResultadosAux, sl);
                 }
                 else {
-                    IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
-                    excelResult = AccountExport.Export(LstResultados);
+                    //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                    //excelResult = AccountExport.Export(LstResultados);
+                    GenerarRowsExcel(LstResultados, sl);
                 }
-              
-              
-                File.WriteAllBytes(rutaSalida, excelResult);
+
+                sl.SetColumnStyle(5, styleCantidades);
+                sl.SetColumnStyle(14, styleCantidades);
+                sl.SetColumnStyle(15, styleCantidades);
+                sl.SetColumnStyle(16, styleCantidades);
+                sl.SetColumnStyle(21, styleCantidades);
+
+                for(int i = 1; i <= 5; i++)
+                {
+                    sl.SetColumnStyle(i, styleColorCV);
+                }
+
+                sl.SetColumnWidth(1, 13);
+                sl.SetColumnWidth(2, 13);
+                sl.SetColumnWidth(3, 37.5);
+                
+
+
+
+                sl.SaveAs(rutaSalida);
+                //File.WriteAllBytes(rutaSalida, excelResult);
                 MessageBox.Show("Se han exportado los registros.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
            
+        }
+
+        private void GenerarRowsExcel(List<Entidades.cls.clsResultadosMensual> LstResultadosExcel, SLDocument objExcel)
+        {
+            int index = 3;
+            foreach(var row in LstResultadosExcel)
+            {
+                objExcel.SetCellValue("A" + index, row.RfcClienteOProveedor);
+                objExcel.SetCellValue("B"+index, row.NombreClienteOPRoveedor);
+                objExcel.SetCellValue("C"+index, row.CFDI);
+                objExcel.SetCellValue("D"+index, row.FechaYHoraTransaccion.ToString());
+                objExcel.SetCellValue("E"+index, row.VolumenNumerico);
+                objExcel.SetCellValue("F"+index, row.Existe);
+                objExcel.SetCellValue("G"+index, row.folio_Imp);
+                objExcel.SetCellValue("H"+index, row.clavecli);
+                objExcel.SetCellValue("I"+index, row.NombreCliente);
+                objExcel.SetCellValue("J"+index, row.serie);
+                objExcel.SetCellValue("K"+index, row.docto);
+                objExcel.SetCellValue("L"+index, row.fecha_reg.ToString());
+                objExcel.SetCellValue("M"+index, row.nombrep);
+                objExcel.SetCellValue("N"+index, row.Cant);
+                objExcel.SetCellValue("O"+index, row.precio);
+                objExcel.SetCellValue("P"+index, row.imported);
+                objExcel.SetCellValue("Q"+index, row.UUID);
+                objExcel.SetCellValue("R"+index, row.ComparaNombre);
+                objExcel.SetCellValue("S"+index, row.ComparaCfdi);
+                objExcel.SetCellValue("T"+index, row.ComparaLts);
+                objExcel.SetCellValue("U"+index, row.DiferenciaCantidades);
+                objExcel.SetCellValue("V"+index, row.Observacion);
+
+                index++;
+            }
+            
         }
 
         private void LimpiarFormulario()
