@@ -28,7 +28,8 @@ namespace Entidades.cls
         //public String descgrupo { get; set; }
         //public decimal pagos { get; set; }
         //public decimal saldo { get; set; }
-        public DateTime fec_reg { get; set; }
+        public DateTime fec_reg { get; set; }  //en el excel apunta a fyhtransaccion
+       
         //public String fentrega { get; set; }
         //public String email { get; set; }
         //public String email2 { get; set; }
@@ -49,8 +50,9 @@ namespace Entidades.cls
         //public decimal _pagos { get; set; }
         //public decimal _saldo { get; set; }
         public String uuid { get; set; }
-      //  public String fcanc { get; set; }
-     //   public String usuariocan { get; set; }
+        //  public String fcanc { get; set; }
+        //   public String usuariocan { get; set; }
+        public String fyh_trans { get;set; }
 
     }
 }
