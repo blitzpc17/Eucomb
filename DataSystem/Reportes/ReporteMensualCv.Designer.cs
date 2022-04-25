@@ -545,6 +545,7 @@
             // 
             // chkMargen
             // 
+            this.chkMargen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkMargen.AutoSize = true;
             this.chkMargen.Location = new System.Drawing.Point(621, 644);
             this.chkMargen.Name = "chkMargen";
