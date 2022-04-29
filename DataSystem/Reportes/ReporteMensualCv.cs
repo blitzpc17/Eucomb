@@ -1459,27 +1459,116 @@ namespace DataSystem.Reportes
 
 
             List<Entidades.cls.clsResultadosMensual> LstResultados = new List<Entidades.cls.clsResultadosMensual>();
-
+            
             foreach (var itemCfdi in lstUnionListas)
             {                
                 var lstFechaManuales = lstManualesAux.Where(x=>x.uuid==itemCfdi).Select(x=>x.fec_reg).Distinct().ToList();
                 var lstFechaCv = LstControlVolumetricoMensualAux.Where(x => x.CFDI == itemCfdi).Select(x=>x.FechaYHoraTransaccion).Distinct().ToList();
 
+                if (lstFechaManuales.Count != lstFechaCv.Count)
+                {
+                    var fechas = (from fman in lstFechaManuales
+                                 join fcv in lstFechaCv on fman equals fcv into fmc
+                                 from fcv in fmc.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     fman,fcv
+                                 }).ToList();
+
+                    var fechas2 = (from fcv in lstFechaCv
+                                   join fman in lstFechaManuales on fcv equals fman into fmc
+                                   from fman in fmc.DefaultIfEmpty()
+                                   select new
+                                   {
+                                       fcv, fman
+                                   }).ToList();
+
+                    //fman
+                    var lstIrregulares = fechas.Where(x=>x.fcv!=x.fman).ToList();
+                    //fcv
+                    var lstIrregulares2 = fechas2.Where(x => x.fcv != x.fman).ToList();
+
+                    foreach(var item in lstIrregulares)
+                    {
+                        foreach(var noObjDet in lstManuales.Where(x=>x.uuid==itemCfdi&&x.fec_reg == item.fman).ToList())
+                        {
+                            LstResultados.Add(
+                           new Entidades.cls.clsResultadosMensual
+                           {
+                               RfcClienteOProveedor = null,
+                               NombreClienteOPRoveedor = null,
+                               CFDI = null,
+                               FechaYHoraTransaccion = null,
+                               VolumenNumerico = 0,
+                               Existe = ">",
+                               folio_Imp = noObjDet.folio_imp,
+                               clavecli = noObjDet.cliente,
+                               NombreCliente = noObjDet.nombre,
+                               serie = noObjDet.serie,
+                               docto = noObjDet.docto,
+                               fecha_reg = noObjDet.fec_reg,
+                               nombrep = noObjDet.nombrep,
+                               Cant = noObjDet.cant,
+                               precio = noObjDet.precio,
+                               imported = noObjDet.imported,
+                               UUID = noObjDet.uuid,
+                               ComparaNombre = true,
+                               ComparaCfdi = true,
+                               ComparaLts = true,
+                               Observacion = "NO EXISTE EN ARCHIVO C.V.",
+                               DiferenciaCantidades = noObjDet.cant
+                           });
+                        }                        
+                    }
+
+                    foreach (var item in lstIrregulares2)
+                    {
+                        foreach(var objCv in LstControlVolumetricoMensual.Where(x=>x.CFDI==itemCfdi&&x.FechaYHoraTransaccion==item.fcv))
+                        {
+                            LstResultados.Add(
+                                new Entidades.cls.clsResultadosMensual
+                                {
+                                    RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                                    NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
+                                    CFDI = objCv.CFDI,
+                                    FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                                    VolumenNumerico = objCv.ValorNumerico,
+                                    Existe = "<",
+                                    folio_Imp = null,
+                                    clavecli = null,
+                                    NombreCliente = null,
+                                    serie = null,
+                                    docto = null,
+                                    fecha_reg = null,
+                                    nombrep = null,
+                                    Cant = 0,
+                                    precio = 0,
+                                    imported = 0,
+                                    UUID = null,
+                                    ComparaNombre = false,
+                                    ComparaCfdi = false,
+                                    ComparaLts = false,
+                                    Observacion = "NO EXISTE EN FACTURACIÓN",
+                                    DiferenciaCantidades = objCv.ValorNumerico
+                                });
+                        }
+                    }
+                }
+
+             
+
                 //unir fechas
                 var lstUnionFechas = lstFechaManuales.Intersect(lstFechaCv).OrderBy(x=>x).ToList();//ver q pasa aqui
-                var lstCoincidenFecha = lstFechaManuales.Except(lstFechaCv).ToList();//las q no coinciden
+                var lstCoincidenFecha = lstUnionFechas.Except(lstFechaCv).ToList();//las q no coinciden
 
                 foreach(var fecha in lstUnionFechas)
                 {
-                    if(fecha == DateTime.Parse("13-Mar-22 09:24:34"))
-                    {
 
-                    }
                     var lstCoincidenciasMan = lstManualesAux.Where(x=>x.uuid==itemCfdi&&x.fec_reg== fecha).OrderBy(x=>x.nombre).ThenBy(x=>x.cant).ToList();
                     var lstCoincidenciasCv = LstControlVolumetricoMensualAux.Where(x=>x.CFDI==itemCfdi&&x.FechaYHoraTransaccion==fecha).OrderBy(x=>x.NombreClienteOProveedor).ThenBy(x=>x.FechaYHoraTransaccion).ToList();
 
-                    
-                    foreach(var objCv in lstCoincidenciasCv)
+                  
+                    foreach (var objCv in lstCoincidenciasCv)
                     {
                         int indexMan = 0;
                         bool existe = false;
