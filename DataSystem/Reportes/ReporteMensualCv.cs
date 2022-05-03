@@ -22,6 +22,9 @@ namespace DataSystem.Reportes
         private List<Entidades.cls.FACTURASDETALLE> lstManuales;
         List<Entidades.cls.clsResultadosMensual> LstResultados;
         List<Entidades.cls.clsResultadosMensual> LstResultadosAux;
+
+        List<Entidades.cls.FACTURASDETALLE> LstFacturaDetalleSnFecha;
+
         private ExcelQueryFactory urlConexion;
         public ReporteMensualCv()
         {
@@ -380,6 +383,7 @@ namespace DataSystem.Reportes
 
                     var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>(0)
                                  select a).ToList();
+                    LstFacturaDetalleSnFecha = query.Where(x=>x.fyh_trans == "  -   -  : :").ToList();
                     query = query.Where(a => a.fyh_trans!= "  -   -  : :").ToList();
                     var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
                     {
@@ -399,6 +403,8 @@ namespace DataSystem.Reportes
                         fyh_trans =x.fec_reg.ToString(),
 
                     }).ToList();
+
+                    prueba.AddRange(LstFacturaDetalleSnFecha);
                     lstManuales = prueba;
                     lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
                     lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel")||x.nombrep.StartsWith("DIESEL")||x.nombrep.StartsWith("COMBUSTIBLE")||x.nombrep.StartsWith("Combustible")||x.nombrep.StartsWith("combustible"))).ToList();
@@ -1095,11 +1101,6 @@ namespace DataSystem.Reportes
                 var lstCoincidenciasManuales = lstManualesAux.Where(x => x.uuid == itemE).ToList();
                 var lstCvCoincidencias = LstControlVolumetricoMensualAux.Where(x => x.CFDI == itemE).ToList();
 
-                if(itemE== "64D0F321-3EF4-4182-B8B4-352EA757DA3C")
-                {
-
-                }
-
                 lstCoincidenciasManuales = lstCoincidenciasManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x=>x.fec_reg).ThenBy(x => x.cant).ToList();
                 lstCvCoincidencias = lstCvCoincidencias.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x=>x.FechaYHoraTransaccion).ThenBy(x => x.ValorNumerico).ToList();
                                         
@@ -1433,11 +1434,14 @@ namespace DataSystem.Reportes
             var lstUUIDsManuales = lstManualesAux.Select(x => x.uuid).Distinct().ToList();
             var lstCFDICv = LstControlVolumetricoMensualAux.Select(x => x.CFDI).Distinct().ToList();
 
-            var lstUnionListas =// new List<String> { "64D0F321-3EF4-4182-B8B4-352EA757DA3C" };
-            lstUUIDsManuales.Intersect(lstCFDICv).ToList();
-            
+            var lstUnionListas =
+               //new List<String> { "64D0F321-3EF4-4182-B8B4-352EA757DA3C" };
+               // new List<String> { "97015577-3A57-4312-901D-42BCC55A8E91" };
+            //   new List<String> { "FD5ECF64-0D7A-43F4-BA0B-3E11F70B82D4" };
+                    lstUUIDsManuales.Intersect(lstCFDICv).ToList();
 
-            var lstNoexisten = lstUUIDsManuales.Except(lstUnionListas).ToList();
+
+                    var lstNoexisten = lstUUIDsManuales.Except(lstUnionListas).ToList();
             lstNoexisten.AddRange(lstCFDICv.Except(lstUnionListas).ToList()); //aqui hay une rror porque esta duplicando las que no existen
 
 
@@ -1454,8 +1458,8 @@ namespace DataSystem.Reportes
                 select cv).ToList();
 
             //obteniendo y excluyendo facturas directas (no estan en xlm)
-            List<Entidades.cls.FACTURASDETALLE> lstFacturasDirectasManuales = lstManualesAux.Where(x => x.fec_reg == DateTime.Today).ToList();
-            lstManualesAux = lstManualesAux.Where(x => x.fec_reg != DateTime.Today).ToList();
+            List<Entidades.cls.FACTURASDETALLE> lstFacturasDirectasManuales = lstManualesAux.Where(x => x.fyh_trans == "  -   -  : :").ToList();
+            lstManualesAux = lstManualesAux.Where(x => x.fyh_trans != "  -   -  : :").ToList();
 
 
             List<Entidades.cls.clsResultadosMensual> LstResultados = new List<Entidades.cls.clsResultadosMensual>();
@@ -1767,8 +1771,39 @@ namespace DataSystem.Reportes
                 }
             }
 
+            //recorrer los que no tienen fy h registro 
+            foreach(var noObjDet in lstFacturasDirectasManuales)
+            {
+                LstResultados.Add(
+                        new Entidades.cls.clsResultadosMensual
+                        {
+                            RfcClienteOProveedor = null,
+                            NombreClienteOPRoveedor = null,
+                            CFDI = null,
+                            FechaYHoraTransaccion = null,
+                            VolumenNumerico = 0,
+                            Existe = ">",
+                            folio_Imp = noObjDet.folio_imp,
+                            clavecli = noObjDet.cliente,
+                            NombreCliente = noObjDet.nombre,
+                            serie = noObjDet.serie,
+                            docto = noObjDet.docto,
+                            fecha_reg = noObjDet.fec_reg,
+                            nombrep = noObjDet.nombrep,
+                            Cant = noObjDet.cant,
+                            precio = noObjDet.precio,
+                            imported = noObjDet.imported,
+                            UUID = noObjDet.uuid,
+                            ComparaNombre = true,
+                            ComparaCfdi = true,
+                            ComparaLts = true,
+                            Observacion = "NO EXISTE EN ARCHIVO C.V.",
+                            DiferenciaCantidades = noObjDet.cant
+                        });
+            }
 
-            /*
+
+            
 
             if (chkMargen.Checked)
             {
@@ -1777,7 +1812,7 @@ namespace DataSystem.Reportes
             else
             {
                 LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
-            }*/
+            }
 
 
             dgvErrores.DataSource = LstResultados.OrderBy(x => x.NombreCliente).ThenBy(x => x.UUID).ThenBy(x => x.Cant).ToList(); ;
