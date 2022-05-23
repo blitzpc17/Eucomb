@@ -73,6 +73,7 @@
             this.panelInventarios = new System.Windows.Forms.Panel();
             this.btnXmlJson = new System.Windows.Forms.Button();
             this.chkMargen = new System.Windows.Forms.CheckBox();
+            this.chkTodo = new System.Windows.Forms.CheckBox();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -554,11 +555,22 @@
             this.chkMargen.Text = "Margen de diferencia ";
             this.chkMargen.UseVisualStyleBackColor = true;
             // 
+            // chkTodo
+            // 
+            this.chkTodo.AutoSize = true;
+            this.chkTodo.Location = new System.Drawing.Point(538, 644);
+            this.chkTodo.Name = "chkTodo";
+            this.chkTodo.Size = new System.Drawing.Size(66, 17);
+            this.chkTodo.TabIndex = 40;
+            this.chkTodo.Text = "Ver todo";
+            this.chkTodo.UseVisualStyleBackColor = true;
+            // 
             // ReporteMensualCv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 681);
+            this.Controls.Add(this.chkTodo);
             this.Controls.Add(this.chkMargen);
             this.Controls.Add(this.btnXmlJson);
             this.Controls.Add(this.tabControl1);
@@ -640,5 +652,6 @@
         private System.Windows.Forms.TextBox txtModPermiso;
         private System.Windows.Forms.Panel panelInventarios;
         private System.Windows.Forms.CheckBox chkMargen;
+        private System.Windows.Forms.CheckBox chkTodo;
     }
 }

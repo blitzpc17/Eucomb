@@ -1435,9 +1435,6 @@ namespace DataSystem.Reportes
             var lstCFDICv = LstControlVolumetricoMensualAux.Select(x => x.CFDI).Distinct().ToList();
 
             var lstUnionListas =
-               //new List<String> { "64D0F321-3EF4-4182-B8B4-352EA757DA3C" };
-               // new List<String> { "97015577-3A57-4312-901D-42BCC55A8E91" };
-            //   new List<String> { "FD5ECF64-0D7A-43F4-BA0B-3E11F70B82D4" };
                     lstUUIDsManuales.Intersect(lstCFDICv).ToList();
 
 
@@ -1803,16 +1800,19 @@ namespace DataSystem.Reportes
             }
 
 
-            
+            if (!chkTodo.Checked)
+            {
+                if (chkMargen.Checked)
+                {
+                    LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
+                }
+                else
+                {
+                    LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
+                }
 
-            if (chkMargen.Checked)
-            {
-                LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
             }
-            else
-            {
-                LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
-            }
+
 
 
             dgvErrores.DataSource = LstResultados.OrderBy(x => x.NombreCliente).ThenBy(x => x.UUID).ThenBy(x => x.Cant).ToList(); ;
