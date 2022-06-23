@@ -53,6 +53,7 @@ namespace Entidades.cls
         //  public String fcanc { get; set; }
         //   public String usuariocan { get; set; }
         public String fyh_trans { get;set; }
+        public int idtrans { get; set; }
 
     }
 }

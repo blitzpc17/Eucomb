@@ -26,6 +26,8 @@ namespace DataSystem.Reportes
         List<Entidades.cls.FACTURASDETALLE> LstFacturaDetalleSnFecha;
 
         private ExcelQueryFactory urlConexion;
+        private string argumentoBackground = "";
+        private string rutaImportado = "";
         public ReporteMensualCv()
         {
             InitializeComponent();
@@ -361,57 +363,68 @@ namespace DataSystem.Reportes
         }
 
         private void btnImportarLayout_Click(object sender, EventArgs e)
-        {            
-            ImportarExcel();
+        {
+            if (backgroundWorker1.IsBusy) return;
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string[] nombreArchivo = dlg.SafeFileName.Split('.');
+                if (nombreArchivo[1] != "xlsx")
+                {
+                    MessageBox.Show("EL ARCHIVO EXCEL TIENE QUE TENER  VERSION (.xlsx)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                rutaImportado = dlg.FileName;
+
+                lblEstado.Text = "Importando archivo...";
+                backgroundWorker1.RunWorkerAsync("importarExcel");
+              
+            }
+
         }
 
-        private void ImportarExcel()
-        {
+        private void ImportarExcel(string rutaImportado)
+        {            
             try
             {
-                OpenFileDialog dlg = new OpenFileDialog();
-                if (dlg.ShowDialog() == DialogResult.OK)
+                urlConexion = new ExcelQueryFactory(rutaImportado);
+
+                var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>(0)
+                             select a).ToList();
+
+                backgroundWorker1.ReportProgress(15);
+
+                LstFacturaDetalleSnFecha = query.Where(x => x.fyh_trans == "  -   -  : :").ToList();
+                query = query.Where(a => a.fyh_trans != "  -   -  : :").ToList();
+                var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
                 {
-                    string[] nombreArchivo = dlg.SafeFileName.Split('.');
-                    if (nombreArchivo[1] != "xlsx")
-                    {
-                        MessageBox.Show("EL ARCHIVO EXCEL TIENE QUE TENER  VERSION (.xlsx)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    string rutaImportado = dlg.FileName;
-                    urlConexion = new ExcelQueryFactory(rutaImportado);                  
+                    folio_imp = x.folio_imp,
+                    cliente = x.cliente,
+                    importe = x.importe,
+                    serie = x.serie,
+                    docto = x.docto,
+                    status = x.status,
+                    fec_reg = Convert.ToDateTime(x.fyh_trans),//(x.fyh_trans!="  -   -  : :")?Convert.ToDateTime(x.fyh_trans):DateTime.Today,
+                    nombrep = x.nombrep,
+                    cant = Math.Round(x.cant, 2),
+                    precio = x.precio,
+                    imported = x.imported,
+                    uuid = x.uuid != null ? x.uuid.ToUpper().Trim() : null,
+                    nombre = x.nombre.Trim(),
+                    fyh_trans = x.fec_reg.ToString(),
+                    idtrans = x.idtrans,
 
-                    var query = (from a in urlConexion.Worksheet<Entidades.cls.FACTURASDETALLE>(0)
-                                 select a).ToList();
-                    LstFacturaDetalleSnFecha = query.Where(x=>x.fyh_trans == "  -   -  : :").ToList();
-                    query = query.Where(a => a.fyh_trans!= "  -   -  : :").ToList();
-                    var prueba = query.Select(x => new Entidades.cls.FACTURASDETALLE
-                    {
-                        folio_imp = x.folio_imp,
-                        cliente = x.cliente,
-                        importe = x.importe,
-                        serie = x.serie,
-                        docto = x.docto,
-                        status = x.status,
-                        fec_reg = Convert.ToDateTime(x.fyh_trans),//(x.fyh_trans!="  -   -  : :")?Convert.ToDateTime(x.fyh_trans):DateTime.Today,
-                        nombrep = x.nombrep,
-                        cant = Math.Round(x.cant, 2),
-                        precio = x.precio,
-                        imported = x.imported,
-                        uuid = x.uuid != null ? x.uuid.ToUpper().Trim() : null,
-                        nombre = x.nombre.Trim(),
-                        fyh_trans =x.fec_reg.ToString(),
+                }).ToList();
 
-                    }).ToList();
+                backgroundWorker1.ReportProgress(50);
 
-                    prueba.AddRange(LstFacturaDetalleSnFecha);
-                    lstManuales = prueba;
-                    lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-                    lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina")||x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel")||x.nombrep.StartsWith("DIESEL")||x.nombrep.StartsWith("COMBUSTIBLE")||x.nombrep.StartsWith("Combustible")||x.nombrep.StartsWith("combustible"))).ToList();
-                    lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ThenBy(x=>x.fec_reg).ToList();
-                    dgvManuales.DataSource = lstManuales;
-                    tsManuales.Text = dgvManuales.RowCount.ToString("N0");
-                }
+                prueba.AddRange(LstFacturaDetalleSnFecha);
+                lstManuales = prueba;
+                lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
+                lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel") || x.nombrep.StartsWith("DIESEL") || x.nombrep.StartsWith("COMBUSTIBLE") || x.nombrep.StartsWith("Combustible") || x.nombrep.StartsWith("combustible"))).ToList();
+                lstManuales = lstManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x => x.cant).ThenBy(x => x.fec_reg).ToList();
+                backgroundWorker1.ReportProgress(100);
             }
             catch (Exception ex)
             {
@@ -424,7 +437,17 @@ namespace DataSystem.Reportes
         private void btnComparar_Click(object sender, EventArgs e)
         {
             //  ComparacionArchivos();
-            ComparacionSistema();
+            if (backgroundWorker1.IsBusy) return;
+            // ComparacionSistema();
+            if (lstManuales == null || LstControlVolumetricoMensual == null)
+            {
+                MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            lblEstado.Text = "Comparando archivos...";
+            backgroundWorker1.RunWorkerAsync("comparar");
+
+        
         }
         
         public void UnirListados()
@@ -1388,7 +1411,8 @@ namespace DataSystem.Reportes
         }
 
         private void btnXmlJson_Click(object sender, EventArgs e)
-        {            
+        {
+            if (backgroundWorker1.IsBusy) return;
             CargarArchivo();
         }
 
@@ -1422,11 +1446,11 @@ namespace DataSystem.Reportes
 
         private void ComparacionSistema()
         {
-            if (lstManuales == null || LstControlVolumetricoMensual == null)
-            {
-                MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //if (lstManuales == null || LstControlVolumetricoMensual == null)
+            //{
+            //    MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //} se comento para pasarlo a la accion antes del background
 
             List<Entidades.cls.FACTURASDETALLE>lstManualesAux = lstManuales;
             List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensualAux = LstControlVolumetricoMensual;
@@ -1460,6 +1484,8 @@ namespace DataSystem.Reportes
 
 
             List<Entidades.cls.clsResultadosMensual> LstResultados = new List<Entidades.cls.clsResultadosMensual>();
+
+            backgroundWorker1.ReportProgress(10);
             
             foreach (var itemCfdi in lstUnionListas)
             {                
@@ -1699,6 +1725,8 @@ namespace DataSystem.Reportes
 
 
             }
+
+            backgroundWorker1.ReportProgress(65);
             
             //recorrer los que no existen
             foreach(var rowNoExiste in lstNoexisten)
@@ -1768,8 +1796,10 @@ namespace DataSystem.Reportes
                 }
             }
 
+            backgroundWorker1.ReportProgress(75);
+
             //recorrer los que no tienen fy h registro 
-            foreach(var noObjDet in lstFacturasDirectasManuales)
+            foreach (var noObjDet in lstFacturasDirectasManuales)
             {
                 LstResultados.Add(
                         new Entidades.cls.clsResultadosMensual
@@ -1799,30 +1829,89 @@ namespace DataSystem.Reportes
                         });
             }
 
+            backgroundWorker1.ReportProgress(85);
 
-            if (!chkTodo.Checked)
-            {
-                if (chkMargen.Checked)
-                {
-                    LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
-                }
-                else
-                {
-                    LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
-                }
-
-            }
-
-
-
-            dgvErrores.DataSource = LstResultados.OrderBy(x => x.NombreCliente).ThenBy(x => x.UUID).ThenBy(x => x.Cant).ToList(); ;
-            tsErrores.Text = dgvErrores.RowCount.ToString();
             this.LstResultados = LstResultados;
+            //****************************************************************
+            //if (!chkTodo.Checked)
+            //{
+            //    if (chkMargen.Checked)
+            //    {
+            //        LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
+            //    }
+            //    else
+            //    {
+            //        LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
+            //    }
 
+            //}
+
+
+            //dgvErrores.DataSource = LstResultados.OrderBy(x => x.NombreCliente).ThenBy(x => x.UUID).ThenBy(x => x.Cant).ToList(); ;
+            //tsErrores.Text = dgvErrores.RowCount.ToString();
+            //this.LstResultados = LstResultados;
+            //*************************************************************** se comenta para pasarlo al complete del background
         }
 
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            argumentoBackground = e.Argument.ToString();
+            switch (argumentoBackground)
+            {
+                case "importarExcel":
+                    ImportarExcel(rutaImportado);
+                    break;
+
+                case "comparar":
+                    ComparacionSistema();
+                    break;
 
 
+            }
+        }
 
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            switch (argumentoBackground)
+            {
+                case "importarExcel":
+                    dgvManuales.DataSource = lstManuales;
+                    tsManuales.Text = dgvManuales.RowCount.ToString("N0");
+                    lblEstado.Text = "¡Listo!";
+                    MessageBox.Show("Importación del excel completada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    progressBar1.Value = 0;
+                    break;
+
+                case "comparar":
+
+                    if (!chkTodo.Checked)
+                    {
+                        if (chkMargen.Checked)
+                        {
+                            LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
+                        }
+                        else
+                        {
+                            LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
+                        }
+
+                    }
+                    progressBar1.Value = 95;
+
+                    dgvErrores.DataSource = LstResultados.OrderBy(x => x.NombreCliente).ThenBy(x => x.UUID).ThenBy(x => x.Cant).ToList(); ;
+                    tsErrores.Text = dgvErrores.RowCount.ToString();
+                    progressBar1.Value = 100;
+
+                    MessageBox.Show("Comparación realizada", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    lblEstado.Text = "¡Listo!";
+                    progressBar1.Value = 0;
+                    break;
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
     }
 }
