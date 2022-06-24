@@ -74,5 +74,8 @@ namespace Entidades.cls
 
         [ExportCustom("Observaciones", 22)]
         public String Observacion { get; set; }
+
+        [ExportCustom("Id Transacción",23)]
+        public int IdTrans { get; set; }
     }
 }

@@ -1543,7 +1543,9 @@ namespace DataSystem.Reportes
                                ComparaCfdi = true,
                                ComparaLts = true,
                                Observacion = "NO EXISTE EN ARCHIVO C.V.",
-                               DiferenciaCantidades = noObjDet.cant
+                               DiferenciaCantidades = noObjDet.cant,
+                               IdTrans = noObjDet.idtrans
+                              
                            });
                         }                        
                     }
@@ -1576,7 +1578,8 @@ namespace DataSystem.Reportes
                                     ComparaCfdi = false,
                                     ComparaLts = false,
                                     Observacion = "NO EXISTE EN FACTURACIÓN",
-                                    DiferenciaCantidades = objCv.ValorNumerico
+                                    DiferenciaCantidades = objCv.ValorNumerico,
+                                    IdTrans = 0
                                 });
                         }
                     }
@@ -1649,7 +1652,8 @@ namespace DataSystem.Reportes
                                     ComparaCfdi = true,
                                     ComparaLts = true,
                                     Observacion = diferencia!=0?"Las cantidades no cuadran.":"",
-                                    DiferenciaCantidades = diferencia
+                                    DiferenciaCantidades = diferencia,
+                                    IdTrans = objDet.idtrans
                                 });
                         }
                         else
@@ -1679,7 +1683,8 @@ namespace DataSystem.Reportes
                                     ComparaCfdi = false,
                                     ComparaLts = false,
                                     Observacion = "NO EXISTE EN FACTURACIÓN",
-                                    DiferenciaCantidades = diferencia
+                                    DiferenciaCantidades = diferencia,
+                                    IdTrans = 0
                                 });
                         }
 
@@ -1716,7 +1721,8 @@ namespace DataSystem.Reportes
                                ComparaCfdi = true,
                                ComparaLts = true,
                                Observacion = "NO EXISTE EN ARCHIVO C.V.",
-                               DiferenciaCantidades = noObjDet.cant
+                               DiferenciaCantidades = noObjDet.cant,
+                               IdTrans = noObjDet.idtrans
                            });
                         }
                     }
