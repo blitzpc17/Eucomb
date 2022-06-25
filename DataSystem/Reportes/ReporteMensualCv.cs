@@ -867,7 +867,7 @@ namespace DataSystem.Reportes
                 SLDocument sl = new SLDocument();
                 sl.SetCellValue("A1", "CONTENIDO DE ARCHIVO CONTROL VOLUMETRICO");
                 sl.SetCellValue("G1", "CONTENIDO EN FACTURACION");
-                sl.SetCellValue("R1", "COMPARACIÓN");
+                sl.SetCellValue("S1", "COMPARACIÓN");
                 SLStyle styleEncabezados = sl.CreateStyle();
                 SLStyle styleCantidades = sl.CreateStyle();
                 SLStyle styleColorCV = sl.CreateStyle();
@@ -892,12 +892,12 @@ namespace DataSystem.Reportes
                 styleColorComparacion.Fill.SetPattern(PatternValues.Solid, themeFacturacion.Accent2Color, themeFacturacion.Accent2Color);
                 sl.SetCellStyle("A1", styleEncabezados);
                 sl.SetCellStyle("G1", styleEncabezados);
-                sl.SetCellStyle("R1", styleEncabezados);               
+                sl.SetCellStyle("S1", styleEncabezados);               
 
                 sl.MergeWorksheetCells("A1", "E1");
-                sl.MergeWorksheetCells("G1","Q1");
-                sl.SetCellStyle("R1", styleColorComparacion);
-                sl.MergeWorksheetCells("R1", "V1");
+                sl.MergeWorksheetCells("G1","R1");
+                sl.SetCellStyle("S1", styleColorComparacion);
+                sl.MergeWorksheetCells("S1", "W1");
 
                 sl.SetCellValue("A2", "RFC");
                 sl.SetCellValue("B2", "Nombre Cliente");
@@ -916,11 +916,12 @@ namespace DataSystem.Reportes
                 sl.SetCellValue("O2", "Precio por Litro");
                 sl.SetCellValue("P2", "Importe de Venta");
                 sl.SetCellValue("Q2", "CFDI");
-                sl.SetCellValue("R2", "Compara Nombre");
-                sl.SetCellValue("S2", "Compara CFDI");
-                sl.SetCellValue("T2", "Compara Litros");
-                sl.SetCellValue("U2", "Diferencia de Lts o ML");                
-                sl.SetCellValue("V2", "Observaciones");
+                sl.SetCellValue("R2", "IdTrans");
+                sl.SetCellValue("S2", "Compara Nombre");
+                sl.SetCellValue("T2", "Compara CFDI");
+                sl.SetCellValue("U2", "Compara Litros");
+                sl.SetCellValue("V2", "Diferencia de Lts o ML");                
+                sl.SetCellValue("W2", "Observaciones");
 
                 int noRows = 2;
 
@@ -948,7 +949,7 @@ namespace DataSystem.Reportes
                 sl.SetColumnStyle(21, styleCantidades);
                 
                 sl.SetCellStyle(3, 1,noRows, 5, styleColorCV );
-                sl.SetCellStyle(3, 7, noRows, 17, styleColorFacturacion);
+                sl.SetCellStyle(3, 7, noRows, 18, styleColorFacturacion);
 
                 sl.SetColumnWidth(1,22,27);
                 sl.SetColumnWidth(6, 3);
@@ -985,11 +986,12 @@ namespace DataSystem.Reportes
                 objExcel.SetCellValue("O"+index, row.precio);
                 objExcel.SetCellValue("P"+index, row.imported);
                 objExcel.SetCellValue("Q"+index, row.UUID);
-                objExcel.SetCellValue("R"+index, row.ComparaNombre);
-                objExcel.SetCellValue("S"+index, row.ComparaCfdi);
-                objExcel.SetCellValue("T"+index, row.ComparaLts);
-                objExcel.SetCellValue("U"+index, row.DiferenciaCantidades);
-                objExcel.SetCellValue("V"+index, row.Observacion);
+                objExcel.SetCellValue("R"+ index, row.IdTrans);
+                objExcel.SetCellValue("S"+index, row.ComparaNombre);
+                objExcel.SetCellValue("T"+index, row.ComparaCfdi);
+                objExcel.SetCellValue("U"+index, row.ComparaLts);
+                objExcel.SetCellValue("V"+index, row.DiferenciaCantidades);
+                objExcel.SetCellValue("W"+index, row.Observacion);
 
                 index++;
             }
@@ -1539,9 +1541,9 @@ namespace DataSystem.Reportes
                                precio = noObjDet.precio,
                                imported = noObjDet.imported,
                                UUID = noObjDet.uuid,
-                               ComparaNombre = true,
-                               ComparaCfdi = true,
-                               ComparaLts = true,
+                               ComparaNombre = false,
+                               ComparaCfdi = false,
+                               ComparaLts = false,
                                Observacion = "NO EXISTE EN ARCHIVO C.V.",
                                DiferenciaCantidades = noObjDet.cant,
                                IdTrans = noObjDet.idtrans
@@ -1717,9 +1719,9 @@ namespace DataSystem.Reportes
                                precio = noObjDet.precio,
                                imported = noObjDet.imported,
                                UUID = noObjDet.uuid,
-                               ComparaNombre = true,
-                               ComparaCfdi = true,
-                               ComparaLts = true,
+                               ComparaNombre = false,
+                               ComparaCfdi = false,
+                               ComparaLts = false,
                                Observacion = "NO EXISTE EN ARCHIVO C.V.",
                                DiferenciaCantidades = noObjDet.cant,
                                IdTrans = noObjDet.idtrans
@@ -1761,9 +1763,9 @@ namespace DataSystem.Reportes
                               precio = noObjDet.precio,
                               imported = noObjDet.imported,
                               UUID = noObjDet.uuid,
-                              ComparaNombre = true,
-                              ComparaCfdi = true,
-                              ComparaLts = true,
+                              ComparaNombre = false,
+                              ComparaCfdi = false,
+                              ComparaLts = false,
                               Observacion = "NO EXISTE EN ARCHIVO C.V.",
                               DiferenciaCantidades = noObjDet.cant
                           });
@@ -1827,9 +1829,9 @@ namespace DataSystem.Reportes
                             precio = noObjDet.precio,
                             imported = noObjDet.imported,
                             UUID = noObjDet.uuid,
-                            ComparaNombre = true,
-                            ComparaCfdi = true,
-                            ComparaLts = true,
+                            ComparaNombre = false,
+                            ComparaCfdi = false,
+                            ComparaLts = false,
                             Observacion = "NO EXISTE EN ARCHIVO C.V.",
                             DiferenciaCantidades = noObjDet.cant
                         });
