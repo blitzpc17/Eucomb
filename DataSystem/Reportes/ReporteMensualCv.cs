@@ -925,20 +925,25 @@ namespace DataSystem.Reportes
 
                 int noRows = 2;
 
-                if (chkMargen.Checked)
+                /* if (chkMargen.Checked)
+                 {
+                     LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
+                     noRows += LstResultadosAux.Count();
+                     //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                     //excelResult = AccountExport.Export(LstResultadosAux);
+                     GenerarRowsExcel(LstResultadosAux, sl);
+                 }
+                 else {*/
+                //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
+                //excelResult = AccountExport.Export(LstResultados);
+                if (!chkTodo.Checked)
                 {
-                    LstResultadosAux = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.1M).ToList();
-                    noRows += LstResultadosAux.Count();
-                    //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
-                    //excelResult = AccountExport.Export(LstResultadosAux);
-                    GenerarRowsExcel(LstResultadosAux, sl);
+                    LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
                 }
-                else {
-                    //IExport<Entidades.cls.clsResultadosMensual> AccountExport = new ExcelWriter<Entidades.cls.clsResultadosMensual>();
-                    //excelResult = AccountExport.Export(LstResultados);
-                    noRows += LstResultados.Count();
-                    GenerarRowsExcel(LstResultados, sl);
-                }
+                noRows += LstResultados.Count();
+                GenerarRowsExcel(LstResultados, sl);
+                   
+               // }
 
                 sl.SetColumnStyle(5, styleCantidades);
                 sl.SetColumnStyle(8, styleCantidades);
@@ -1083,334 +1088,7 @@ namespace DataSystem.Reportes
             
             
         }
-
-        private void ComparacionArchivos()
-        {
-            if (lstManuales == null || LstControlVolumetricoMensual == null)
-            {
-                MessageBox.Show("No se han cargado los archivos de compracion (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            LstResultados = new List<Entidades.cls.clsResultadosMensual>();
-            List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensualAux = LstControlVolumetricoMensual;
-            List<Entidades.cls.FACTURASDETALLE> lstManualesAux = lstManuales;
-
-            Entidades.cls.clsResultadosMensual ObjResultado;
-
-            var lstUUIDsManuales = lstManualesAux.Select(x => x.uuid).Distinct().ToList();
-            var lstCFDICv = LstControlVolumetricoMensualAux.Select(x => x.CFDI).Distinct().ToList();
-
-            var lstUnionListas =
-            lstUUIDsManuales.Intersect(lstCFDICv).ToList();
-
-            var lstNoexisten = lstUUIDsManuales.Except(lstUnionListas).ToList();
-            lstNoexisten.AddRange(lstCFDICv.Except(lstUnionListas).ToList());
-
-
-            //excuir en las listas principales
-            lstManualesAux = (
-                    from m in lstManuales
-                    where !lstNoexisten.Contains(m.uuid)
-                    select m).ToList();
-
-            //reordenar listas
-            LstControlVolumetricoMensualAux = (
-                from cv in LstControlVolumetricoMensual
-                where !lstNoexisten.Contains(cv.CFDI)
-                select cv).ToList();
-
-
-
-            foreach (var itemE in lstUnionListas)
-            {
-                var lstCoincidenciasManuales = lstManualesAux.Where(x => x.uuid == itemE).ToList();
-                var lstCvCoincidencias = LstControlVolumetricoMensualAux.Where(x => x.CFDI == itemE).ToList();
-
-                lstCoincidenciasManuales = lstCoincidenciasManuales.OrderBy(x => x.nombre).ThenBy(x => x.uuid).ThenBy(x=>x.fec_reg).ThenBy(x => x.cant).ToList();
-                lstCvCoincidencias = lstCvCoincidencias.OrderBy(x => x.NombreClienteOProveedor).ThenBy(x => x.CFDI).ThenBy(x=>x.FechaYHoraTransaccion).ThenBy(x => x.ValorNumerico).ToList();
-                                        
-                        lstCoincidenciasManuales = lstCoincidenciasManuales.Where(x => x.uuid == "64D0F321-3EF4-4182-B8B4-352EA757DA3C").OrderBy(x => x.cant).ToList();
-                        lstCvCoincidencias = lstCvCoincidencias.Where(x => x.CFDI == "64D0F321-3EF4-4182-B8B4-352EA757DA3C").OrderBy(x => x.ValorNumerico).ToList();
-                       
-                        int indexInicioMan = 0;
-                        int indexInicioManAux = 0;
-                        Entidades.cls.FACTURASDETALLE ObjMan;
-                        List<Entidades.cls.clsControlVolumetricoMensual> LstAuxCv = new List<Entidades.cls.clsControlVolumetricoMensual>();
-                        List<Entidades.cls.FACTURASDETALLE> LstAuxManual = new List<Entidades.cls.FACTURASDETALLE>();
-                        LstAuxCv.AddRange(lstCvCoincidencias);
-                        LstAuxManual.AddRange(lstCoincidenciasManuales);
-                        int indexInicioCv = 0;
-                        foreach (var objCv in lstCvCoincidencias)
-                        {
-                            indexInicioCv++;
-                            decimal diferencia = 0;
-                            if(indexInicioMan < lstCoincidenciasManuales.Count)
-                            {
-                                indexInicioManAux = indexInicioMan;
-                            }
-                            else
-                            {
-                                indexInicioMan = indexInicioManAux;
-                            }
-                            bool existe = false;
-                            while (indexInicioMan < lstCoincidenciasManuales.Count)
-                            {
-                                ObjMan = lstCoincidenciasManuales[(indexInicioMan)];                              
-                                diferencia = decimal.Round(ObjMan.cant,2) - objCv.ValorNumerico;
-                            //agregar condicion de fierencia negativa
-                                if (diferencia < 0M)
-                                {
-                                    diferencia = diferencia * -1;
-                                }
-                                if (diferencia < 0.10M && objCv.FechaYHoraTransaccion==ObjMan.fec_reg)
-                                {
-
-
-                            //registro normal
-                            ObjResultado = new Entidades.cls.clsResultadosMensual
-                                            {
-                                                RfcClienteOProveedor = objCv.RfcClienteOProveedor,
-                                                NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
-                                                CFDI = objCv.CFDI,
-                                                FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
-                                                VolumenNumerico = objCv.ValorNumerico,
-                                                Existe = diferencia > 0 ? "<>" : null,
-                                                folio_Imp = ObjMan.folio_imp,
-                                                clavecli = ObjMan.cliente,
-                                                NombreCliente = ObjMan.nombre,
-                                                //importe = ObjMan.importe,
-                                                serie = ObjMan.serie,
-                                                docto = ObjMan.docto,
-                                                //status = ObjMan.status,
-                                                fecha_reg = ObjMan.fec_reg,
-                                                nombrep = ObjMan.nombrep,
-                                                Cant = decimal.Round(ObjMan.cant, 2),
-                                                precio = ObjMan.precio,
-                                                imported = ObjMan.imported,
-                                                UUID = ObjMan.uuid,
-                                                ComparaNombre = ObjMan.nombre == objCv.NombreClienteOProveedor ? true : false,
-                                                ComparaCfdi = ObjMan.uuid == objCv.CFDI ? true : false,
-                                                ComparaLts = diferencia > 0 ? false : true,
-                                                Observacion = diferencia > 0 ? "Las cantidades no coinciden.\r\n" : null
-                                            };
-                                        LstResultados.Add(ObjResultado);
-                                        existe = true;
-                                        indexInicioMan++;
-                                        int index = LstAuxManual.FindIndex(x => x.cant == ObjMan.cant);
-                                        if (index > -1)
-                                        {
-                                            LstAuxManual.RemoveAt(index);
-                                        } 
-                                        break;
-                                }
-                                else
-                                {
-                                    // se sigue  poque no encuentra similitud                                    
-                                    indexInicioMan++;                                    
-                                }
-                                
-                            }
-                          
-                            if (indexInicioMan >= lstCoincidenciasManuales.Count&&!existe)//y agregar que si esta en la lista
-                            {
-                                ObjResultado = new Entidades.cls.clsResultadosMensual
-                                {
-                                    RfcClienteOProveedor = objCv.RfcClienteOProveedor,
-                                    NombreClienteOPRoveedor = objCv.NombreClienteOProveedor,
-                                    CFDI = objCv.CFDI,
-                                    FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
-                                    VolumenNumerico = objCv.ValorNumerico,
-                                    Existe = "<",
-                                    folio_Imp = null,
-                                    clavecli = null,
-                                    NombreCliente = null,
-                                    //importe = 0,
-                                    serie = null,
-                                    docto = null,
-                                    //status = null,
-                                    fecha_reg = null,
-                                    nombrep = null,
-                                    Cant = 0,
-                                    precio = 0,
-                                    imported = 0,
-                                    UUID = null,
-                                    ComparaNombre = false,
-                                    ComparaCfdi = false,
-                                    ComparaLts = false,
-                                    Observacion = "NO EXISTE EN FACTURACIÓN"
-                                };
-                                LstResultados.Add(ObjResultado);
-                                //registras como que solo estan en cv
-                            }
-                            LstAuxCv.RemoveAt(LstAuxCv.FindIndex(x=>x.ValorNumerico==objCv.ValorNumerico&&x.FechaYHoraTransaccion==objCv.FechaYHoraTransaccion));
-                        } 
-                        int cntCv = LstAuxCv.Count;
-                        int cntman = LstAuxManual.Count;
-                        if (cntman > 0)
-                        {
-                            foreach(var sob in LstAuxManual)
-                            {
-                                ObjResultado = new Entidades.cls.clsResultadosMensual
-                                {
-                                    RfcClienteOProveedor = null,
-                                    NombreClienteOPRoveedor = null,
-                                    CFDI = null,
-                                    FechaYHoraTransaccion = null,
-                                    VolumenNumerico = 0,
-                                    Existe = ">",
-                                    folio_Imp = sob.folio_imp,
-                                    clavecli = sob.cliente,
-                                    NombreCliente = sob.nombre,
-                                    //importe = objMan.importe,
-                                    serie = sob.serie,
-                                    docto = sob.docto,
-                                    //status = objMan.status,
-                                    fecha_reg = sob.fec_reg,
-                                    nombrep = sob.nombrep,
-                                    Cant = sob.cant,
-                                    precio = sob.precio,
-                                    imported = sob.precio,
-                                    UUID = sob.uuid,
-                                    ComparaNombre = false,
-                                    ComparaCfdi = false,
-                                    ComparaLts = false,
-                                    Observacion = "NO EXISTE EN ARCHIVO XML"
-                                };
-                                LstResultados.Add(ObjResultado);
-                            }
-                        }else if (cntCv>0)
-                        {
-                            foreach (var sob in LstAuxCv)
-                            {
-                                ObjResultado = new Entidades.cls.clsResultadosMensual
-                                {
-                                    RfcClienteOProveedor = sob.RfcClienteOProveedor,
-                                    NombreClienteOPRoveedor = sob.NombreClienteOProveedor,
-                                    CFDI = sob.CFDI,
-                                    FechaYHoraTransaccion = sob.FechaYHoraTransaccion,
-                                    VolumenNumerico = sob.ValorNumerico,
-                                    Existe = "<",
-                                    folio_Imp = null,
-                                    clavecli = null,
-                                    NombreCliente = null,
-                                    //importe = 0,
-                                    serie = null,
-                                    docto = null,
-                                    //status = null,
-                                    fecha_reg = null,
-                                    nombrep = null,
-                                    Cant = 0,
-                                    precio = 0,
-                                    imported = 0,
-                                    UUID = null,
-                                    ComparaNombre = false,
-                                    ComparaCfdi = false,
-                                    ComparaLts = false,
-                                    Observacion = "NO EXISTE EN FACTURACIÓN"
-                                };
-                                LstResultados.Add(ObjResultado);
-
-                            }                        
-                        }
-            }
-
-
-            //registrar no existentes
-
-            foreach(var itemNoExiste in lstNoexisten)
-            {
-                if (lstManuales.Any(x=>x.uuid ==itemNoExiste))
-                {
-                    var lstNoMan = lstManuales.Where(x => x.uuid == itemNoExiste).ToList();
-                    foreach (var itemMan in lstNoMan)
-                    {
-                        ObjResultado = new Entidades.cls.clsResultadosMensual
-                        {
-                            RfcClienteOProveedor = null,
-                            NombreClienteOPRoveedor = null,
-                            CFDI = null,
-                            FechaYHoraTransaccion = null,
-                            VolumenNumerico = 0,
-                            Existe = ">",
-                            folio_Imp = itemMan.folio_imp,
-                            clavecli = itemMan.cliente,
-                            NombreCliente = itemMan.nombre,
-                            //importe = itemMan.importe,
-                            serie = itemMan.serie,
-                            docto = itemMan.docto,
-                            //status = itemMan.status,
-                            fecha_reg = itemMan.fec_reg,
-                            nombrep = itemMan.nombrep,
-                            Cant = decimal.Round(itemMan.cant, 2),
-                            precio = itemMan.precio,
-                            imported = itemMan.imported,
-                            UUID = itemMan.uuid,
-                            ComparaNombre = false,
-                            ComparaCfdi = false,
-                            ComparaLts = false,
-                            Observacion = "NO EXISTE EN ARCHIVO XLM"
-                        };
-                        LstResultados.Add(ObjResultado);
-                    }
-                }
-                else
-                {
-                    var lstNoCv = LstControlVolumetricoMensual.Where(x => x.CFDI == itemNoExiste).ToList();
-                    foreach (var itemCv in lstNoCv)
-                    {
-                        ObjResultado = new Entidades.cls.clsResultadosMensual
-                        {
-                            RfcClienteOProveedor = itemCv.RfcClienteOProveedor,
-                            NombreClienteOPRoveedor = itemCv.NombreClienteOProveedor,
-                            CFDI = itemCv.CFDI,
-                            FechaYHoraTransaccion = itemCv.FechaYHoraTransaccion,
-                            VolumenNumerico = itemCv.ValorNumerico,
-                            Existe = "<",
-                            folio_Imp = null,
-                            clavecli = null,
-                            NombreCliente = null,
-                            //importe = 0,
-                            serie = null,
-                            docto = null,
-                            //status = null,
-                            fecha_reg = null,
-                            nombrep = null,
-                            Cant = 0,
-                            precio = 0,
-                            imported = 0,
-                            UUID = null,
-                            ComparaNombre = false,
-                            ComparaCfdi = false,
-                            ComparaLts = false,
-                            Observacion = "NO EXISTE EN FACTURACIÓN"
-                        };
-                        LstResultados.Add(ObjResultado);
-                    }
-                }
-                //registrar de lado de los cv
-               
-            }
-
-            foreach(var res in LstResultados)
-            {
-                decimal diferencia = decimal.Round(res.Cant, 2) - res.VolumenNumerico;
-                diferencia = diferencia < 0 ? (diferencia * -1) : diferencia;
-                res.DiferenciaCantidades = diferencia;
-            }
-
-            if (chkMargen.Checked)
-            {
-                LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades >= 0.1M).ToList();
-            }
-            else
-            {
-                LstResultados = LstResultados.Where(x => x.Observacion != null && x.DiferenciaCantidades > 0.01M).ToList();
-            }
-            dgvErrores.DataSource = LstResultados;
-            tsErrores.Text =  dgvErrores.RowCount.ToString("N0");
-
-
-        }
+        
 
         private void btnXmlJson_Click(object sender, EventArgs e)
         {
@@ -1894,14 +1572,14 @@ namespace DataSystem.Reportes
 
                     if (!chkTodo.Checked)
                     {
-                        if (chkMargen.Checked)
+                        /*if (chkMargen.Checked)
                         {
                             LstResultados = LstResultados.Where(x => x.DiferenciaCantidades > 0.1M).ToList();
                         }
                         else
-                        {
+                        {*/
                             LstResultados = LstResultados.Where(x => x.DiferenciaCantidades >= 0.01M).ToList();
-                        }
+                        //}
 
                     }
                     progressBar1.Value = 95;

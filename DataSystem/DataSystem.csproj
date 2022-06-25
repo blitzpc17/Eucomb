@@ -118,6 +118,12 @@
     <Compile Include="Acceso\MDISistema.Designer.cs">
       <DependentUpon>MDISistema.cs</DependentUpon>
     </Compile>
+    <Compile Include="AIVIC\formReporteMensual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AIVIC\formReporteMensual.Designer.cs">
+      <DependentUpon>formReporteMensual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recursos\Enumeraciones.cs" />
@@ -144,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acceso\MDISistema.resx">
       <DependentUpon>MDISistema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AIVIC\formReporteMensual.resx">
+      <DependentUpon>formReporteMensual.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

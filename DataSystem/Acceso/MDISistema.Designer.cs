@@ -33,12 +33,18 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.sistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteríaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportesCvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteMensualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteDiarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.reporteNuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalPumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.atioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aivicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.egasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteMensualToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDiarioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteMensualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDiarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteMensualToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteDiarioToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,34 +68,13 @@
             // reporteríaToolStripMenuItem
             // 
             this.reporteríaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reportesCvToolStripMenuItem});
+            this.digitalPumpToolStripMenuItem,
+            this.atioToolStripMenuItem,
+            this.aivicToolStripMenuItem,
+            this.egasToolStripMenuItem});
             this.reporteríaToolStripMenuItem.Name = "reporteríaToolStripMenuItem";
             this.reporteríaToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.reporteríaToolStripMenuItem.Text = "Reportería";
-            // 
-            // reportesCvToolStripMenuItem
-            // 
-            this.reportesCvToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reporteMensualToolStripMenuItem,
-            this.reporteDiarioToolStripMenuItem,
-            this.reporteNuevoToolStripMenuItem});
-            this.reportesCvToolStripMenuItem.Name = "reportesCvToolStripMenuItem";
-            this.reportesCvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reportesCvToolStripMenuItem.Text = "Reportes Cv";
-            // 
-            // reporteMensualToolStripMenuItem
-            // 
-            this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
-            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
-            this.reporteMensualToolStripMenuItem.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem_Click);
-            // 
-            // reporteDiarioToolStripMenuItem
-            // 
-            this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
-            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
-            this.reporteDiarioToolStripMenuItem.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -99,12 +84,77 @@
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
             // 
-            // reporteNuevoToolStripMenuItem
+            // digitalPumpToolStripMenuItem
             // 
-            this.reporteNuevoToolStripMenuItem.Name = "reporteNuevoToolStripMenuItem";
-            this.reporteNuevoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reporteNuevoToolStripMenuItem.Text = "Reporte Nuevo";
-            this.reporteNuevoToolStripMenuItem.Click += new System.EventHandler(this.reporteNuevoToolStripMenuItem_Click);
+            this.digitalPumpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reporteMensualToolStripMenuItem1,
+            this.reporteDiarioToolStripMenuItem1});
+            this.digitalPumpToolStripMenuItem.Name = "digitalPumpToolStripMenuItem";
+            this.digitalPumpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalPumpToolStripMenuItem.Text = "Digital Pump";
+            // 
+            // atioToolStripMenuItem
+            // 
+            this.atioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reporteMensualToolStripMenuItem,
+            this.reporteDiarioToolStripMenuItem});
+            this.atioToolStripMenuItem.Name = "atioToolStripMenuItem";
+            this.atioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.atioToolStripMenuItem.Text = "Atio";
+            // 
+            // aivicToolStripMenuItem
+            // 
+            this.aivicToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reporteMensualToolStripMenuItem2,
+            this.reporteDiarioToolStripMenuItem2});
+            this.aivicToolStripMenuItem.Name = "aivicToolStripMenuItem";
+            this.aivicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aivicToolStripMenuItem.Text = "Aivic";
+            // 
+            // egasToolStripMenuItem
+            // 
+            this.egasToolStripMenuItem.Name = "egasToolStripMenuItem";
+            this.egasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.egasToolStripMenuItem.Text = "Egas";
+            // 
+            // reporteMensualToolStripMenuItem1
+            // 
+            this.reporteMensualToolStripMenuItem1.Name = "reporteMensualToolStripMenuItem1";
+            this.reporteMensualToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem1.Text = "Reporte Mensual";
+            this.reporteMensualToolStripMenuItem1.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem1_Click);
+            // 
+            // reporteDiarioToolStripMenuItem1
+            // 
+            this.reporteDiarioToolStripMenuItem1.Name = "reporteDiarioToolStripMenuItem1";
+            this.reporteDiarioToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem1.Text = "Reporte Diario";
+            this.reporteDiarioToolStripMenuItem1.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem1_Click);
+            // 
+            // reporteMensualToolStripMenuItem
+            // 
+            this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
+            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
+            // 
+            // reporteDiarioToolStripMenuItem
+            // 
+            this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
+            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
+            // 
+            // reporteMensualToolStripMenuItem2
+            // 
+            this.reporteMensualToolStripMenuItem2.Name = "reporteMensualToolStripMenuItem2";
+            this.reporteMensualToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem2.Text = "Reporte Mensual";
+            this.reporteMensualToolStripMenuItem2.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem2_Click);
+            // 
+            // reporteDiarioToolStripMenuItem2
+            // 
+            this.reporteDiarioToolStripMenuItem2.Name = "reporteDiarioToolStripMenuItem2";
+            this.reporteDiarioToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem2.Text = "Reporte Diario";
             // 
             // MDISistema
             // 
@@ -134,10 +184,16 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem sistemaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteríaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportesCvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem digitalPumpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem atioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aivicToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem egasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reporteNuevoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem2;
     }
 }
 
