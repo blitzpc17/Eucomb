@@ -50,6 +50,9 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.chkTodo = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtRfcProveedor = new System.Windows.Forms.TextBox();
@@ -72,10 +75,7 @@
             this.txtModPermiso = new System.Windows.Forms.TextBox();
             this.panelInventarios = new System.Windows.Forms.Panel();
             this.btnXmlJson = new System.Windows.Forms.Button();
-            this.chkTodo = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.lblEstado = new System.Windows.Forms.Label();
             this.gbxCv.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegistrosDiario)).BeginInit();
@@ -99,7 +99,7 @@
             this.gbxCv.Controls.Add(this.dgvRegistrosDiario);
             this.gbxCv.Location = new System.Drawing.Point(9, 20);
             this.gbxCv.Name = "gbxCv";
-            this.gbxCv.Size = new System.Drawing.Size(343, 574);
+            this.gbxCv.Size = new System.Drawing.Size(343, 543);
             this.gbxCv.TabIndex = 3;
             this.gbxCv.TabStop = false;
             this.gbxCv.Text = "Contenido Control Volumetrico";
@@ -110,7 +110,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tsTotalRegistros});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 546);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 515);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(337, 25);
             this.toolStrip1.TabIndex = 1;
@@ -141,13 +141,13 @@
             this.dgvRegistrosDiario.Name = "dgvRegistrosDiario";
             this.dgvRegistrosDiario.ReadOnly = true;
             this.dgvRegistrosDiario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 523);
+            this.dgvRegistrosDiario.Size = new System.Drawing.Size(330, 492);
             this.dgvRegistrosDiario.TabIndex = 0;
             // 
             // btnImportarLayout
             // 
             this.btnImportarLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnImportarLayout.Location = new System.Drawing.Point(12, 600);
+            this.btnImportarLayout.Location = new System.Drawing.Point(12, 569);
             this.btnImportarLayout.Name = "btnImportarLayout";
             this.btnImportarLayout.Size = new System.Drawing.Size(110, 35);
             this.btnImportarLayout.TabIndex = 4;
@@ -158,7 +158,7 @@
             // btnComparar
             // 
             this.btnComparar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnComparar.Location = new System.Drawing.Point(1009, 600);
+            this.btnComparar.Location = new System.Drawing.Point(1009, 569);
             this.btnComparar.Name = "btnComparar";
             this.btnComparar.Size = new System.Drawing.Size(110, 35);
             this.btnComparar.TabIndex = 5;
@@ -174,7 +174,7 @@
             this.gbxFacturacion.Controls.Add(this.dgvManuales);
             this.gbxFacturacion.Location = new System.Drawing.Point(394, 20);
             this.gbxFacturacion.Name = "gbxFacturacion";
-            this.gbxFacturacion.Size = new System.Drawing.Size(343, 574);
+            this.gbxFacturacion.Size = new System.Drawing.Size(343, 543);
             this.gbxFacturacion.TabIndex = 6;
             this.gbxFacturacion.TabStop = false;
             this.gbxFacturacion.Text = "Contenido Facturación";
@@ -185,7 +185,7 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this.tsManuales});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 546);
+            this.toolStrip2.Location = new System.Drawing.Point(3, 515);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(337, 25);
             this.toolStrip2.TabIndex = 1;
@@ -216,7 +216,7 @@
             this.dgvManuales.Name = "dgvManuales";
             this.dgvManuales.ReadOnly = true;
             this.dgvManuales.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvManuales.Size = new System.Drawing.Size(330, 523);
+            this.dgvManuales.Size = new System.Drawing.Size(330, 492);
             this.dgvManuales.TabIndex = 0;
             // 
             // gbxComparacion
@@ -228,7 +228,7 @@
             this.gbxComparacion.Controls.Add(this.dgvErrores);
             this.gbxComparacion.Location = new System.Drawing.Point(779, 20);
             this.gbxComparacion.Name = "gbxComparacion";
-            this.gbxComparacion.Size = new System.Drawing.Size(343, 571);
+            this.gbxComparacion.Size = new System.Drawing.Size(343, 540);
             this.gbxComparacion.TabIndex = 7;
             this.gbxComparacion.TabStop = false;
             this.gbxComparacion.Text = "Resultado Comparación";
@@ -239,7 +239,7 @@
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel4,
             this.tsErrores});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 543);
+            this.toolStrip3.Location = new System.Drawing.Point(3, 512);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(337, 25);
             this.toolStrip3.TabIndex = 1;
@@ -270,13 +270,13 @@
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.ReadOnly = true;
             this.dgvErrores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvErrores.Size = new System.Drawing.Size(331, 520);
+            this.dgvErrores.Size = new System.Drawing.Size(331, 489);
             this.dgvErrores.TabIndex = 0;
             // 
             // btnExportar
             // 
             this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportar.Location = new System.Drawing.Point(893, 600);
+            this.btnExportar.Location = new System.Drawing.Point(893, 569);
             this.btnExportar.Name = "btnExportar";
             this.btnExportar.Size = new System.Drawing.Size(110, 35);
             this.btnExportar.TabIndex = 8;
@@ -287,7 +287,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelar.Location = new System.Drawing.Point(777, 600);
+            this.btnCancelar.Location = new System.Drawing.Point(777, 569);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(110, 35);
             this.btnCancelar.TabIndex = 9;
@@ -305,7 +305,7 @@
             this.tabControl1.Location = new System.Drawing.Point(15, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1145, 667);
+            this.tabControl1.Size = new System.Drawing.Size(1145, 636);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -324,9 +324,38 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1137, 641);
+            this.tabPage1.Size = new System.Drawing.Size(1137, 610);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Archivo";
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEstado.Location = new System.Drawing.Point(387, 573);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(142, 23);
+            this.lblEstado.TabIndex = 42;
+            this.lblEstado.Text = "¡Listo!";
+            this.lblEstado.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(535, 573);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(127, 23);
+            this.progressBar1.TabIndex = 41;
+            // 
+            // chkTodo
+            // 
+            this.chkTodo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTodo.AutoSize = true;
+            this.chkTodo.Location = new System.Drawing.Point(668, 579);
+            this.chkTodo.Name = "chkTodo";
+            this.chkTodo.Size = new System.Drawing.Size(66, 17);
+            this.chkTodo.TabIndex = 40;
+            this.chkTodo.Text = "Ver todo";
+            this.chkTodo.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -337,7 +366,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1137, 600);
+            this.tabPage2.Size = new System.Drawing.Size(1137, 610);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Inventarios";
             // 
@@ -540,30 +569,19 @@
             this.panelInventarios.AutoScroll = true;
             this.panelInventarios.Location = new System.Drawing.Point(6, 153);
             this.panelInventarios.Name = "panelInventarios";
-            this.panelInventarios.Size = new System.Drawing.Size(1111, 390);
+            this.panelInventarios.Size = new System.Drawing.Size(1111, 410);
             this.panelInventarios.TabIndex = 2;
             // 
             // btnXmlJson
             // 
             this.btnXmlJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnXmlJson.Location = new System.Drawing.Point(6, 559);
+            this.btnXmlJson.Location = new System.Drawing.Point(6, 569);
             this.btnXmlJson.Name = "btnXmlJson";
             this.btnXmlJson.Size = new System.Drawing.Size(110, 35);
             this.btnXmlJson.TabIndex = 11;
-            this.btnXmlJson.Text = "Importar XML/JSON";
+            this.btnXmlJson.Text = "Importar XML";
             this.btnXmlJson.UseVisualStyleBackColor = true;
             this.btnXmlJson.Click += new System.EventHandler(this.btnXmlJson_Click);
-            // 
-            // chkTodo
-            // 
-            this.chkTodo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkTodo.AutoSize = true;
-            this.chkTodo.Location = new System.Drawing.Point(668, 610);
-            this.chkTodo.Name = "chkTodo";
-            this.chkTodo.Size = new System.Drawing.Size(66, 17);
-            this.chkTodo.TabIndex = 40;
-            this.chkTodo.Text = "Ver todo";
-            this.chkTodo.UseVisualStyleBackColor = true;
             // 
             // backgroundWorker1
             // 
@@ -572,29 +590,11 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(535, 604);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(127, 23);
-            this.progressBar1.TabIndex = 41;
-            // 
-            // lblEstado
-            // 
-            this.lblEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEstado.Location = new System.Drawing.Point(387, 604);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(142, 23);
-            this.lblEstado.TabIndex = 42;
-            this.lblEstado.Text = "¡Listo!";
-            this.lblEstado.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // ReporteMensualCv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1167, 691);
+            this.ClientSize = new System.Drawing.Size(1167, 660);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReporteMensualCv";
