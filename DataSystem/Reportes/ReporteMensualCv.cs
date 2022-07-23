@@ -1116,7 +1116,7 @@ namespace DataSystem.Reportes
                     {
                         case 1: ImportarExcel(rutaImportado); break;
 
-                        case 3: ImportarExcelAivic(); break;                    }
+                        case 2: ImportarExcelAivic(); break;                    }
                     
                     break;
 
@@ -1125,7 +1125,7 @@ namespace DataSystem.Reportes
                     switch (sucursal)
                     {
                         case 1: ComparacionSistema(); break;
-                        case 3: ComparacionAivic(); break;  
+                        case 2: ComparacionAivic(); break;  
                     }
                     
                     break;
@@ -1137,7 +1137,7 @@ namespace DataSystem.Reportes
             switch (argumentoBackground)
             {
                 case "importarExcel":
-                    if(sucursal == 3)
+                    if(sucursal == 2)
                     {
                         dgvManuales.DataSource = ListaFacturaDetalleAivic;
                     }
@@ -1187,9 +1187,6 @@ namespace DataSystem.Reportes
 
                 backgroundWorker1.ReportProgress(15);
 
-                // LstFacturaDetalleSnFecha = query.Where(x => x.fyh_trans == "  -   -  : :").ToList();
-                // query = query.Where(a => a.fyh_trans != "  -   -  : :").ToList();
-
                
                 ListaFacturaDetalleAivic = query.Select(x=>new Entidades.AIVIC.EXCEL.FACTURADETALLE
                 {
@@ -1197,21 +1194,6 @@ namespace DataSystem.Reportes
                 }).ToList(); //new List<Entidades.AIVIC.EXCEL.FACTURADETALLE>();
                 var prueba = query.Select(x => new Entidades.AIVIC.EXCEL.FACTURADETALLE
                 {
-                    /*folio_imp = x.folio_imp,
-                    cliente = x.cliente,
-                    importe = x.importe,
-                    serie = x.serie,
-                    docto = x.docto,
-                    status = x.status,
-                    fec_reg = Convert.ToDateTime(x.fyh_trans),
-                    nombrep = x.nombrep,
-                    cant = Math.Round(x.cant, 2),
-                    precio = x.precio,
-                    imported = x.imported,
-                    uuid = x.uuid != null ? x.uuid.ToUpper().Trim() : null,
-                    nombre = x.nombre.Trim(),
-                    fyh_trans = x.fec_reg.ToString(),
-                    idtrans = x.idtrans,*/
                     Numero = x.Numero,
                     Estacion = x.Estacion,
                     Fecha = x.Fecha,
@@ -1228,11 +1210,8 @@ namespace DataSystem.Reportes
                 }).ToList();
 
                 backgroundWorker1.ReportProgress(50);
-
-                //  prueba.AddRange(LstFacturaDetalleSnFecha);
-                ListaFacturaDetalleAivic = prueba;//prueba;
-              //  lstManuales = lstManuales.Where(x => x.status == "P").OrderBy(x => x.status).ToList();
-              // lstManuales = lstManuales.Where(x => x.nombrep != null && (x.nombrep.StartsWith("Gasolina") || x.nombrep.StartsWith("GASOLINA") || x.nombrep.StartsWith("Diesel") || x.nombrep.StartsWith("DIESEL") || x.nombrep.StartsWith("COMBUSTIBLE") || x.nombrep.StartsWith("Combustible") || x.nombrep.StartsWith("combustible"))).ToList();
+                
+                ListaFacturaDetalleAivic = prueba;
                 ListaFacturaDetalleAivic = ListaFacturaDetalleAivic.Where(x => x.Producto.Contains("EFITEC92") || x.Producto.Contains("EFITEC87")).ToList();
                 ListaFacturaDetalleAivic = ListaFacturaDetalleAivic.OrderBy(x => x.Cliente).ThenBy(x => x.UUID).ThenBy(x => x.Cantidad).ThenBy(x => x.Fecha).ToList();
                 backgroundWorker1.ReportProgress(100);
@@ -1247,7 +1226,7 @@ namespace DataSystem.Reportes
         {
             // LstControlVolumetricoMensual
             List<Entidades.cls.clsControlVolumetricoMensual> LstCvNoExisten = new List<Entidades.cls.clsControlVolumetricoMensual>();
-            List<Entidades.AIVIC.EXCEL.FACTURADETALLE> LstFactDetalleNoExisten = new List<Entidades.AIVIC.EXCEL.FACTURADETALLE>();
+         //   List<Entidades.AIVIC.EXCEL.FACTURADETALLE> LstFactDetalleNoExisten = new List<Entidades.AIVIC.EXCEL.FACTURADETALLE>();
             LstResultados = new List<Entidades.cls.clsResultadosMensual>();
 
 
@@ -1284,7 +1263,7 @@ namespace DataSystem.Reportes
 
                 if (!string.IsNullOrEmpty(observacion)&&ObjRegistroCV==null)
                 {
-                    LstFactDetalleNoExisten.Add(objNe);
+                    //LstFactDetalleNoExisten.Add(objNe);
                     LstResultados.Add(new Entidades.cls.clsResultadosMensual
                     {
                         RfcClienteOProveedor = null,
@@ -1345,7 +1324,97 @@ namespace DataSystem.Reportes
             }
 
             //buscar cuales no estan del xml  en el excel de AIVIC
+            foreach(var objCv in LstControlVolumetricoMensual)
+            {
+                string observacion = "";
+                var objNe = objCv;
+                bool comparaNombre = false;
+                bool comparaCfdi = false;
+                bool comparaLts = false;
+                Entidades.AIVIC.EXCEL.FACTURADETALLE ObjRegistroFactura;
 
+                if (ListaFacturaDetalleAivic.Any(x => x.UUID==objCv.CFDI))
+                {
+                    ObjRegistroFactura = ListaFacturaDetalleAivic.First(x=>x.UUID ==objCv.CFDI);
+                    DateTime fechaRegistroFactura = DateTime.Parse(objCv.FechaYHoraTransaccion.ToShortDateString());
+                    if(ObjRegistroFactura.Fecha != fechaRegistroFactura)
+                    {
+                        observacion = "EXISTE EN FACTURA ATIO PERO LAS FECHAS NO COINCIDEN";
+
+                    }else if(Math.Round(objCv.ValorNumerico, 2) == ObjRegistroFactura.Cantidad)
+                    {
+                        observacion = "EXISTE EN FACTURA ATIO PERO LAS CANTIDADES NO COINCIDEN";
+                        comparaLts = false;
+                    }
+                }
+                else
+                {
+                    ObjRegistroFactura = null;
+                    observacion = "NO EXISTE EN FACTURA ATIO.";
+                    comparaCfdi = false;
+                }
+
+
+                if (!string.IsNullOrEmpty(observacion) && ObjRegistroFactura == null)
+                {
+                  //  LstFactDetalleNoExisten.Add(objNe);
+                    LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                    {
+                        RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                        NombreCliente = objCv.NombreClienteOProveedor,
+                        CFDI = objCv.CFDI,
+                        FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                        VolumenNumerico = 0,
+                        Existe = "<",
+                        folio_Imp = null,
+                        clavecli = null,
+                        NombreClienteOPRoveedor = null,
+                        serie = null,
+                        docto = null,
+                        fecha_reg = null,
+                        nombrep = null,
+                        Cant = 0,
+                        precio = 0,
+                        imported = 0,
+                        UUID = null,
+                        ComparaNombre = comparaNombre,
+                        ComparaCfdi = comparaCfdi,
+                        ComparaLts = comparaLts,
+                        Observacion = observacion,
+                        DiferenciaCantidades = Math.Round(objCv.ValorNumerico,2)
+                    });
+                }
+                else
+                {
+                    if (ObjRegistroFactura == null) return;
+                    LstResultados.Add(new Entidades.cls.clsResultadosMensual
+                    {
+                        RfcClienteOProveedor = objCv.RfcClienteOProveedor,
+                        NombreCliente = objCv.NombreClienteOProveedor,
+                        CFDI = objCv.CFDI,
+                        FechaYHoraTransaccion = objCv.FechaYHoraTransaccion,
+                        VolumenNumerico = objCv.ValorNumerico,
+                        Existe = "<>",
+                        folio_Imp = ObjRegistroFactura.Numero,
+                        clavecli = "",
+                        NombreClienteOPRoveedor = ObjRegistroFactura.Cliente,
+                        serie = "",
+                        docto = "",
+                        fecha_reg = ObjRegistroFactura.Fecha,
+                        nombrep = "",
+                        Cant = Math.Round(ObjRegistroFactura.Cantidad, 2),
+                        precio = 0,
+                        imported = ObjRegistroFactura.Total,
+                        UUID = ObjRegistroFactura.UUID,
+                        ComparaNombre = comparaNombre,
+                        ComparaCfdi = comparaCfdi,
+                        ComparaLts = comparaLts,
+                        Observacion = observacion,
+                        DiferenciaCantidades = (objCv.ValorNumerico - ObjRegistroFactura.Cantidad) < 0 ? (objCv.ValorNumerico - ObjRegistroFactura.Cantidad) * -1 : (objCv.ValorNumerico - ObjRegistroFactura.Cantidad)
+                    });
+                }
+
+            }
 
 
         }
