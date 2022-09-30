@@ -1519,9 +1519,22 @@ namespace DataSystem.Reportes
                         if (part.Nacional == null) continue;
                         foreach(var par in part.Nacional)
                         {
+                            /*
                             dgvPartidas.Rows.Add(numeral, par.NombreClienteOProveedor, par.RfcClienteOProveedor, par.CFDIs.First().Cfdi, par.CFDIs.First().FechaYhoraTransaccion, par.CFDIs.First().PrecioCompra, par.CFDIs.First().PrecioCompra, par.CFDIs.First().VolumenDocumentado.ValorNumerico);
                             sumaRecepciones += par.CFDIs.First().VolumenDocumentado.ValorNumerico;
                             numeral++;
+                            */
+
+                            string NombreClienteOProveedor = par.NombreClienteOProveedor;
+                            string RfcClienteOProveedor = par.RfcClienteOProveedor;
+                            foreach(var cfdi in par.CFDIs)
+                            {
+                                dgvPartidas.Rows.Add(numeral, NombreClienteOProveedor, RfcClienteOProveedor, cfdi.Cfdi, cfdi.FechaYhoraTransaccion, cfdi.PrecioCompra, 
+                                    cfdi.PrecioCompra, cfdi.VolumenDocumentado.ValorNumerico);
+                                sumaRecepciones += cfdi.VolumenDocumentado.ValorNumerico;
+                                numeral++;
+                            }
+
                         }
                         
                     }
