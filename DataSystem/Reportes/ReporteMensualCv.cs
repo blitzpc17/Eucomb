@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using DataSystem.Utilidades;
 
 namespace DataSystem.Reportes
 {
@@ -40,6 +41,7 @@ namespace DataSystem.Reportes
             DIGITAL PUMP = 1,
             ATIO =2,
             AIVIC = 3,
+            NEXUS = 5
          
          */
         public ReporteMensualCv(string tituloModulo, int sucursal)
@@ -166,13 +168,20 @@ namespace DataSystem.Reportes
 
             foreach (XmlNode pro in nodePRODUCTO)
             {
+                string ClaveProducto = null;
+                string ClaveSubProducto = null;
+                string MarcaComercial = null;
 
-                Entidades.XMLMensual.PRODUCTO objProducto = new Entidades.XMLMensual.PRODUCTO
-                {
-                    ClaveProducto = pro.ChildNodes[0].InnerText,
-                    ClaveSubProducto = pro.ChildNodes[1].InnerText,
-                    MarcaComercial = pro.ChildNodes[3].InnerText,
-                };              
+                Entidades.XMLMensual.PRODUCTO objProducto = new Entidades.XMLMensual.PRODUCTO();
+
+                ClaveProducto = pro.ChildNodes[0].InnerText;
+                ClaveSubProducto= pro.ChildNodes[1].InnerText;
+                MarcaComercial = ((int)Enumeraciones.Sucursales.NEXUS==sucursal)?null:pro.ChildNodes[3].InnerText;
+
+                objProducto.ClaveProducto = ClaveProducto;
+                objProducto.ClaveSubProducto = ClaveSubProducto;
+                objProducto.MarcaComercial = MarcaComercial;
+
 
                 var nodeGasolina = pro.ChildNodes[2];
                 objProducto.Gasolina = new Entidades.XMLMensual.Gasolina
@@ -180,7 +189,7 @@ namespace DataSystem.Reportes
                     ComposOctanajeGasolina = nodeGasolina.ChildNodes[0].InnerText,
                     GasolinaConCombustibleNoFosil = nodeGasolina.ChildNodes[1] == null ? nodeGasolina.ChildNodes[0].InnerText : nodeGasolina.ChildNodes[1].InnerText
                 };
-                var nodeREPORTEVOLUMENMENSUAL = pro.ChildNodes[4];
+                var nodeREPORTEVOLUMENMENSUAL = ((int)Enumeraciones.Sucursales.NEXUS == sucursal) ?pro.ChildNodes[3]:pro.ChildNodes[4];
                 objProducto.REPORTEDEVOLUMENMENSUAL = new Entidades.XMLMensual.REPORTEDEVOLUMENMENSUAL();
                 var subCONTROLEXISTENCIAS = nodeREPORTEVOLUMENMENSUAL.ChildNodes[0];
                 objProducto.REPORTEDEVOLUMENMENSUAL.CONTROLDEEXISTENCIAS = new Entidades.XMLMensual.CONTROLDEEXISTENCIAS
@@ -224,21 +233,43 @@ namespace DataSystem.Reportes
 
                     foreach (XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
                     {
+                      
+                        if (nac.ChildNodes[0].Name.Equals("exp:Aclaracion")) continue;
+
                         Entidades.XMLMensual.NACIONAL objNac = new Entidades.XMLMensual.NACIONAL
                         {
                             RfcClienteOProveedor = nac.ChildNodes[0].InnerText,
-                            NombreClienteOProveedor = nac.ChildNodes[1].InnerText,
+                            NombreClienteOProveedor = nac.ChildNodes[1].InnerText
                         };
-                        var nodeCFDI = nac.ChildNodes[2];
-                        objNac.CFDIs = new Entidades.XMLMensual.Cfdis
+
+                        XmlNode nodeCFDI;
+                        if ((int)Enumeraciones.Sucursales.NEXUS == sucursal)
                         {
-                            CFDI = nodeCFDI.ChildNodes[0].InnerText,
-                            TipoCFDI = nodeCFDI.ChildNodes[1].InnerText,
-                            PrecioCompra = decimal.Parse(nodeCFDI.ChildNodes[2].InnerText),
-                            PrecioDeVentaAlPublico = decimal.Parse(nodeCFDI.ChildNodes[3].InnerText),
-                            PrecioVenta = decimal.Parse(nodeCFDI.ChildNodes[4].InnerText),
-                            FechaYHoraTransaccion = DateTime.Parse(nodeCFDI.ChildNodes[5].InnerText),
-                        };
+                            nodeCFDI = nac.ChildNodes[3];
+                            objNac.CFDIs = new Entidades.XMLMensual.Cfdis
+                            {
+                                CFDI = nodeCFDI.ChildNodes[0].InnerText,
+                                TipoCFDI = nodeCFDI.ChildNodes[1].InnerText,
+                                PrecioCompra = decimal.Parse(nodeCFDI.ChildNodes[2].InnerText),
+                                PrecioDeVentaAlPublico = decimal.Parse(nodeCFDI.ChildNodes[3].InnerText),
+                                PrecioVenta = decimal.Parse(nodeCFDI.ChildNodes[4].InnerText),
+                                FechaYHoraTransaccion = DateTime.Parse(nodeCFDI.ChildNodes[5].InnerText),
+                            };
+                        }
+                        else
+                        {
+                            nodeCFDI = nac.ChildNodes[2];
+                            objNac.CFDIs = new Entidades.XMLMensual.Cfdis
+                            {
+                                CFDI = nodeCFDI.ChildNodes[0].InnerText,
+                                TipoCFDI = nodeCFDI.ChildNodes[1].InnerText,
+                                PrecioCompra = decimal.Parse(nodeCFDI.ChildNodes[2].InnerText),
+                                PrecioDeVentaAlPublico = decimal.Parse(nodeCFDI.ChildNodes[3].InnerText),
+                                PrecioVenta = decimal.Parse(nodeCFDI.ChildNodes[4].InnerText),
+                                FechaYHoraTransaccion = DateTime.Parse(nodeCFDI.ChildNodes[5].InnerText),
+                            };
+                        }
+                     
                         var nodoValorNumerico = nodeCFDI.ChildNodes[6];
                         objNac.CFDIs.VolumenDocumentado = new Entidades.XMLMensual.VolumenDocumentado
                         {
@@ -405,12 +436,12 @@ namespace DataSystem.Reportes
         private void btnComparar_Click(object sender, EventArgs e)
         {
             if (backgroundWorker1.IsBusy) return;
-            if(sucursal==1 && (lstManuales == null|| LstControlVolumetricoMensual == null))
+            if(sucursal== (int)Enumeraciones.Sucursales.DIGITALPUMP && (lstManuales == null|| LstControlVolumetricoMensual == null))
             {
                 MessageBox.Show("No se han cargado los archivos de comparación (Archivo C.V y ReporteDetalle Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else if (sucursal==3 && (ListaFacturaDetalleAivic == null || LstControlVolumetricoMensual == null))
+            else if (sucursal== (int)Enumeraciones.Sucursales.AIVIC && (ListaFacturaDetalleAivic == null || LstControlVolumetricoMensual == null))
             {
                 MessageBox.Show("No se han cargado los archivos de comparación (Archivo C.V y Reporte Facturacion AIVIC Mensual).", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -1093,7 +1124,7 @@ namespace DataSystem.Reportes
             switch (argumentoBackground)
             {
                 case "importarExcel":
-                    if(sucursal == 2)
+                    if(sucursal == (int)Enumeraciones.Sucursales.ATIO)
                     {
                         dgvManuales.DataSource = ListaFacturaDetalleAivic;
                     }
@@ -1383,7 +1414,7 @@ namespace DataSystem.Reportes
             txtRfcProveedor.Text = obj.RfcProveedor;
             txtRfcContrib.Text = obj.RfcContribuyente;
             txtNoPermiso.Text = obj.Caracter.NumPermiso;
-            txtSucursal.Text = Enumeraciones.CatalogSucursales().Where(x => x.Value == obj.Caracter.NumPermiso).First().Key;
+            txtSucursal.Text = Parametros.CatalogSucursales().Where(x => x.Value == obj.Caracter.NumPermiso).First().Key;
             txtCaracter.Text = obj.Caracter.TipoCaracter;
             txtModPermiso.Text = obj.Caracter.ModalidadPermiso;
             txtPeriodo.Text = obj.FechaYHoraCorte.ToString();
@@ -1462,7 +1493,7 @@ namespace DataSystem.Reportes
             txtRfcProveedor.Text = obj.RfcProveedor;
             txtRfcContrib.Text = obj.RfcContribuyente;
             txtNoPermiso.Text = obj.NumPermiso;
-            txtSucursal.Text = Enumeraciones.CatalogSucursales().Where(x => x.Value == obj.NumPermiso).First().Key;
+            txtSucursal.Text = Parametros.CatalogSucursales().Where(x => x.Value == obj.NumPermiso).First().Key;
             txtCaracter.Text = obj.Caracter;
             txtModPermiso.Text = obj.NumPermiso;
             txtPeriodo.Text = obj.FechaYHoraReporteMes.ToString();

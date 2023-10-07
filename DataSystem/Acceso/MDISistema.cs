@@ -1,4 +1,5 @@
 ﻿using DataSystem.Reportes;
+using DataSystem.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace DataSystem.Acceso
 
         private void reporteMensualToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - DIGITAL PUMP", 1);
+            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - DIGITAL PUMP", (int)Enumeraciones.Sucursales.DIGITALPUMP);
             reporte.MdiParent = this;
             reporte.Show();
         }
@@ -38,14 +39,21 @@ namespace DataSystem.Acceso
 
         private void reporteMensualToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - AIVIC", 3);
+            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - AIVIC", (int)Enumeraciones.Sucursales.AIVIC);
             reporte.MdiParent = this;
             reporte.Show();
         }
 
         private void reporteMensualToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - ATIO", 2);
+            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - ATIO", (int)Enumeraciones.Sucursales.ATIO);
+            reporte.MdiParent = this;
+            reporte.Show();
+        }
+
+        private void mensualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - NEXUS", (int)Enumeraciones.Sucursales.NEXUS);
             reporte.MdiParent = this;
             reporte.Show();
         }

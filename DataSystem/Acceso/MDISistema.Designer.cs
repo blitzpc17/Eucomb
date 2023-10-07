@@ -45,6 +45,8 @@
             this.egasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.nexusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mensualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +73,8 @@
             this.digitalPumpToolStripMenuItem,
             this.atioToolStripMenuItem,
             this.aivicToolStripMenuItem,
-            this.egasToolStripMenuItem});
+            this.egasToolStripMenuItem,
+            this.nexusToolStripMenuItem});
             this.reporteríaToolStripMenuItem.Name = "reporteríaToolStripMenuItem";
             this.reporteríaToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.reporteríaToolStripMenuItem.Text = "Reportería";
@@ -88,14 +91,14 @@
             // reporteMensualToolStripMenuItem1
             // 
             this.reporteMensualToolStripMenuItem1.Name = "reporteMensualToolStripMenuItem1";
-            this.reporteMensualToolStripMenuItem1.Size = new System.Drawing.Size(163, 22);
+            this.reporteMensualToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.reporteMensualToolStripMenuItem1.Text = "Reporte Mensual";
             this.reporteMensualToolStripMenuItem1.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem1_Click);
             // 
             // reporteDiarioToolStripMenuItem1
             // 
             this.reporteDiarioToolStripMenuItem1.Name = "reporteDiarioToolStripMenuItem1";
-            this.reporteDiarioToolStripMenuItem1.Size = new System.Drawing.Size(163, 22);
+            this.reporteDiarioToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.reporteDiarioToolStripMenuItem1.Text = "Reporte Diario";
             this.reporteDiarioToolStripMenuItem1.Click += new System.EventHandler(this.reporteDiarioToolStripMenuItem1_Click);
             // 
@@ -111,14 +114,14 @@
             // reporteMensualToolStripMenuItem
             // 
             this.reporteMensualToolStripMenuItem.Name = "reporteMensualToolStripMenuItem";
-            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteMensualToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.reporteMensualToolStripMenuItem.Text = "Reporte Mensual";
             this.reporteMensualToolStripMenuItem.Click += new System.EventHandler(this.reporteMensualToolStripMenuItem_Click);
             // 
             // reporteDiarioToolStripMenuItem
             // 
             this.reporteDiarioToolStripMenuItem.Name = "reporteDiarioToolStripMenuItem";
-            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reporteDiarioToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.reporteDiarioToolStripMenuItem.Text = "Reporte Diario";
             // 
             // aivicToolStripMenuItem
@@ -156,6 +159,21 @@
             this.statusStrip.Size = new System.Drawing.Size(1246, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
+            // 
+            // nexusToolStripMenuItem
+            // 
+            this.nexusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mensualToolStripMenuItem});
+            this.nexusToolStripMenuItem.Name = "nexusToolStripMenuItem";
+            this.nexusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nexusToolStripMenuItem.Text = "Nexus";
+            // 
+            // mensualToolStripMenuItem
+            // 
+            this.mensualToolStripMenuItem.Name = "mensualToolStripMenuItem";
+            this.mensualToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mensualToolStripMenuItem.Text = "Mensual";
+            this.mensualToolStripMenuItem.Click += new System.EventHandler(this.mensualToolStripMenuItem_Click);
             // 
             // MDISistema
             // 
@@ -195,6 +213,8 @@
         private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteMensualToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem reporteDiarioToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem nexusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mensualToolStripMenuItem;
     }
 }
 

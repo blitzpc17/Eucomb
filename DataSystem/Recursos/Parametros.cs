@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataSystem.Recursos
 {
-    public static class Enumeraciones
+    public static class Parametros
     {
         public static List<KeyValuePair<String,String>> CatalogSucursales()
         {
@@ -26,6 +26,7 @@ namespace DataSystem.Recursos
             LstSucursales.Add(new KeyValuePair<String, String>("GASOLINERA ZAVALETA, S.A. DE C.V.", "PL/19419/EXP/ES/2016"));
             LstSucursales.Add(new KeyValuePair<String, String>("SERVICIO ALFA BRAVO COCA, SA DE CV", "PL/21370/EXP/ES/2018"));
             LstSucursales.Add(new KeyValuePair<String, String>("LITRO EXACTO OCOTLAN, S. DE R.L. DE C.V.", "PL/23036/EXP/ES/2019"));
+            LstSucursales.Add(new KeyValuePair<string, string>("OCOTLAN DE MORELOS OAXACA", "PL/25070/EXP/ES/2023"));
             return LstSucursales;
         }
     }
