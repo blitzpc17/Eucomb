@@ -282,6 +282,7 @@ namespace DataSystem.Reportes
                     {
                         foreach (XmlNode nac in Complemento.ChildNodes[0].ChildNodes)
                         {
+                            if (nac.Name.Equals("exp:TERMINALALMYDIST")) continue;
                             if (nac.ChildNodes[0].Name.Equals("exp:ACLARACION")|| nac.ChildNodes[0].Name.Equals("exp:Aclaracion")) continue;
 
                             Entidades.XMLMensual.NACIONAL objNac = new Entidades.XMLMensual.NACIONAL
