@@ -13,6 +13,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using DataSystem.Utilidades;
+using System.Text;
+using System.Diagnostics;
 
 namespace DataSystem.Reportes
 {
@@ -30,6 +32,8 @@ namespace DataSystem.Reportes
         List<Entidades.cls.FACTURASDETALLE> LstFacturaDetalleSnFecha;
 
         List<Entidades.cls.clsControlVolumetricoMensual> LstControlVolumetricoMensualAux;
+
+        List<KeyValuePair<string, string>> LstCfdisErrores;
 
         private ExcelQueryFactory urlConexion;
         private string argumentoBackground = "";
@@ -49,6 +53,7 @@ namespace DataSystem.Reportes
             InitializeComponent();
             Text = tituloModulo;
             this.sucursal = sucursal;
+            LstCfdisErrores = new List<KeyValuePair<string, string>>();
         }
 
         private void CargarArchivo()
@@ -71,6 +76,11 @@ namespace DataSystem.Reportes
                     {
                         LeerXml(rutaDoc);
                     }
+
+                    if (LstCfdisErrores.Count > 0)
+                    {
+                        DescargarErrores();
+                    }
                 }
             }
             else
@@ -79,6 +89,34 @@ namespace DataSystem.Reportes
             }
 
 
+
+        }
+
+        private void DescargarErrores()
+        {
+            MessageBox.Show("Se han detectado incongruencias. Genere el reporte de de errores.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Archivos de texto (*.txt)|*.txt";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string pathError = "";
+                pathError = sfd.FileName;                              
+
+                //recorrer lista de errores
+                string contenido = "";
+                foreach (var item in LstCfdisErrores)
+                {
+                    contenido += item.Key + "  " + item.Value + "\n\r";
+                }
+
+                File.WriteAllText(pathError, "Se detectaron los siguientes errores en la lectura del xml: \r\n" + contenido);
+
+                Process.Start("notepad.exe", pathError);
+            }
+            else
+            {
+                MessageBox.Show("No se genero el archivo de errores, vuelva a cargar el reporte e intentelo de nuevo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
         }
 
@@ -1536,7 +1574,13 @@ namespace DataSystem.Reportes
                 else
                 {
                     foreach (var part in pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL)
-                    {                        
+                    {
+                        //validar cfdi
+                        if (part.CFDIs.CFDI.Length != 36)
+                        {
+                            LstCfdisErrores.Add(new KeyValuePair<string, string>(part.CFDIs.CFDI, "Error de longitud: " + part.CFDIs.CFDI.Length.ToString("N0")));
+                        }
+                        //imprimi
                         dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI,part.CFDIs.CFDI.Length, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico, part.CFDIs.VolumenDocumentado.ValorNumerico);
                         sumaRecepciones += part.CFDIs.VolumenDocumentado.ValorNumerico;
                         numeral++;
@@ -1629,6 +1673,12 @@ namespace DataSystem.Reportes
                             string RfcClienteOProveedor = par.RfcClienteOProveedor;
                             foreach(var cfdi in par.CFDIs)
                             {
+                                //validar cfdi
+                                if (cfdi.Cfdi.Length != 36  )
+                                {
+                                    LstCfdisErrores.Add(new KeyValuePair<string, string>(cfdi.Cfdi, "Error de longitud: "+cfdi.Cfdi.Length.ToString("N0")));
+                                }
+                                //generar row
                                 dgvPartidas.Rows.Add(numeral, NombreClienteOProveedor, RfcClienteOProveedor, cfdi.Cfdi, cfdi.FechaYhoraTransaccion, cfdi.PrecioCompra, 
                                     cfdi.PrecioCompra, cfdi.VolumenDocumentado.ValorNumerico);
                                 sumaRecepciones += cfdi.VolumenDocumentado.ValorNumerico;
