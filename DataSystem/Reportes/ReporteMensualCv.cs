@@ -1513,6 +1513,7 @@ namespace DataSystem.Reportes
                 dgvPartidas.Columns.Add("nombreCliente", "Nombre Cliente Proveedor");
                 dgvPartidas.Columns.Add("rfcCliente", "Rfc Cliente Proveedor");
                 dgvPartidas.Columns.Add("cfdi", "CFDI");
+                dgvPartidas.Columns.Add("long", "Long.");
                 dgvPartidas.Columns.Add("fechaHora", "Fecha y Hora");
                 dgvPartidas.Columns.Add("precioCompra", "Precio Compra");
                 dgvPartidas.Columns.Add("precioVenta", "Precio Venta Púb.");
@@ -1535,8 +1536,8 @@ namespace DataSystem.Reportes
                 else
                 {
                     foreach (var part in pro.REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL)
-                    {
-                        dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico, part.CFDIs.VolumenDocumentado.ValorNumerico);
+                    {                        
+                        dgvPartidas.Rows.Add(numeral, part.NombreClienteOProveedor, part.RfcClienteOProveedor, part.CFDIs.CFDI,part.CFDIs.CFDI.Length, part.CFDIs.FechaYHoraTransaccion, part.CFDIs.PrecioCompra, part.CFDIs.PrecioDeVentaAlPublico, part.CFDIs.VolumenDocumentado.ValorNumerico);
                         sumaRecepciones += part.CFDIs.VolumenDocumentado.ValorNumerico;
                         numeral++;
                     }
