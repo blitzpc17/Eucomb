@@ -8,7 +8,7 @@ namespace Entidades.JSON.Mensual
 {
     public class rootJsonMensual
     {
-        public double Version { get; set; }
+        public decimal Version { get; set; }
         public string RfcContribuyente { get; set; }
         public string RfcRepresentanteLegal { get; set; }
         public string RfcProveedor { get; set; }
@@ -54,14 +54,14 @@ namespace Entidades.JSON.Mensual
         public int TotalRecepcionesMes { get; set; }
         public SumaVolumenRecepcionMes SumaVolumenRecepcionMes { get; set; }
         public int TotalDocumentosMes { get; set; }
-        public double ImporteTotalRecepcionesMensual { get; set; }
+        public decimal ImporteTotalRecepcionesMensual { get; set; }
         public List<ComplementoRecepcion> Complemento { get; set; }
     }
 
     public class SumaVolumenRecepcionMes
     {
         public string UnidadDeMedida { get; set; }
-        public int ValorNumerico { get; set; }
+        public decimal ValorNumerico { get; set; }
     }
 
     public class ComplementoRecepcion
@@ -82,9 +82,9 @@ namespace Entidades.JSON.Mensual
     {
         public string Cfdi { get; set; }
         public string TipoCfdi { get; set; }
-        public double PrecioCompra { get; set; }
-        public double PrecioDeVentaAlPublico { get; set; }
-        public double PrecioVenta { get; set; }
+        public decimal PrecioCompra { get; set; }
+        public decimal PrecioDeVentaAlPublico { get; set; }
+        public decimal PrecioVenta { get; set; }
         public DateTime FechaYHoraTransaccion { get; set; }
         public VolumenDocumentado VolumenDocumentado { get; set; }
     }
@@ -100,14 +100,14 @@ namespace Entidades.JSON.Mensual
         public int TotalEntregasMes { get; set; }
         public SumaVolumenEntregadoMes SumaVolumenEntregadoMes { get; set; }
         public int TotalDocumentosMes { get; set; }
-        public double ImporteTotalEntregasMes { get; set; }
+        public decimal ImporteTotalEntregasMes { get; set; }
         public List<ComplementoEntrega> Complemento { get; set; }
     }
 
     public class SumaVolumenEntregadoMes
     {
         public string UnidadDeMedida { get; set; }
-        public double ValorNumerico { get; set; }
+        public decimal ValorNumerico { get; set; }
     }
 
     public class ComplementoEntrega
@@ -127,9 +127,9 @@ namespace Entidades.JSON.Mensual
     {
         public string Cfdi { get; set; }
         public string TipoCfdi { get; set; }
-        public double PrecioCompra { get; set; }
-        public double PrecioDeVentaAlPublico { get; set; }
-        public double PrecioVenta { get; set; }
+        public decimal PrecioCompra { get; set; }
+        public decimal PrecioDeVentaAlPublico { get; set; }
+        public decimal PrecioVenta { get; set; }
         public DateTime FechaYHoraTransaccion { get; set; }
         public VolumenDocumentado VolumenDocumentado { get; set; }
     }

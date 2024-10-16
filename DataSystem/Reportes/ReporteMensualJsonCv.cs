@@ -171,6 +171,7 @@ namespace DataSystem.Reportes
                         }
 
                         LstExcel.Add(ObjRegistro);
+                        LstExcel = LstExcel.Where(x => x.Producto != null && (x.Producto.StartsWith("Gasolina") || x.Producto.StartsWith("GASOLINA") || x.Producto.StartsWith("Diesel") || x.Producto.StartsWith("DIESEL") || x.Producto.StartsWith("COMBUSTIBLE") || x.Producto.StartsWith("Combustible") || x.Producto.StartsWith("combustible"))).ToList();
 
                     }
               
