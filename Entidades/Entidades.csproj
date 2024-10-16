@@ -116,6 +116,9 @@
     <Compile Include="JSONMensual\SumaVolumenEntregadoMes.cs" />
     <Compile Include="JSONMensual\SumaVolumenRecepcionesMes.cs" />
     <Compile Include="JSONMensual\VolumenDocumentado.cs" />
+    <Compile Include="JSON\Mensual\clsJsonMensual.cs" />
+    <Compile Include="JSON\Mensual\rootJsonMensual.cs" />
+    <Compile Include="JSON\Mensual\VentaPorFecha.cs" />
     <Compile Include="Manguera.cs" />
     <Compile Include="MedicionDispensario.cs" />
     <Compile Include="ControlVolumetrico.cs" />
@@ -180,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JSON\Diario\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

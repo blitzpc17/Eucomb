@@ -39,7 +39,8 @@ namespace DataSystem.Acceso
 
         private void reporteMensualToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - AIVIC", (int)Enumeraciones.Sucursales.AIVIC);
+            //ReporteMensualCv reporte = new ReporteMensualCv("REPORTE MENSUAL - AIVIC", (int)Enumeraciones.Sucursales.AIVIC);
+            ReporteMensualJsonCv reporte = new ReporteMensualJsonCv("REPORTE MENSUAL - AIVIC", Enumeraciones.Sucursales.AIVIC);
             reporte.MdiParent = this;
             reporte.Show();
         }
