@@ -331,6 +331,8 @@ namespace DataSystem.Reportes
                 {
                     foreach (var comp in pro.ReporteDeVolumenMensual.Recepciones.Complemento /*REPORTEDEVOLUMENMENSUAL.RECEPCIONES.Complemento.Complemento_Expendio.NACIONAL*/)
                     {
+                        if (comp.Nacional == null) continue;
+
                         foreach(var part in comp.Nacional)
                         {
                             //validar cfdi
